@@ -1,0 +1,85 @@
+<div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- Form Element sizes -->
+        <div class="card">
+            <div class="card-header ui-sortable-handle" style="cursor: move;">
+              <h3 class="card-title">
+                <i class="ion ion-clipboard mr-1"></i>
+                City List
+              </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <ul *ngIf="cities && cities.length > 0" class="todo-list ui-sortable" data-widget="todo-list">
+                <li *ngFor="let city of cities">
+                  <span class="handle ui-sortable-handle">
+                    {{ city.id }} - 
+                  </span>
+                  <!-- todo text -->
+                  <span class="text">{{ city.name }} - {{ city.name_ar }}</span>
+                  <!-- Emphasis label -->
+                  <!-- General tools such as edit or delete-->
+                  <div class="tools">
+                    <i class="fas fa-edit" (click)="editCity(city.id,city.name,city.name_ar)"></i>
+                  </div>
+                </li>
+              </ul>
+              <p *ngIf="cities && cities.length < 1">There is no Cities</p>
+              <p *ngIf="!cities"><i class="fas fa-spinner fa-spin"></i></p>
+            </div>
+          </div>
+      </div>
+      
+      <!--/.col (left) -->
+      <!-- right column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Create New City</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form #cityForm="ngForm" (ngSubmit)="onSubmit(cityForm)">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="name">City*</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="name"
+                  name="name" 
+                  placeholder="English Name" 
+                  required minlength="4"
+                  [(ngModel)]="city.name" #name="ngModel"
+          	      [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
+              </div>
+              <div class="form-group">
+                <label for="name_ar">Arabic Name</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="name_ar" 
+                  name="name_ar"
+                  placeholder="Arabic Name"
+                  [(ngModel)]="city.name_ar" #name="ngModel">
+              </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary" [disabled]="!cityForm.valid" [disabled]="loading">
+                <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i></span> Submit
+              </button>
+              <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(cityForm)"> Reset </button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->         
+      </div>
+      <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+  </div>

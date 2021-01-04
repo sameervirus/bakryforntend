@@ -1,0 +1,256 @@
+/* You can add global styles to this file, and also import other style files */
+body.login-page .content-wrapper {
+    margin-left: 0!important;
+    background-color: transparent; 
+}
+#achtung-overlay {
+    overflow: hidden;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    margin-left: -150px;
+    margin-right: auto;
+    z-index: 999999
+}
+
+#achtung-overlay.full-screen {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-color: #444444;
+    opacity: .85;
+    filter: Alpha(Opacity=85)
+}
+
+#achtung-overlay.full-screen .achtungWait {
+    top: 45%;
+    left: 50%;
+    margin-left: -150px;
+    text-align: center
+}
+
+#achtung-overlay .achtung {
+    font-size: 0.875rem;
+    display: none;
+    margin-bottom: 8px;
+    padding: 15px 15px;
+    background-color: #000;
+    color: #fefefe;
+    width: 300px;
+    position: relative;
+    overflow: hidden;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    word-break: break-word
+}
+
+#achtung-overlay .achtung .achtung-message-icon {
+    margin-top: 0px;
+    margin-left: -.5em;
+    margin-right: .5em
+}
+
+#achtung-overlay .achtung .achtung-close-button {
+    overflow: hidden;
+    float: right;
+    position: relative;
+    top: -8px;
+    right: -8px;
+    cursor: pointer
+}
+
+#achtung-overlay .achtung.achtungSuccess {
+    background-color: #20772A
+}
+
+#achtung-overlay .achtung.achtungInfo {
+    background-color: #EAE5AA;
+    color: black
+}
+
+#achtung-overlay .achtung.achtungFail {
+    background-color: #B3222E
+}
+
+#achtung-overlay .achtung.achtungWait {
+    background-color: #444444
+}
+
+#achtung-overlay .achtung .achtung-message {
+    display: inline
+}
+
+#achtung-overlay .achtung .achtung-message ol {
+    background: #ebf2f3;
+    padding: 10px;
+    margin: 0;
+    border-radius: 2px;
+    list-style-type: none;
+    color: #000
+}
+#loader,.loader {
+    zoom:1;display: inline-block;
+    width: 16px;
+    height: 16px;
+    animation: wait 0.8s steps(1, start) infinite;
+    background: linear-gradient(0deg, #f4f5fa 1px, transparent 0, transparent 8px, #f4f5fa 8px),linear-gradient(90deg, #f4f5fa 1px, #f6f9fb 0, #f6f9fb 3px, #f4f5fa 3px),linear-gradient(0deg, #ececf5 1px, transparent 0, transparent 8px, #ececf5 8px),linear-gradient(90deg, #ececf5 1px, #f2f3f9 0, #f2f3f9 3px, #ececf5 3px),linear-gradient(0deg, #e7eaf4 1px, transparent 0, transparent 8px, #e7eaf4 8px),linear-gradient(90deg, #e7eaf4 1px, #eef1f8 0, #eef1f8 3px, #e7eaf4 3px),linear-gradient(0deg, #b9bedd 1px, transparent 0, transparent 10px, #b9bedd 10px),linear-gradient(90deg, #b9bedd 1px, #d0d5e8 0, #d0d5e8 3px, #b9bedd 3px),linear-gradient(0deg, #9fa6d2 1px, transparent 0, transparent 15px, #9fa6d2 15px),linear-gradient(90deg, #9fa6d2 1px, #c0c5e1 0, #c0c5e1 3px, #9fa6d2 3px),linear-gradient(0deg, #8490c6 1px, transparent 0, transparent 15px, #8490c6 15px),linear-gradient(90deg, #8490c6 1px, #aeb5da 0, #aeb5da 3px, #8490c6 3px);
+    background-repeat: no-repeat;
+    background-size: 4px 9px,4px 9px,4px 9px,4px 9px,4px 9px,4px 9px,4px 11px,4px 11px,4px 16px,4px 16px,4px 16px,4px 16px;
+    background-position: -4px 3px, -4px 3px, -4px 3px, -4px 3px, -4px 3px, -4px 3px, -4px 2px, -4px 2px, -4px 0, -4px 0, -4px 0, -4px 0
+}
+
+@keyframes wait {
+    12.5% {
+        background-position: -4px,-4px,-4px,-4px,-4px,-4px,-4px,-4px,-4px,-4px,0,0
+    }
+
+    25% {
+        background-position: -4px,-4px,-4px,-4px,-4px,-4px,-4px,-4px,0,0,6px,6px
+    }
+
+    37.5% {
+        background-position: -4px,-4px,-4px,-4px,-4px,-4px,0,0,6px,6px,12px,12px
+    }
+
+    50% {
+        background-position: -4px,-4px,-4px,-4px,0,0,6px,6px,12px,12px,-4px,-4px
+    }
+
+    62.5% {
+        background-position: -4px,-4px,0,0,6px,6px,12px,12px,-4px,-4px,-4px,-4px
+    }
+
+    75% {
+        background-position: 0,0,6px,6px,12px,12px,-4px,-4px,-4px,-4px,-4px,-4px
+    }
+
+    87.5% {
+        background-position: 6px,6px,12px,12px,-4px,-4px,-4px,-4px,-4px,-4px,-4px,-4px
+    }
+
+    100% {
+        background-position: 12px,12px,-4px,-4px,-4px,-4px,-4px,-4px,-4px,-4px,-4px,-4px
+    }
+}
+
+.notifications {
+    top: 100px;
+    right: 5%;
+    width: 320px;
+    z-index: 1000;
+    position: fixed;
+}
+
+@media (max-width: 64em) {
+    .notifications {
+        width:auto;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0
+    }
+
+    .notifications .fade-in-down-enter,.notifications .fade-in-down-leave-to {
+        transform: translateY(100%)
+    }
+}
+
+.notification {
+    box-shadow: 0 0 35px -5px rgba(0,0,0,.7)
+}
+
+.notification:first-child {
+    margin-top: 0
+}
+
+.notifications .message {
+    padding: 20px;
+    color: #fff;
+}
+
+.notifications .actions {
+    display: flex;
+    justify-content: space-between
+}
+
+.notifications .actions .notification-action {
+    background: rgba(0,0,0,.2);
+    padding: 10px 20px;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+}
+
+.notifications .actions #notificationAction2 {
+    width: 100%
+}
+
+.notifications .success {
+    background: #4dba87
+}
+
+.notifications .error {
+    background: #eb5757
+}
+
+.notifications .warning {
+    background: #755
+}
+
+.notifications .info {
+    background: #4f4f4f
+}
+
+.notifications .action-border {
+    border-right: 2px solid transparent
+}
+
+.notifications .action-border.border-success {
+    border-right-color: #4dba87
+}
+
+.notifications .action-border.border-error {
+    border-color: #eb5757
+}
+
+.notifications .action-border.border-warning {
+    border-color: #755
+}
+
+.notifications .action-border.border-info {
+    border-color: #4f4f4f
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.ngx-pagination a, .ngx-pagination button {
+    padding: .25rem .5rem!important;
+    font-size: .875rem;
+    line-height: 1.5;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+.ngx-pagination li {
+    margin-right: 0!important;
+}
+.ngx-pagination .pagination-next a::after, .ngx-pagination .pagination-next.disabled::after {
+    margin-left: 0!important;
+}
+.ngx-pagination .pagination-previous a::before, .ngx-pagination .pagination-previous.disabled::before {
+    margin-right: 0!important;
+}
+.ngx-pagination .disabled, .ngx-pagination .current {
+    padding: .25rem .5rem!important;
+}
+.ngx-pagination .disabled {
+    border: 1px solid #dee2e6;
+    font-size: .875rem;
+}
+.ngx-pagination .current {
+    font-size: .875rem;
+}
