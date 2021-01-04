@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -10,6 +11,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
 // Services
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
+//Directives
+import { OnlynumberDirective } from './directives/onlynumber.directive';
 
 // Component
 import { AppRoutingModule } from './app-routing.module';
@@ -47,9 +50,11 @@ import { DistrictsComponent } from './coding/districts/districts.component';
     DistributionsComponent,
     CarsComponent,
     CitiesComponent,
-    DistrictsComponent
+    DistrictsComponent,
+    OnlynumberDirective
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

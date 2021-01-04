@@ -9,7 +9,11 @@ import { CodingComponent } from './coding/coding/coding.component';
 import { CategoryComponent } from './coding/category/category.component';
 import { ProductsComponent } from './coding/products/products.component';
 import { CitiesComponent } from './coding/cities/cities.component';
+import { DistrictsComponent } from './coding/districts/districts.component';
 import { DistributionsComponent } from './coding/distributions/distributions.component';
+import { CarsComponent } from './coding/cars/cars.component';
+import { ClientsComponent } from './coding/clients/clients.component';
+import { BranchesComponent } from './coding/branches/branches.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -18,7 +22,11 @@ const routes: Routes = [
   { path: 'coding/category', component: CategoryComponent, canActivate: [AuthGuard] },
   { path: 'coding/products', component: ProductsComponent, canActivate: [AuthGuard] },
   { path: 'coding/cities', component: CitiesComponent, canActivate: [AuthGuard] },
+  { path: 'coding/districts', component: DistrictsComponent, canActivate: [AuthGuard] },
   { path: 'coding/distributions', component: DistributionsComponent, canActivate: [AuthGuard] },
+  { path: 'coding/cars', component: CarsComponent, canActivate: [AuthGuard] },
+  { path: 'coding/clients', component: ClientsComponent, canActivate: [AuthGuard] },
+  { path: 'coding/branches', component: BranchesComponent, canActivate: [AuthGuard] },
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' }

@@ -112,10 +112,11 @@
                         <!-- text input -->
                         <div class="form-group">
                             <label>Category *</label>
-                            <select id="power" name="category" class="form-control"
+                            <select *ngIf="categories" id="power" name="category" class="form-control"
                                     required [(ngModel)]="product.category" #category="ngModel" >
                                 <option *ngFor="let c of categories" [value]="c.id">{{c.name}}</option>
                             </select>
+                            <p *ngIf="!categories"><i class="fas fa-spinner fa-spin"></i></p>
                         </div>
                     </div>
                     <div class="col-sm-6">

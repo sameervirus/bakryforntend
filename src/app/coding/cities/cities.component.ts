@@ -55,7 +55,7 @@ export class CitiesComponent implements OnInit {
   }
 
   getCities() {
-    this.codingService.getProductCity().subscribe(res => { this.cities = res.body; });
+    this.codingService.getCities().subscribe(res => { this.cities = res.body; });
   }
 
   editCity(id:number, name:string, name_ar:string) {

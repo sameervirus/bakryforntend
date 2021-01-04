@@ -59,7 +59,7 @@ export class CodingService {
     
   }
 
-  getProductCity(): Observable<any> {    
+  getCities(): Observable<any> {    
 		return this.http.get<any>('cities', {observe : 'response'});
   }
 
@@ -70,6 +70,67 @@ export class CodingService {
       return this.http.put<any>('cities/' + id, {name: name, name_ar: name_ar}, {observe : 'response'});
     }
     
+  }
+
+  getDistrict(): Observable<any> {    
+    return this.http.get<any>('districts', {observe : 'response'});
+  }
+
+  addDistrict(id:number, name:string,name_ar:string, city_id:number): Observable<any> {
+    if(id === 0 ) {
+      return this.http.post<any>('districts', {name: name, name_ar: name_ar, city_id: city_id}, {observe : 'response'});
+    } else {
+      return this.http.put<any>('districts/' + id, {name: name, name_ar: name_ar, city_id:city_id}, {observe : 'response'});
+    }
+    
+  }
+
+  getCars(): Observable<any> {    
+    return this.http.get<any>('cars', {observe : 'response'});
+  }
+
+  addCar(id:number, code:string, distribution_id:number): Observable<any> {
+    if(id === 0 ) {
+      return this.http.post<any>('cars', {code: code, distribution_id: distribution_id}, {observe : 'response'});
+    } else {
+      return this.http.put<any>('cars/' + id, {code: code, distribution_id:distribution_id}, {observe : 'response'});
+    }
+    
+  }
+
+  // Clients Coding
+  getClients(): Observable<any> {    
+    return this.http.get<any>('clients', {observe : 'response'});
+  }
+
+  addClient(id:number, name:string,name_ar:string): Observable<any> {
+    if(id === 0 ) {
+      return this.http.post<any>('clients', {name: name, name_ar: name_ar}, {observe : 'response'});
+    } else {
+      return this.http.put<any>('clients/' + id, {name: name, name_ar: name_ar}, {observe : 'response'});
+    }
+    
+  }
+
+  // Clients Coding
+  getBranches(): Observable<any> {    
+    return this.http.get<any>('branches', {observe : 'response'});
+  }
+
+  addBranch(id:number,name:string, name_ar:string, due_period:string, close_time:string,
+    client_id:number, city_id:number, district_id:number, distribution_id:number): Observable<any> {
+    if(id === 0 ) {
+      return this.http.post<any>('branches', {name:name, name_ar:name_ar, due_period:due_period, close_time:close_time,
+    client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id}, {observe : 'response'});
+    } else {
+      return this.http.put<any>('branches/' + id, {name:name, name_ar:name_ar, due_period:due_period, close_time:close_time,
+    client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id}, {observe : 'response'});
+    }
+    
+  }
+
+  getForeignData(): Observable<any> {
+    return this.http.get<any>('helpers/foreign', {observe : 'response'});
   }
   
 }

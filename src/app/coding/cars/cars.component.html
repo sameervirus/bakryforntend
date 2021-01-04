@@ -1,1 +1,82 @@
-<p>cars works!</p>
+<div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- Form Element sizes -->
+        <div class="card">
+            <div class="card-header ui-sortable-handle" style="cursor: move;">
+              <h3 class="card-title">
+                <i class="ion ion-clipboard mr-1"></i>
+                Car List
+              </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <ul *ngIf="cars && cars.length > 0" class="todo-list ui-sortable" data-widget="todo-list">
+                <li *ngFor="let car of cars">
+                  <span class="handle ui-sortable-handle">
+                    {{ car.id }} - 
+                  </span>
+                  <!-- todo text -->
+                  <span class="text">{{ car.code }} - {{ car.distribution.name }}</span>
+                  <!-- Emphasis label -->
+                  <!-- General tools such as edit or delete-->
+                  <div class="tools">
+                    <i class="fas fa-edit" (click)="editCar(car.id,car.code, car.distribution_id)"></i>
+                  </div>
+                </li>
+              </ul>
+              <p *ngIf="cars && cars.length < 1">There is no Cars</p>
+              <p *ngIf="!cars"><i class="fas fa-spinner fa-spin"></i></p>
+            </div>
+          </div>
+      </div>
+      
+      <!--/.col (left) -->
+      <!-- right column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Create New Car</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form #carForm="ngForm" (ngSubmit)="onSubmit(carForm)">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="name">Car Number*</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="code"
+                  name="code"  
+                  required minlength="4"
+                  [(ngModel)]="car.code" #code="ngModel"
+          	      [class.is-invalid] = "code.invalid && (code.dirty || code.touched)">
+              </div>
+              <div class="form-group">
+                <label>Distribution *</label>
+                <select *ngIf="distributions" id="power" name="distribution" class="form-control"
+                        required [(ngModel)]="car.distribution" #distribution="ngModel" >
+                    <option *ngFor="let c of distributions" [value]="c.id">{{c.name}}</option>
+                </select>
+                <p *ngIf="!distributions"><i class="fas fa-spinner fa-spin"></i></p>
+              </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary" [disabled]="!carForm.valid" [disabled]="loading">
+                <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i></span> Submit
+              </button>
+              <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(carForm)"> Reset </button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->         
+      </div>
+      <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+  </div>

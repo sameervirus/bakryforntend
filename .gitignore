@@ -10,6 +10,7 @@
 # dependencies
 /node_modules
 /AdminLTE-3.1.0-rc
+/src/assets/fontawesome-free
 
 # profiling files
 chrome-profiler-events*.json

@@ -228,6 +228,10 @@ body.login-page .content-wrapper {
     cursor: pointer;
 }
 
+.ngx-pagination {
+    margin-bottom: 0!important;
+}
+
 .ngx-pagination a, .ngx-pagination button {
     padding: .25rem .5rem!important;
     font-size: .875rem;

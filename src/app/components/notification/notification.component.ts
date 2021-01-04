@@ -25,11 +25,11 @@ export class NotificationComponent implements OnInit {
   @Input() message: any; style: any; dismissed: any; button1: any; button2: any;
 
 	hasNotofication:boolean = false;
-	subscription: Subscription;
+	subscription: Subscription | undefined;
   timeOut:any;
   
   constructor(private notificationService: NotificationService) { 
-		
+
   }
 
   ngOnInit(): void {

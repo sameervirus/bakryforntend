@@ -1,1 +1,175 @@
-<p>branches works!</p>
+<div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-8">
+        <!-- Form Element sizes -->
+        <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Branches List</h3>
+              <div class="card-tools">
+                <pagination-controls (pageChange)="p = $event" previousLabel=""
+                nextLabel=""></pagination-controls>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <p class="text-center" *ngIf="branches && branches.length < 1">There is no Branches</p>
+              <p *ngIf="!branches" class="text-center"><i class="fas fa-spinner fa-spin"></i></p>
+              <table *ngIf="branches && branches.length > 0" class="table table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>                    
+                    <th>Name</th>
+                    <th>Name_ar</th>
+                    <th>Due period</th>
+                    <th>Close time</th>
+                    <th>Client</th>
+                    <th>Address</th>
+                    <th>Distribution</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let branch of branches | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{ branch.id }}</td>
+                    <td>{{ branch.name }}</td>
+                    <td>{{ branch.name_ar }}</td>
+                    <td>{{ branch.due_period }}</td>
+                    <td>{{ branch.close_time }}</td>
+                    <td>{{ branch.client.name }}</td>
+                    <td>{{ branch.city.name }} - {{ branch.district.name }}</td>
+                    <td>{{ branch.distribution.name }}</td>
+                    <td><i class="fas fa-edit text-danger pointer" (click)="editBranch(
+                                                          branch.id,
+                                                          branch.name,
+													      branch.name_ar, 
+													      branch.due_period,
+													      branch.close_time,
+													      branch.client_id,
+													      branch.city_id,
+													      branch.district_id,
+													      branch.distribution_id)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+      </div>
+      
+      <!--/.col (left) -->
+      <!-- right column -->
+      <div class="col-md-4">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Create New Branch</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form #branchForm="ngForm" (ngSubmit)="onSubmit(branchForm)">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="name">Branch Name*</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="name"
+                  name="name" 
+                  placeholder="English Name" 
+                  required minlength="4"
+                  [(ngModel)]="branch.name" #name="ngModel"
+          	      [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
+              </div>
+              <div class="form-group">
+                <label for="name_ar">Arabic Name</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="name_ar" 
+                  name="name_ar"
+                  placeholder="Arabic Name"
+                  [(ngModel)]="branch.name_ar" #name_ar="ngModel">
+              </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label>Due period *</label>
+                            <input type="text" class="form-control" name="due_period" placeholder="How many days" required appOnlynumber
+                            [(ngModel)]="branch.due_period" #due_period="ngModel"
+                            [class.is-invalid] = "due_period.invalid && (due_period.dirty || due_period.touched)"
+                            >
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Close time# *</label>
+                            <input type="text" class="form-control" name="close_time" required
+                            [(ngModel)]="branch.close_time" #close_time="ngModel"
+                            [class.is-invalid] = "close_time.invalid && (close_time.dirty || close_time.touched)">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label>Client *</label>
+                            <select *ngIf="foreignData" id="power" name="client" class="form-control"
+                                    required [(ngModel)]="branch.client" #client="ngModel" >
+                                <option *ngFor="let c of foreignData.clients" [value]="c.id">{{c.name}}</option>
+                            </select>
+                            <p *ngIf="!foreignData"><i class="fas fa-spinner fa-spin"></i></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Distribution *</label>
+                            <select *ngIf="foreignData" id="power" name="distribution" class="form-control"
+                                    required [(ngModel)]="branch.distribution" #distribution="ngModel" >
+                                <option *ngFor="let c of foreignData.distributions" [value]="c.id">{{c.name}}</option>
+                            </select>
+                            <p *ngIf="!foreignData"><i class="fas fa-spinner fa-spin"></i></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label>City *</label>
+                            <select *ngIf="foreignData" id="power" name="city" class="form-control"
+                                    required [(ngModel)]="branch.city" #city="ngModel" >
+                                <option *ngFor="let c of foreignData.cities" [value]="c.id">{{c.name}}</option>
+                            </select>
+                            <p *ngIf="!foreignData"><i class="fas fa-spinner fa-spin"></i></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>District *</label>
+                            <select *ngIf="foreignData" id="power" name="district" class="form-control"
+                                    required [(ngModel)]="branch.district" #district="ngModel" >
+                                <option *ngFor="let c of foreignData.districts" [value]="c.id">{{c.name}}</option>
+                            </select>
+                            <p *ngIf="!foreignData"><i class="fas fa-spinner fa-spin"></i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary" [disabled]="!branchForm.valid" [disabled]="loading">
+                <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i></span> Submit
+              </button>
+              <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(branchForm)"> Reset </button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->         
+      </div>
+      <!--/.col (right) -->
+    </div>
+    <!-- /.row -->
+  </div>
