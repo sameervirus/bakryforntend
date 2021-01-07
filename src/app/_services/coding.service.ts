@@ -13,11 +13,11 @@ export class CodingService {
 		return this.http.get<any>('categories', {observe : 'response'});
   }
 
-  addCategory(id:number, name:string,name_ar:string): Observable<any> {
+  addCategory(id:number, name:string,name_ar:string, code:string): Observable<any> {
     if(id === 0 ) {
-      return this.http.post<any>('categories', {name: name, name_ar: name_ar}, {observe : 'response'});
+      return this.http.post<any>('categories', {name: name, name_ar: name_ar, code:code}, {observe : 'response'});
     } else {
-      return this.http.put<any>('categories/' + id, {name: name, name_ar: name_ar}, {observe : 'response'});
+      return this.http.put<any>('categories/' + id, {name: name, name_ar: name_ar, code:code}, {observe : 'response'});
     }
     
   }
@@ -26,7 +26,8 @@ export class CodingService {
     return this.http.get<any>('products', {observe : 'response'});
   }
 
-  addProduct(id:number, pool_code:string,code:string, category:number,name:string,name_ar:string,price:string) {
+  addProduct(id:number, pool_code:string,code:string, category:number,name:string,
+    name_ar:string,price:string, vat:number, client_code:null) {
     if(id === 0 ) {
       return this.http.post<any>('products', {
         pool_code:pool_code,
@@ -34,7 +35,8 @@ export class CodingService {
         category_id:category,
         name:name,
         name_ar:name_ar,
-        price:price}, {observe : 'response'});
+        price:price,
+        vat:vat, client_code:client_code}, {observe : 'response'});
     } else {
       return this.http.put<any>('products/' + id,  {
         pool_code:pool_code,
@@ -42,7 +44,8 @@ export class CodingService {
         category_id:category,
         name:name,
         name_ar:name_ar,
-        price:price}, {observe : 'response'});
+        price:price,
+        vat:vat, client_code:client_code}, {observe : 'response'});
     }
   }
 
@@ -50,11 +53,11 @@ export class CodingService {
 		return this.http.get<any>('distributions', {observe : 'response'});
   }
 
-  addDistribution(id:number, name:string,name_ar:string): Observable<any> {
+  addDistribution(id:number, name:string,name_ar:string, code:string, district:number): Observable<any> {
     if(id === 0 ) {
-      return this.http.post<any>('distributions', {name: name, name_ar: name_ar}, {observe : 'response'});
+      return this.http.post<any>('distributions', {name: name, name_ar: name_ar, code:code,district_id:district}, {observe : 'response'});
     } else {
-      return this.http.put<any>('distributions/' + id, {name: name, name_ar: name_ar}, {observe : 'response'});
+      return this.http.put<any>('distributions/' + id, {name: name, name_ar: name_ar, code:code,district_id:district}, {observe : 'response'});
     }
     
   }
@@ -76,11 +79,11 @@ export class CodingService {
     return this.http.get<any>('districts', {observe : 'response'});
   }
 
-  addDistrict(id:number, name:string,name_ar:string, city_id:number): Observable<any> {
+  addDistrict(id:number, name:string,name_ar:string, city_id:number, code:string): Observable<any> {
     if(id === 0 ) {
-      return this.http.post<any>('districts', {name: name, name_ar: name_ar, city_id: city_id}, {observe : 'response'});
+      return this.http.post<any>('districts', {name: name, name_ar: name_ar, city_id: city_id, code:code}, {observe : 'response'});
     } else {
-      return this.http.put<any>('districts/' + id, {name: name, name_ar: name_ar, city_id:city_id}, {observe : 'response'});
+      return this.http.put<any>('districts/' + id, {name: name, name_ar: name_ar, city_id:city_id, code:code}, {observe : 'response'});
     }
     
   }
@@ -103,11 +106,11 @@ export class CodingService {
     return this.http.get<any>('clients', {observe : 'response'});
   }
 
-  addClient(id:number, name:string,name_ar:string): Observable<any> {
+  addClient(id:number, name:string,name_ar:string, category:any): Observable<any> {
     if(id === 0 ) {
-      return this.http.post<any>('clients', {name: name, name_ar: name_ar}, {observe : 'response'});
+      return this.http.post<any>('clients', {name: name, name_ar: name_ar, category:category}, {observe : 'response'});
     } else {
-      return this.http.put<any>('clients/' + id, {name: name, name_ar: name_ar}, {observe : 'response'});
+      return this.http.put<any>('clients/' + id, {name: name, name_ar: name_ar, category:category}, {observe : 'response'});
     }
     
   }
@@ -118,13 +121,16 @@ export class CodingService {
   }
 
   addBranch(id:number,name:string, name_ar:string, due_period:string, close_time:string,
-    client_id:number, city_id:number, district_id:number, distribution_id:number): Observable<any> {
+    client_id:number, city_id:number, district_id:number, distribution_id:number,
+    code:string, vat:boolean, opening:string,closing:string): Observable<any> {
     if(id === 0 ) {
       return this.http.post<any>('branches', {name:name, name_ar:name_ar, due_period:due_period, close_time:close_time,
-    client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id}, {observe : 'response'});
+    client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id,
+    code:code, vat:vat, opening:opening,closing:closing}, {observe : 'response'});
     } else {
       return this.http.put<any>('branches/' + id, {name:name, name_ar:name_ar, due_period:due_period, close_time:close_time,
-    client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id}, {observe : 'response'});
+    client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id,
+    code:code, vat:vat, opening:opening,closing:closing}, {observe : 'response'});
     }
     
   }

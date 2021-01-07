@@ -30,6 +30,7 @@
             "styles": [
               "src/styles.css",
               "src/assets/fontawesome-free/css/all.min.css",
+              "src/assets/icheck-bootstrap/icheck-bootstrap.min.css",
               "src/assets/dist/css/adminlte.min.css"
             ],
             "scripts": []

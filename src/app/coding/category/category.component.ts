@@ -10,7 +10,7 @@ import { CodingService, NotificationService } from '../../_services';
 export class CategoryComponent implements OnInit {
 
   categories:any;
-  category = {id:0, name:'', name_ar:''};
+  category = {id:0, name:'', name_ar:'', code:''};
   loading = false;
   isUpdate = false;
   
@@ -25,7 +25,7 @@ export class CategoryComponent implements OnInit {
 
   onSubmit(categoryForm:any) {
     this.loading = true;
-    this.codingService.addCategory(this.category.id, this.category.name, this.category.name_ar).subscribe(
+    this.codingService.addCategory(this.category.id, this.category.name, this.category.name_ar, this.category.code).subscribe(
       res => {
         if(this.isUpdate) {
           this.categories = res.body;
@@ -58,11 +58,12 @@ export class CategoryComponent implements OnInit {
     this.codingService.getProductCategory().subscribe(res => { this.categories = res.body; });
   }
 
-  editCategory(id:number, name:string, name_ar:string) {
+  editCategory(id:number, name:string, name_ar:string, code:string) {
     this.isUpdate = true;
     this.category.id = id;
     this.category.name = name;
     this.category.name_ar = name_ar;
+    this.category.code = code;
   }
 
   resetFrom(categoryForm:any) {

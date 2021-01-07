@@ -10,7 +10,8 @@ import { CodingService, NotificationService } from '../../_services';
 export class DistributionsComponent implements OnInit {
 
   distributions:any;
-  distribution = {id:0, name:'', name_ar:''};
+  districts:any;
+  distribution = {id:0, name:'', name_ar:'', code:'', district:0};
   loading = false;
   isUpdate = false;
   
@@ -21,11 +22,13 @@ export class DistributionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getdistributions();
+    this.getDistricts();
   }
 
   onSubmit(distributionForm:any) {
     this.loading = true;
-    this.codingService.addDistribution(this.distribution.id, this.distribution.name, this.distribution.name_ar).subscribe(
+    this.codingService.addDistribution(this.distribution.id, this.distribution.name, 
+      this.distribution.name_ar, this.distribution.code, this.distribution.district).subscribe(
       res => {
         if(this.isUpdate) {
           this.distributions = res.body;
@@ -58,11 +61,17 @@ export class DistributionsComponent implements OnInit {
     this.codingService.getDistribution().subscribe(res => { this.distributions = res.body; });
   }
 
-  editDistribution(id:number, name:string, name_ar:string) {
+  getDistricts() {
+    this.codingService.getDistrict().subscribe(res => { this.districts = res.body; });
+  }
+
+  editDistribution(id:number, name:string, name_ar:string, code:string, district_id:number) {
     this.isUpdate = true;
     this.distribution.id = id;
     this.distribution.name = name;
     this.distribution.name_ar = name_ar;
+    this.distribution.code = code;
+    this.distribution.district = district_id;
   }
 
   resetFrom(distributionForm:any) {

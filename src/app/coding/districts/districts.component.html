@@ -15,14 +15,14 @@
               <ul *ngIf="districts && districts.length > 0" class="todo-list ui-sortable" data-widget="todo-list">
                 <li *ngFor="let district of districts">
                   <span class="handle ui-sortable-handle">
-                    {{ district.id }} - 
+                    {{ district.code }} - 
                   </span>
                   <!-- todo text -->
                   <span class="text">{{ district.name }} - {{ district.name_ar }} - {{ district.city.name }}</span>
                   <!-- Emphasis label -->
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
-                    <i class="fas fa-edit" (click)="editDistrict(district.id,district.name,district.name_ar, district.city_id)"></i>
+                    <i class="fas fa-edit" (click)="editDistrict(district.id,district.name,district.name_ar, district.city_id, district.code)"></i>
                   </div>
                 </li>
               </ul>
@@ -45,6 +45,17 @@
           <form #districtForm="ngForm" (ngSubmit)="onSubmit(districtForm)">
             <div class="card-body">
               <div class="form-group">
+                <label for="code">Code*</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="code"
+                  name="code" 
+                  required minlength="4"
+                  [(ngModel)]="district.code" #code="ngModel"
+          	      [class.is-invalid] = "code.invalid && (code.dirty || code.touched)">
+              </div>
+              <div class="form-group">
                 <label for="name">District*</label>
                 <input 
                   type="text" 
@@ -54,7 +65,7 @@
                   placeholder="English Name" 
                   required minlength="4"
                   [(ngModel)]="district.name" #name="ngModel"
-          	      [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
+                  [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
               </div>
               <div class="form-group">
                 <label for="name_ar">Arabic Name</label>

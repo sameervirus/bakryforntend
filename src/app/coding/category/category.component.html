@@ -15,14 +15,14 @@
               <ul *ngIf="categories && categories.length > 0" class="todo-list ui-sortable" data-widget="todo-list">
                 <li *ngFor="let category of categories">
                   <span class="handle ui-sortable-handle">
-                    {{ category.id }} - 
+                    {{ category.code }} - 
                   </span>
                   <!-- todo text -->
                   <span class="text">{{ category.name }} - {{ category.name_ar }}</span>
                   <!-- Emphasis label -->
                   <!-- General tools such as edit or delete-->
                   <div class="tools">
-                    <i class="fas fa-edit" (click)="editCategory(category.id,category.name,category.name_ar)"></i>
+                    <i class="fas fa-edit" (click)="editCategory(category.id,category.name,category.name_ar, category.code)"></i>
                   </div>
                 </li>
               </ul>
@@ -44,6 +44,18 @@
           <!-- form start -->
           <form #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
             <div class="card-body">
+              <div class="form-group">
+                <label for="code">Code*</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="code"
+                  name="code" 
+                  placeholder="English Name" 
+                  required minlength="4"
+                  [(ngModel)]="category.code" #code="ngModel"
+          	      [class.is-invalid] = "code.invalid && (code.dirty || code.touched)">
+              </div>
               <div class="form-group">
                 <label for="name">Category*</label>
                 <input 

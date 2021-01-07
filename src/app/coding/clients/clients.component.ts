@@ -10,7 +10,8 @@ import { CodingService, NotificationService } from '../../_services';
 export class ClientsComponent implements OnInit {
 
   clients:any;
-  client = {id:0, name:'', name_ar:''};
+  categories:any;
+  client = {id:0, name:'', name_ar:'', category:[0]};
   loading = false;
   isUpdate = false;
   
@@ -21,22 +22,21 @@ export class ClientsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClients();
+    this.getCategories();
   }
 
   onSubmit(clientForm:any) {
     this.loading = true;
-    this.codingService.addClient(this.client.id, this.client.name, this.client.name_ar).subscribe(
+    this.codingService.addClient(this.client.id, this.client.name, this.client.name_ar, this.client.category).subscribe(
       res => {
         if(this.isUpdate) {
           this.clients = res.body;
           this.showNotify('Your Item Successfuly Updated', 'success');
-          this.isUpdate = false;
-          this.client.id = 0;
         } else {
           this.clients.push(res.body);
           this.showNotify('Your Item Successfuly Added', 'success');
         }
-          clientForm.reset();
+          this.resetFrom(clientForm);
           this.loading = false;
           
       },
@@ -45,7 +45,6 @@ export class ClientsComponent implements OnInit {
         if(err.status == 422) {
           message = JSON.stringify(err.error.errors);
         } else {
-          console.log(err);
           message = 'Server is down please try again';
         }
         this.showNotify(message,'error');
@@ -58,17 +57,48 @@ export class ClientsComponent implements OnInit {
     this.codingService.getClients().subscribe(res => { this.clients = res.body; });
   }
 
-  editClient(id:number, name:string, name_ar:string) {
+  getCategories() {
+    this.codingService.getProductCategory().subscribe(res => { 
+      this.categories = res.body.map((item:any) => ({...item, checked:false }))
+    });
+  }
+
+  onChangeCategory(event:any, cat:any){
+    console.log(this.client.category)
+    if(event.target.checked) {
+      this.client.category.push(cat.id);
+    } else {
+      const index = this.client.category.indexOf(cat.id);
+      if (index > -1) {
+        this.client.category.splice(index, 1);
+      }
+    }
+    console.log(this.client.category)
+  }
+
+  editClient(id:number, name:string, name_ar:string, category:any) {
+    this.client.category=[0];
     this.isUpdate = true;
     this.client.id = id;
     this.client.name = name;
     this.client.name_ar = name_ar;
+    this.client.category = category;
+    for (var i = 0; i < this.categories.length; ++i) {
+      if(category.includes(this.categories[i].id)) {
+        this.categories[i].checked = true;
+      }
+    }
+    this.categories = this.categories;
   }
 
   resetFrom(clientForm:any) {
     clientForm.reset();
     this.isUpdate=false;
     this.client.id=0;
+    this.client.category=[0];
+    for (var i = 0; i < this.categories.length; ++i) {
+      this.categories[i].checked = false;
+    }
   }
 
   showNotify(message:string, status:string) {

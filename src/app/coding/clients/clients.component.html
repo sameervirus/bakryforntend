@@ -4,30 +4,36 @@
       <div class="col-md-6">
         <!-- Form Element sizes -->
         <div class="card">
-            <div class="card-header ui-sortable-handle" style="cursor: move;">
+            <div class="card-header ui-sortable-handle">
               <h3 class="card-title">
                 <i class="ion ion-clipboard mr-1"></i>
                 Client List
               </h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
-              <ul *ngIf="clients && clients.length > 0" class="todo-list ui-sortable" data-widget="todo-list">
-                <li *ngFor="let client of clients">
-                  <span class="handle ui-sortable-handle">
-                    {{ client.id }} - 
-                  </span>
-                  <!-- todo text -->
-                  <span class="text">{{ client.name }} - {{ client.name_ar }}</span>
-                  <!-- Emphasis label -->
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    <i class="fas fa-edit" (click)="editClient(client.id,client.name,client.name_ar)"></i>
-                  </div>
-                </li>
-              </ul>
-              <p *ngIf="clients && clients.length < 1">There is no Clients</p>
-              <p *ngIf="!clients"><i class="fas fa-spinner fa-spin"></i></p>
+            <div class="card-body p-0">
+              <p class="text-center" *ngIf="clients && clients.length < 1">There is no Clients</p>
+              <p *ngIf="!clients" class="text-center"><i class="fas fa-spinner fa-spin"></i></p>
+              <table *ngIf="clients && clients.length > 0" class="table table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Client Name</th>
+                    <th>Arabic</th>
+                    <th>Categories</th>
+                    <th>Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let client of clients | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{ client.id }}</td>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.name_ar }}</td>
+                    <td><span *ngFor="let item of client.categories">{{ item.name }}, </span></td>
+                    <td><i class="fas fa-edit text-danger pointer" (click)="editClient(client.id,client.name,client.name_ar,client.category_ids)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
       </div>
@@ -64,8 +70,26 @@
                   id="name_ar" 
                   name="name_ar"
                   placeholder="Arabic Name"
-                  [(ngModel)]="client.name_ar" #name="ngModel">
+                  [(ngModel)]="client.name_ar" #name_ar="ngModel">
               </div>
+              <div class="row">
+                  <div *ngFor="let category of categories; let i = index" class="col-sm-6">
+                    <!-- checkbox -->
+                    <div class="form-group clearfix">
+                      <div class="icheck-primary d-inline">
+                        <input 
+                          type="checkbox" 
+                          name="category"
+                          id="id_{{category.id}}"
+                          [value]="category.id"
+                          [checked]="category.checked"
+                          (change)="onChangeCategory($event, category)"
+                        >
+                        <label for="id_{{category.id}}">{{category.name}}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
             <!-- /.card-body -->
 

@@ -18,11 +18,14 @@
               <table *ngIf="branches && branches.length > 0" class="table table-sm">
                 <thead>
                   <tr>
-                    <th style="width: 10px">#</th>                    
+                    <th style="width: 10px">Code</th>                    
                     <th>Name</th>
                     <th>Name_ar</th>
                     <th>Due period</th>
-                    <th>Close time</th>
+                    <th>Last time</th>
+                    <th>Delivery From</th>
+                    <th>Delivery To</th>
+                    <th>VAT</th>
                     <th>Client</th>
                     <th>Address</th>
                     <th>Distribution</th>
@@ -30,11 +33,14 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let branch of branches | paginate: { itemsPerPage: 10, currentPage: p }">
-                    <td>{{ branch.id }}</td>
+                    <td>{{ branch.code }}</td>
                     <td>{{ branch.name }}</td>
                     <td>{{ branch.name_ar }}</td>
                     <td>{{ branch.due_period }}</td>
                     <td>{{ branch.close_time }}</td>
+                    <td>{{ branch.opening }}</td>
+                    <td>{{ branch.closing }}</td>
+                    <td>{{ branch.vat }}</td>
                     <td>{{ branch.client.name }}</td>
                     <td>{{ branch.city.name }} - {{ branch.district.name }}</td>
                     <td>{{ branch.distribution.name }}</td>
@@ -47,7 +53,8 @@
 													      branch.client_id,
 													      branch.city_id,
 													      branch.district_id,
-													      branch.distribution_id)"></i></td>
+                                branch.distribution_id,
+                                branch.code, branch.vat, branch.opening,branch.closing)"></i></td>
                   </tr>
                 </tbody>
               </table>
@@ -68,6 +75,17 @@
           <!-- form start -->
           <form #branchForm="ngForm" (ngSubmit)="onSubmit(branchForm)">
             <div class="card-body">
+              <div class="form-group">
+                <label for="code">Code*</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="code"
+                  name="code"
+                  required minlength="4"
+                  [(ngModel)]="branch.code" #code="ngModel"
+          	      [class.is-invalid] = "code.invalid && (code.dirty || code.touched)">
+              </div>
               <div class="form-group">
                 <label for="name">Branch Name*</label>
                 <input 
@@ -103,7 +121,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label>Close time# *</label>
+                            <label>Last time# *</label>
                             <input type="text" class="form-control" name="close_time" required
                             [(ngModel)]="branch.close_time" #close_time="ngModel"
                             [class.is-invalid] = "close_time.invalid && (close_time.dirty || close_time.touched)">
@@ -111,11 +129,41 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-4">
+                        <!-- text input -->
+                        <div class="form-group">
+                            <label>Delivery From *</label>
+                            <input type="text" class="form-control" name="opening" required
+                            [(ngModel)]="branch.opening" #opening="ngModel"
+                            [class.is-invalid] = "opening.invalid && (opening.dirty || opening.touched)"
+                            >
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Delivery To *</label>
+                            <input type="text" class="form-control" name="closing" required
+                            [(ngModel)]="branch.closing" #closing="ngModel"
+                            [class.is-invalid] = "closing.invalid && (closing.dirty || closing.touched)">
+                        </div>
+                    </div>                    
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                          <label>VAT *</label>
+                          <select name="vat" class="form-control"
+                                    required [(ngModel)]="branch.vat" #vat="ngModel" >
+                                <option [value]="1">True</option>
+                                <option [value]="0">False</option>
+                            </select>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-6">
                         <!-- text input -->
                         <div class="form-group">
                             <label>Client *</label>
-                            <select *ngIf="foreignData" id="power" name="client" class="form-control"
+                            <select *ngIf="foreignData" name="client" class="form-control"
                                     required [(ngModel)]="branch.client" #client="ngModel" >
                                 <option *ngFor="let c of foreignData.clients" [value]="c.id">{{c.name}}</option>
                             </select>
@@ -125,7 +173,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>Distribution *</label>
-                            <select *ngIf="foreignData" id="power" name="distribution" class="form-control"
+                            <select *ngIf="foreignData" name="distribution" class="form-control"
                                     required [(ngModel)]="branch.distribution" #distribution="ngModel" >
                                 <option *ngFor="let c of foreignData.distributions" [value]="c.id">{{c.name}}</option>
                             </select>
@@ -138,7 +186,7 @@
                         <!-- text input -->
                         <div class="form-group">
                             <label>City *</label>
-                            <select *ngIf="foreignData" id="power" name="city" class="form-control"
+                            <select *ngIf="foreignData" name="city" class="form-control"
                                     required [(ngModel)]="branch.city" #city="ngModel" >
                                 <option *ngFor="let c of foreignData.cities" [value]="c.id">{{c.name}}</option>
                             </select>
@@ -148,7 +196,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>District *</label>
-                            <select *ngIf="foreignData" id="power" name="district" class="form-control"
+                            <select *ngIf="foreignData" name="district" class="form-control"
                                     required [(ngModel)]="branch.district" #district="ngModel" >
                                 <option *ngFor="let c of foreignData.districts" [value]="c.id">{{c.name}}</option>
                             </select>

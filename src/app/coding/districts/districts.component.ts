@@ -11,7 +11,7 @@ export class DistrictsComponent implements OnInit {
 
   districts:any;
   cities:any;
-  district = {id:0, name:'', name_ar:'', city:0};
+  district = {id:0, name:'', name_ar:'', city:0, code:''};
   loading = false;
   isUpdate = false;
   
@@ -27,7 +27,7 @@ export class DistrictsComponent implements OnInit {
 
   onSubmit(districtForm:any) {
     this.loading = true;
-    this.codingService.addDistrict(this.district.id, this.district.name, this.district.name_ar, this.district.city).subscribe(
+    this.codingService.addDistrict(this.district.id, this.district.name, this.district.name_ar, this.district.city, this.district.code).subscribe(
       res => {
         if(this.isUpdate) {
           this.districts = res.body;
@@ -64,12 +64,13 @@ export class DistrictsComponent implements OnInit {
     this.codingService.getCities().subscribe(res => { this.cities = res.body; });
   }
 
-  editDistrict(id:number, name:string, name_ar:string, city_id:number) {
+  editDistrict(id:number, name:string, name_ar:string, city_id:number, code:string) {
     this.isUpdate = true;
     this.district.id = id;
     this.district.name = name;
     this.district.name_ar = name_ar;
     this.district.city = city_id;
+    this.district.code = code;
   }
 
   resetFrom(districtForm:any) {
