@@ -106,11 +106,14 @@ export class CodingService {
     return this.http.get<any>('clients', {observe : 'response'});
   }
 
-  addClient(id:number, name:string,name_ar:string, category:any): Observable<any> {
+  addClient(id:number, name:string,name_ar:string, category:any, com_reg:string, 
+    email:string, person:string): Observable<any> {
     if(id === 0 ) {
-      return this.http.post<any>('clients', {name: name, name_ar: name_ar, category:category}, {observe : 'response'});
+      return this.http.post<any>('clients', {name: name, name_ar: name_ar, category:category, 
+      com_reg:com_reg, email:email, person:person}, {observe : 'response'});
     } else {
-      return this.http.put<any>('clients/' + id, {name: name, name_ar: name_ar, category:category}, {observe : 'response'});
+      return this.http.put<any>('clients/' + id, {name: name, name_ar: name_ar, category:category, 
+        com_reg:com_reg, email:email, person:person}, {observe : 'response'});
     }
     
   }

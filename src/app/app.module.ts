@@ -33,6 +33,7 @@ import { DistributionsComponent } from './coding/distributions/distributions.com
 import { CarsComponent } from './coding/cars/cars.component';
 import { CitiesComponent } from './coding/cities/cities.component';
 import { DistrictsComponent } from './coding/districts/districts.component';
+import { ActivesComponent } from './orders/actives/actives.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DistrictsComponent } from './coding/districts/districts.component';
     CarsComponent,
     CitiesComponent,
     DistrictsComponent,
-    OnlynumberDirective
+    OnlynumberDirective,
+    ActivesComponent
   ],
   imports: [
     CommonModule,

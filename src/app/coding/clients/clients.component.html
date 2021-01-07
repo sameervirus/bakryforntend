@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
       <!-- left column -->
-      <div class="col-md-6">
+      <div class="col-md-8">
         <!-- Form Element sizes -->
         <div class="card">
             <div class="card-header ui-sortable-handle">
@@ -9,6 +9,19 @@
                 <i class="ion ion-clipboard mr-1"></i>
                 Client List
               </h3>
+              <div class="card-tools">
+                <pagination-controls (pageChange)="p = $event" previousLabel=""
+                nextLabel=""></pagination-controls>
+                <br>
+                <form class="form-horizontal">
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Search</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" (input)="onSearchChange($event.target.value)">
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
@@ -21,6 +34,7 @@
                     <th>Client Name</th>
                     <th>Arabic</th>
                     <th>Categories</th>
+                    <th>Contacts</th>
                     <th>Edit</th>
                   </tr>
                 </thead>
@@ -30,7 +44,8 @@
                     <td>{{ client.name }}</td>
                     <td>{{ client.name_ar }}</td>
                     <td><span *ngFor="let item of client.categories">{{ item.name }}, </span></td>
-                    <td><i class="fas fa-edit text-danger pointer" (click)="editClient(client.id,client.name,client.name_ar,client.category_ids)"></i></td>
+                    <td>{{client.com_reg}}<br>{{client.email}}<br>{{client.person}}</td>
+                    <td><i class="fas fa-edit text-danger pointer" (click)="editClient(client.id,client.name,client.name_ar,client.category_ids, client.com_reg, client.email, client.person )"></i></td>
                   </tr>
                 </tbody>
               </table>
@@ -40,7 +55,7 @@
       
       <!--/.col (left) -->
       <!-- right column -->
-      <div class="col-md-6">
+      <div class="col-md-4">
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
@@ -71,6 +86,32 @@
                   name="name_ar"
                   placeholder="Arabic Name"
                   [(ngModel)]="client.name_ar" #name_ar="ngModel">
+              </div>
+              <div class="row">
+                  <div class="col-sm-6">
+                      <!-- text input -->
+                      <div class="form-group">
+                          <label>Commercial Reg.</label>
+                          <input type="text" class="form-control" name="com_reg"
+                          [(ngModel)]="client.com_reg" #com_reg="ngModel">
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label>Contact Person *</label>
+                          <input type="text" class="form-control" name="person"
+                          [(ngModel)]="client.person" #person="ngModel">
+                      </div>
+                  </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="email" 
+                  name="email"
+                  [(ngModel)]="client.email" #email="ngModel">
               </div>
               <div class="row">
                   <div *ngFor="let category of categories; let i = index" class="col-sm-6">
