@@ -3,7 +3,7 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '../_services/';
-const apiUrl = 'http://localhost:8000/api/';
+const apiUrl = 'http://server1.raindesigner.com/v1/api/';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -19,7 +19,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 setHeaders: {
                     Authorization: `Bearer ${currentUser.token}`
                 },
-                url: `http://localhost:8000/api/${request.url}`
+                url: `http://server1.raindesigner.com/v1/api/${request.url}`
             });
         }
 

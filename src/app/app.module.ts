@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { OrdersModule } from './orders/orders.module';
 // Plugin
 import {NgxPaginationModule} from 'ngx-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -33,7 +34,6 @@ import { DistributionsComponent } from './coding/distributions/distributions.com
 import { CarsComponent } from './coding/cars/cars.component';
 import { CitiesComponent } from './coding/cities/cities.component';
 import { DistrictsComponent } from './coding/districts/districts.component';
-import { ActivesComponent } from './orders/actives/actives.component';
 
 @NgModule({
   declarations: [
@@ -53,8 +53,7 @@ import { ActivesComponent } from './orders/actives/actives.component';
     CarsComponent,
     CitiesComponent,
     DistrictsComponent,
-    OnlynumberDirective,
-    ActivesComponent
+    OnlynumberDirective
   ],
   imports: [
     CommonModule,
@@ -65,7 +64,8 @@ import { ActivesComponent } from './orders/actives/actives.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgxPaginationModule,
-    NgSelectModule
+    NgSelectModule,
+    OrdersModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

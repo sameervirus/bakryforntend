@@ -67,7 +67,8 @@ export class ClientsComponent implements OnInit {
     });
   }
 
-  onSearchChange(str:string) {
+  onSearchChange(e:any) {
+    let str = e.target.value;
     this.clients = this.orginClients.filter((a:any) => (
                     a.name.includes(str) || 
                     a.name_ar.includes(str) 

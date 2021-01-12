@@ -29,7 +29,6 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/assets/fontawesome-free/css/all.min.css",
               "src/assets/icheck-bootstrap/icheck-bootstrap.min.css",
               "src/assets/dist/css/adminlte.min.css"
             ],
@@ -53,8 +52,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1000kb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",

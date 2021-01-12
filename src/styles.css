@@ -259,3 +259,15 @@ body.login-page .content-wrapper {
 .ngx-pagination .current {
     font-size: .875rem;
 }
+
+.btn-app.btn-sm {
+    height: 45px;
+    margin: 0 0 5px 5px;
+    min-width: 40px;
+    padding: 5px 5px;
+}
+
+.table-orders {
+    color: #212529;
+    background-color: rgba(0,0,0,.075);
+}

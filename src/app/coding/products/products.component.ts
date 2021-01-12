@@ -35,7 +35,8 @@ export class ProductsComponent implements OnInit {
     this.codingService.getProductCategory().subscribe(res => {this.categories = res.body});
   }
 
-  onSearchChange(str:string) {
+  onSearchChange(e:any) {
+    let str = e.target.value;
     this.products = this.orginProducts.filter((a:any) => (
                     a.name.includes(str) || 
                     a.category.name.includes(str) || 

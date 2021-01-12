@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '../_models';
-const apiUrl = 'http://localhost:8000/api/login';
+const apiUrl = 'http://server1.raindesigner.com/v1/api/login';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -33,7 +33,6 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
-        localStorage.removeItem('userDetails');
         this.currentUserSubject.next(null!);
     }
 }

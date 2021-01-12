@@ -1,1 +1,79 @@
-<p>actives works!</p>
+<div class="container-fluid">
+    <div class="row">
+  <div class="col-12">
+    <a [routerLink]="['/orders/create']" class="btn btn-primary">Create Order</a>
+
+
+    <!-- Main content -->
+    <div *ngIf="orders" class="mt-3 mb-3">
+
+      <!-- info row -->
+      <div class="row">
+          <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Orders</h3>
+        
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body p-0">
+                  <table class="table table-striped projects">
+                      <thead>
+                          <tr>
+                              <th>Code#</th>
+                              <th>Order Date</th>
+                              <th>Due Date</th>
+                              <th>Status</th>
+                              <th>Total qty</th>
+                              <th>Approved qty</th>
+                              <th></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let order of orders">
+                              <td> {{ order.code }} </td>
+                              <td> {{ order.date | date:'longDate' }} </td>
+                              <td> {{ order.due_date | date:'longDate' }} </td>
+                              <td> {{ order.status }} </td>
+                              <td> {{ order.qty }} </td>                              
+                              <td> {{ order.approved }} </td>                              
+                              <td *ngIf="order.status_id < 3" class="project-actions text-right">
+                                  <a class="btn btn-primary btn-sm" routerLink="/orders/view/{{order.id}}">
+                                      <i class="fas fa-folder"></i>
+                                  </a>
+                                  <a class="btn btn-info btn-sm" routerLink="/orders/edit/{{order.id}}">
+                                      <i class="fas fa-pencil-alt"></i>
+                                  </a>
+                                  <a class="btn btn-danger btn-sm pointer" (click)="removeOrder(order.id)">
+                                      <i class="fas fa-trash"></i>
+                                  </a>
+                              </td>
+                              <td *ngIf="order.status_id >= 3">Order {{ order.status }} 
+                                <a class="btn btn-primary float-right btn-sm" routerLink="/orders/view/{{order.id}}">
+                                  <i class="fas fa-folder"></i>
+                                </a>
+                              </td>
+                          </tr>   
+                          
+                      </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+          </div>
+      </div>
+    </div>
+    <!-- /.invoice -->
+    <p *ngIf="!orders" class="text-center"><i class="fas fa-spinner fa-spin"></i></p>
+  </div><!-- /.col -->
+  
+</div>
+
+</div>
