@@ -13,6 +13,7 @@ export class SidebarComponent implements OnInit {
 	ordersSub:boolean = false;
 	activesComp:boolean = false;
 	reviewsComp:boolean = false;
+	historyComp:boolean = false;
 	user:any;
 
   constructor(private route: ActivatedRoute, private router: Router) { 
@@ -25,8 +26,8 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	  this.user = (JSON.parse(localStorage.getItem('currentUser')!)).user;
-
+	  if(localStorage.getItem('currentUser'))
+	  	this.user = (JSON.parse(localStorage.getItem('currentUser')!)).user;
   }
 
   changeView(item:string) {
@@ -51,14 +52,16 @@ export class SidebarComponent implements OnInit {
   changeSide(url:string) {
   	if(url.includes("orders")) {
   		this.ordersMenu = true;
-			this.ordersSub = true;
+		this.ordersSub = true;
   		this.activesComp = url.includes("actives") ? true : false;
   		this.reviewsComp = url.includes("reviews") ? true : false;
+  		this.historyComp = url.includes("history") ? true : false;
   	} else {
 		this.ordersMenu = false;
 		this.ordersSub = false; 
 		this.activesComp=false;
 		this.reviewsComp=false;
+		this.historyComp=false;
   	}
   }
 

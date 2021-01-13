@@ -11,10 +11,11 @@ import { CreateComponent } from './create/create.component';
 import { ViewComponent } from './view/view.component';
 import { EditComponent } from './edit/edit.component';
 import { ReviewsComponent } from './reviews/reviews.component';
+import { HistoryComponent } from './history/history.component';
 
 @NgModule({
   declarations: [  	
-    ActivesComponent, CreateComponent, ViewComponent, EditComponent, ReviewsComponent
+    ActivesComponent, CreateComponent, ViewComponent, EditComponent, ReviewsComponent, HistoryComponent
   ],
   imports: [
     CommonModule,

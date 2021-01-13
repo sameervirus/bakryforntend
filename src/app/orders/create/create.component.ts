@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { OrdersService, NotificationService } from '../../_services';
-import { _addToCart, _changeQty, _confirmRemoveItem } from '../../_models/';
+import { _addToCart, _changeQty, _confirmRemoveItem, _addExistProduct } from '../../_models/';
 
 @Component({
   selector: 'app-create',
@@ -24,6 +25,8 @@ export class CreateComponent implements OnInit {
 
   constructor(private ordersService : OrdersService,
     private notificationService: NotificationService,
+    private activatedRoute : ActivatedRoute,
+    private router : Router,
     private _location: Location) { 
     notificationService.reply$.subscribe(res => {
       if(res == 'removeItem') {
@@ -32,20 +35,28 @@ export class CreateComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     localStorage.removeItem('cart');
-  	this.getCreateOrder();
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(id) this.getCreateOrder(id);
+  	else this.getCreateOrder();
   }
 
-  getCreateOrder() {
-  	this.ordersService.getCreateOrder().subscribe(res => {
+  getCreateOrder(id?:any) {
+  	this.ordersService.getCreateOrder(id).subscribe(res => {
   		this.branch = res.body.branch;
   		this.products = res.body.products;
   		this.orginProducts = res.body.products;
   		this.productCategories = res.body.categories;
   		this.user = res.body.user;
-  		this.dueDate = res.body.due_date;
+      this.dueDate = res.body.due_date;
+      this.addExistProduct(res.body.order_products);
   	});
+  }
+
+  addExistProduct(items:any) {
+    if(items.length > 0)
+      this.carts = _addExistProduct(items, this.carts);
   }
 
   onSearchChange(e:any) {
@@ -102,7 +113,7 @@ export class CreateComponent implements OnInit {
             true, 
             {'text':'OK'}
           );
-          this._location.back();
+          this.router.navigate(['actives']);
         }
       },
       err => {

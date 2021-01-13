@@ -26,7 +26,7 @@ export class BranchesComponent implements OnInit {
 		city:0,
 		district:0,
     distribution:0,
-  code:'', vat:true, opening:'',closing:''};
+  code:'', vat:true, opening:'',closing:'', address:'', phone:''};
 
   constructor(    
     private codingService : CodingService,
@@ -58,7 +58,8 @@ export class BranchesComponent implements OnInit {
       this.branch.city,
       this.branch.district,
       this.branch.distribution,
-      this.branch.code, this.branch.vat, this.branch.opening,this.branch.closing).subscribe(
+      this.branch.code, this.branch.vat, this.branch.opening,this.branch.closing,
+      this.branch.address, this.branch.phone).subscribe(
       res => {
         if(this.isUpdate) {
           this.branches = res.body;
@@ -87,7 +88,7 @@ export class BranchesComponent implements OnInit {
 
   editBranch(id:number,name:string, name_ar:string, due_period:string, close_time:string,
     client_id:number, city_id:number, district_id:number, distribution_id:number,
-    code:string, vat:boolean, opening:string,closing:string) {
+    code:string, vat:boolean, opening:string,closing:string,address:string, phone:string) {
     this.isUpdate = true;
     this.branch.id = id;
     this.branch.name = name;
@@ -102,6 +103,8 @@ export class BranchesComponent implements OnInit {
     this.branch.vat = vat;
     this.branch.opening = opening;
     this.branch.closing = closing;
+    this.branch.address = address;
+    this.branch.phone = phone;
   }
 
   resetFrom(branchForm:any) {

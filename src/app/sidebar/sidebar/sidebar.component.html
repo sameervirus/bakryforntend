@@ -47,6 +47,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a [routerLink]="['/orders/history']" [class.active]="historyComp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Orders History</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a [routerLink]="['/orders/reviews']" [class.active]="reviewsComp" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Orders Review</p>

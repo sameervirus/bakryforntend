@@ -125,15 +125,15 @@ export class CodingService {
 
   addBranch(id:number,name:string, name_ar:string, due_period:string, close_time:string,
     client_id:number, city_id:number, district_id:number, distribution_id:number,
-    code:string, vat:boolean, opening:string,closing:string): Observable<any> {
+    code:string, vat:boolean, opening:string,closing:string,address:string, phone:string): Observable<any> {
     if(id === 0 ) {
       return this.http.post<any>('branches', {name:name, name_ar:name_ar, due_period:due_period, close_time:close_time,
     client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id,
-    code:code, vat:vat, opening:opening,closing:closing}, {observe : 'response'});
+    code:code, vat:vat, opening:opening,closing:closing, address:address, phone:phone}, {observe : 'response'});
     } else {
       return this.http.put<any>('branches/' + id, {name:name, name_ar:name_ar, due_period:due_period, close_time:close_time,
     client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id,
-    code:code, vat:vat, opening:opening,closing:closing}, {observe : 'response'});
+    code:code, vat:vat, opening:opening,closing:closing, address:address, phone:phone}, {observe : 'response'});
     }
     
   }

@@ -13,8 +13,11 @@ export class OrdersService {
   	return this.http.get<any>('orders', {observe : 'response'});
   }
 
-  getCreateOrder(): Observable<any> {
-  	return this.http.get<any>('orders/create', {observe : 'response'});
+  getCreateOrder(id:number): Observable<any> {
+    if(id)
+      return this.http.get<any>('orders/create?code='+ id, {observe : 'response'});
+    else
+      return this.http.get<any>('orders/create', {observe : 'response'});
   }
 
   createOrder(items:any,status:number,due_date:string): Observable<any> {
@@ -44,6 +47,15 @@ export class OrdersService {
 
   updateOrderApproved(product:number,order:number, qty:number): Observable<any> {
     return this.http.post('update-approved', {product,order,qty},{observe: 'response'});
+  }
+
+  approveAll(orders:any): Observable<any> {
+    return this.http.post('update-approved-all', {orders}, {observe: 'response'});
+  }
+
+  // Order History
+  getOldOrders(): Observable<any> {
+    return this.http.get('orders-history', {observe: 'response'});
   }
 
 }

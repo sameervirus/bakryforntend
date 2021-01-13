@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { OrdersService, NotificationService } from '../../_services';
-import { _addToCart, _changeQty, _confirmRemoveItem } from '../../_models/';
+import { _addToCart, _changeQty, _confirmRemoveItem, _addExistProduct } from '../../_models/';
 
 @Component({
   selector: 'app-edit',
@@ -53,26 +53,10 @@ export class EditComponent implements OnInit {
     });
   }
 
+  
+
   addExistProduct(items:any) {
-    let qty:number = 0;
-    for (let i = 0; i < items.length; i++) {
-      let item:any = 
-      {
-        'id' : items[i].id,
-        'client_code' : items[i].client_code,
-        'name' : items[i].name,
-        'arabic_name' : items[i].arabic_name,
-        'qty': items[i].qty
-      };      
-      qty = qty + Number(items[i].qty);
-      if(this.carts && this.carts.items != undefined) {
-        this.carts.items.push(item);
-      } else {
-        this.carts = {items:[item]};
-      }
-    }
-    this.carts.qty = qty;
-    localStorage.setItem('cart', JSON.stringify(this.carts));
+    this.carts = _addExistProduct(items, this.carts);
   }
 
   onSearchChange(e:any) {

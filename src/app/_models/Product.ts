@@ -96,3 +96,28 @@ export function _confirmRemoveItem(id:number, carts:any) {
   }
   return carts;
 }
+
+export function _addExistProduct(items:any, carts:any) {
+  let qty:number = 0;
+  for (let i = 0; i < items.length; i++) {
+    let item:any = 
+    {
+      'id' : items[i].id,
+      'client_code' : items[i].client_code,
+      'name' : items[i].name,
+      'arabic_name' : items[i].arabic_name,
+      'qty': items[i].qty
+    };      
+    qty = qty + Number(items[i].qty);
+    if(carts && carts.items != undefined) {
+      carts.items.push(item);
+    } else {
+      carts = {items:[item]};
+    }
+  }
+  carts.qty = qty;
+  
+  localStorage.setItem('cart', JSON.stringify(carts));
+  
+  return carts;
+}

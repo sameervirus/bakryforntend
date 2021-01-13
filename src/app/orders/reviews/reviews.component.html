@@ -12,7 +12,7 @@
               </div>
               <!-- ./card-header -->
               <div class="card-body">
-                  <button class="btn btn-success float-right mb-1" (click)="approveAll(products)">Approve all orders</button>
+                  <button class="btn btn-success float-right mb-1" (click)="approveAll()">Approve all orders</button>
                 <table class="table table-bordered table-hover">
                   <thead>
                     <tr>
@@ -30,7 +30,7 @@
                       <td>{{ product.name }}</td>
                       <td>{{ product.arabic_name }}</td>
                       <td>{{ claculateQty(product.orders) }}</td>
-                      <td>{{ claculateApproveQty(product.orders) }}</td>
+                      <td>{{ claculateApproveQty(product.orders) }} <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small></td>
                         <td>
                             <a class="btn btn-app btn-sm bg-primary" (click)="expandable(product.id)">
                                 <i class="fas fa-edit"></i> Edit

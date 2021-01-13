@@ -10,6 +10,7 @@ import { OrdersService, NotificationService } from '../../_services';
 export class ReviewsComponent implements OnInit {
 
   products:any;
+  orders:any;
   tr:number = 0;
 
   constructor(
@@ -25,7 +26,8 @@ export class ReviewsComponent implements OnInit {
 
   getOrdersProducts() {
     this.ordersService.getOrdersProducts().subscribe(res => {
-      this.products = res.body.data;
+      this.products = res.body.products;
+      this.orders = res.body.orders;
     });
   }
 
@@ -50,15 +52,20 @@ export class ReviewsComponent implements OnInit {
 
   saveOrder(product:number, order:number, qty:any, pivot_qty:number, p:number, o:number) {
     
-    if(qty > pivot_qty || qty == 0) {
-      
+    if(qty > pivot_qty) {      
       this.notificationService.sendMessages(
-        'Approve quantity cannot be more than order quantities or zero',
+        'Approve quantity cannot be more than order quantities',
         'error', 
         true, 
         {'text':'OK'}
       );
-
+    } else if(product === undefined || order === undefined) {
+      this.notificationService.sendMessages(
+        'It must have one order at least',
+        'error', 
+        true, 
+        {'text':'OK'}
+      );
     } else {
       this.ordersService.updateOrderApproved(product,order,qty).subscribe(
         res => {
@@ -90,8 +97,43 @@ export class ReviewsComponent implements OnInit {
     
   }
 
-  saveProduct(product:any) {
-
+  approveAll() {
+    if(this.orders.length > 0) {
+      this.ordersService.approveAll(this.orders).subscribe(
+        res => {
+            this.products = res.body.products;
+            this.orders = res.body.orders;
+            if(res.message = 'sucsses') {
+              this.notificationService.sendMessages(
+                `Orders has been updated successfuly`,
+                'success', 
+                true, 
+                {'text':'OK'}
+              );
+            }
+        }, err => {
+            let message = '';
+            if(err.status == 400) {
+              message = err.error.message;
+            } else {
+              message = 'Server is down please try again';
+            }
+            this.notificationService.sendMessages(
+              message,
+              'error', 
+              true, 
+              {'text':'OK'}
+            );
+        }
+      );
+    } else {
+      this.notificationService.sendMessages(
+        'It must have one order at least',
+        'error', 
+        true, 
+        {'text':'OK'}
+      );
+    }
   }
 
 }
