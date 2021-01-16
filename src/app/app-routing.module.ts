@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { CodingComponent } from './coding/coding/coding.component';
 import { CategoryComponent } from './coding/category/category.component';
+import { PackingsComponent } from './coding/packings/packings.component';
 import { ProductsComponent } from './coding/products/products.component';
 import { CitiesComponent } from './coding/cities/cities.component';
 import { DistrictsComponent } from './coding/districts/districts.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'coding', component: CodingComponent, canActivate: [AuthGuard] },
   { path: 'coding/category', component: CategoryComponent, canActivate: [AuthGuard] },
+  { path: 'coding/packings', component: PackingsComponent, canActivate: [AuthGuard] },
   { path: 'coding/products', component: ProductsComponent, canActivate: [AuthGuard] },
   { path: 'coding/cities', component: CitiesComponent, canActivate: [AuthGuard] },
   { path: 'coding/districts', component: DistrictsComponent, canActivate: [AuthGuard] },
@@ -32,6 +34,10 @@ const routes: Routes = [
   {
     path: 'orders',
     loadChildren: () => import('./orders/orders.module').then(m => m.OrdersModule)
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
   },
 
   // otherwise redirect to home

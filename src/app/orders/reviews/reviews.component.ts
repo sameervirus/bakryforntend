@@ -1,4 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { OrdersService, NotificationService } from '../../_services';
 
@@ -15,6 +16,7 @@ export class ReviewsComponent implements OnInit {
 
   constructor(
     private render:Renderer2,
+    private router : Router,
     private ordersService : OrdersService,
     private notificationService: NotificationService
   ) { }
@@ -41,7 +43,7 @@ export class ReviewsComponent implements OnInit {
   claculateApproveQty(items:any) {
     let sum: number = 0;
     for (let i = 0; i < items.length; i++) {
-        sum += items[i].pivot_approve;
+        sum += items[i].pivot_pre;
     }
     return sum;
   }
@@ -69,7 +71,7 @@ export class ReviewsComponent implements OnInit {
     } else {
       this.ordersService.updateOrderApproved(product,order,qty).subscribe(
         res => {
-          this.products[p].orders[o].pivot_approve = Number(qty);
+          this.products[p].orders[o].pivot_pre = Number(qty);
           if(res.message = 'sucsses') {
             this.notificationService.sendMessages(
               `Order has been updated successfuly`,
@@ -111,6 +113,44 @@ export class ReviewsComponent implements OnInit {
                 {'text':'OK'}
               );
             }
+        }, err => {
+            let message = '';
+            if(err.status == 400) {
+              message = err.error.message;
+            } else {
+              message = 'Server is down please try again';
+            }
+            this.notificationService.sendMessages(
+              message,
+              'error', 
+              true, 
+              {'text':'OK'}
+            );
+        }
+      );
+    } else {
+      this.notificationService.sendMessages(
+        'It must have one order at least',
+        'error', 
+        true, 
+        {'text':'OK'}
+      );
+    }
+  }
+
+  toProduction() {
+    if(this.orders.length > 0) {
+      this.ordersService.toProduction(this.orders).subscribe(
+        res => {
+            if(res.message = 'sucsses') {
+              this.notificationService.sendMessages(
+                `Orders has been submit for productions successfuly`,
+                'success', 
+                true, 
+                {'text':'OK'}
+              );
+            }
+            this.router.navigate(['actives']);
         }, err => {
             let message = '';
             if(err.status == 400) {

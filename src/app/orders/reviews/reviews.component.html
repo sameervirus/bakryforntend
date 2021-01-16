@@ -11,69 +11,73 @@
                 <h3 class="card-title">Orders Review</h3>
               </div>
               <!-- ./card-header -->
-              <div class="card-body">
-                  <button class="btn btn-success float-right mb-1" (click)="approveAll()">Approve all orders</button>
-                <table class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th>Code</th>
-                      <th>Name</th>
-                      <th>Arabic Name</th>
-                      <th>Qty</th>
-                      <th>Approved Qty</th>
-                      <th style="width: 5%;">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngFor="let product of products; let p = index">
-                    <tr>
-                      <td>{{ product.client_code }}</td>
-                      <td>{{ product.name }}</td>
-                      <td>{{ product.arabic_name }}</td>
-                      <td>{{ claculateQty(product.orders) }}</td>
-                      <td>{{ claculateApproveQty(product.orders) }} <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small></td>
-                        <td>
-                            <a class="btn btn-app btn-sm bg-primary" (click)="expandable(product.id)">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                        </td>
-                    </tr>
-                    <tr *ngIf="tr == product.id">
-                        <td colspan="6">
-                        <table class="table table-bordered table-orders">
-                            <tr>
-                                <th>Code</th>
-                                <th>Client</th>
-                                <th>Branch</th>
-                                <th>Quantity</th>
-                                <th>Approved Qty</th>
-                                <th>action</th>
-                            </tr>
-                            <tr *ngFor="let order of product.orders; let o = index">
-                                <td>{{ order.code }}</td>
-                                <td>{{ order.client }}</td>
-                                <td>{{ order.branch }}</td>
-                                <td>{{ order.pivot_qty }}</td>
-                                <td style="width:10%"><input 
-                                    type="number"
-                                    class="form-control"
-                                    min="0"
-                                    max="{{ order.pivot_qty }}"
-                                    #qtys
-                                    value="{{ order.pivot_approve }}" 
-                                    pattern="^[0-9]+\.[0-9][0-9]$"
-                                    ></td>
-                                <td>
-                                    <a class="btn btn-app btn-sm bg-success" (click)="saveOrder(product.id, order.id, qtys.value, order.pivot_qty, p , o)">
-                                        <i class="fas fa-save"></i> Save </a>
-                                </td>
-                            </tr>
-                        </table>
-                        </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="card-body">                  
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>Code/Client Code</th>
+                        <th>Name</th>
+                        <th>Arabic Name</th>
+                        <th>Qty</th>
+                        <th>Approved Qty</th>
+                        <th style="width: 5%;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let product of products; let p = index">
+                      <tr>
+                        <td>{{ product.code }}<br>{{ product.client_code }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.arabic_name }}</td>
+                        <td>{{ claculateQty(product.orders) }}</td>
+                        <td>{{ claculateApproveQty(product.orders) }}</td>
+                          <td>
+                              <a class="btn btn-app btn-sm bg-primary" (click)="expandable(product.id)">
+                                  <i class="fas fa-edit"></i> Edit
+                              </a>
+                          </td>
+                      </tr>
+                      <tr *ngIf="tr == product.id">
+                          <td colspan="6">
+                          <table class="table table-bordered table-orders">
+                              <tr>
+                                  <th>Code</th>
+                                  <th>Client</th>
+                                  <th>Branch</th>
+                                  <th>Quantity</th>
+                                  <th>Approved Qty</th>
+                                  <th>action</th>
+                              </tr>
+                              <tr *ngFor="let order of product.orders; let o = index">
+                                  <td>{{ order.code }}</td>
+                                  <td>{{ order.client }}</td>
+                                  <td>{{ order.branch }}</td>
+                                  <td>{{ order.pivot_qty }}</td>
+                                  <td style="width:10%"><input 
+                                      type="number"
+                                      class="form-control"
+                                      min="0"
+                                      max="{{ order.pivot_qty }}"
+                                      #qtys
+                                      value="{{ order.pivot_pre }}" 
+                                      pattern="^[0-9]+\.[0-9][0-9]$"
+                                      ></td>
+                                  <td>
+                                      <a class="btn btn-app btn-sm bg-success" (click)="saveOrder(product.id, order.id, qtys.value, order.pivot_qty, p , o)">
+                                          <i class="fas fa-save"></i> Save </a>
+                                  </td>
+                              </tr>
+                          </table>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer">
+                  <button class="btn btn-primary float-right mb-1 ml-1" (click)="approveAll()">Approve</button>
+                  <button class="btn btn-success float-right mb-1" (click)="toProduction()">Approve and Submit to production</button>
+                  <p>Kindly be noted Approve or submit will show at client</p>
+              </div>
             </div>
             <!-- /.card -->
           </div>

@@ -27,10 +27,9 @@
               <table *ngIf="products && products.length > 0" class="table table-sm">
                 <thead>
                   <tr>
-                    <th style="width: 10px">#</th>
+                    <th style="width: 10px">Code</th>
                     <th>Pool Code</th>
                     <th>Category</th>
-                    <th>Code#</th>
                     <th>Name</th>
                     <th>Client Code</th>
                     <th>Price - VAT</th>
@@ -39,10 +38,9 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let product of products | paginate: { itemsPerPage: 10, currentPage: p }">
-                    <td>{{ product.id }}</td>
+                    <td>{{ product.code }}</td>
                     <td>{{ product.pool_code }}</td>
                     <td>{{ product.category.name }}</td>
-                    <td>{{ product.code }}</td>
                     <td>{{ product.name }}<br>{{ product.name_ar }}</td>
                     <td>{{ product.client_code }}</td>
                     <td>{{ product.price }} - {{ product.vat }}</td>
@@ -54,7 +52,14 @@
                                                           product.name, 
                                                           product.name_ar, 
                                                           product.price,
-                                                          product.vat, product.client_code)"></i></td>
+                                                          product.vat, 
+                                                          product.client_code,
+                                                          product.packing_qty,
+                                                          product.net_weight,
+                                                          product.packing_dim,
+                                                          product.pieces,
+                                                          product.packing_id
+                                                          )"></i></td>
                   </tr>
                 </tbody>
               </table>
@@ -143,9 +148,8 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label>VAT *</label>
-                            <input type="text" class="form-control" name="vat" required
-                            [(ngModel)]="product.vat" #vat="ngModel"
-                            [class.is-invalid] = "vat.invalid && (vat.dirty || vat.touched)">
+                            <input type="text" class="form-control" name="vat"
+                            [(ngModel)]="product.vat" #vat="ngModel">
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -159,6 +163,49 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Packing Qty</label>
+                            <input type="text" class="form-control" name="packing_qty"
+                            [(ngModel)]="product.packing_qty" #packing_qty="ngModel">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Net Weight</label>
+                            <input type="text" class="form-control" name="net_weight"
+                            [(ngModel)]="product.net_weight" #net_weight="ngModel"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Packing DIM</label>
+                            <input type="text" class="form-control" name="packing_dim"
+                            [(ngModel)]="product.packing_dim" #packing_dim="ngModel">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Pieces</label>
+                            <input type="text" class="form-control" name="pieces"
+                            [(ngModel)]="product.pieces" #pieces="ngModel"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Packing *</label>
+                    <select *ngIf="packings" name="packing" class="form-control"
+                            required [(ngModel)]="product.packing" #packing="ngModel" >
+                        <option *ngFor="let pk of packings" [value]="pk.id">{{pk.name}}</option>
+                    </select>
+                    <p *ngIf="!packings"><i class="fas fa-spinner fa-spin"></i></p>
+                </div>
                 
 
             </div>

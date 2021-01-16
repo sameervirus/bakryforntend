@@ -41,7 +41,21 @@
                               <td> {{ order.code }} </td>
                               <td> {{ order.date | date:'longDate' }} </td>
                               <td> {{ order.due_date | date:'longDate' }} </td>
-                              <td> {{ order.status }} </td>
+                              <td>
+                                <span 
+                                    class="badge" 
+                                    [class.badge-info]="order.status == 'In Production'"
+                                    [class.badge-info]="order.status == 'In Stock'"
+                                    [class.badge-info]="order.status == 'Dispatched'"
+                                    [class.badge-success]="order.status == 'Delivered'"
+                                    [class.badge-primary]="order.status == 'Invoiced'"
+                                    [class.badge-warning]="order.status == 'In Review'"
+                                    [class.badge-success]="order.status == 'Accepted'"
+                                    [class.badge-danger]="order.status == 'Rejected'"
+                                    >
+                                    {{ order.status }}
+                                </span>
+                              </td>
                               <td> {{ order.qty }} </td>                              
                               <td> {{ order.approved }} </td>                              
                               <td *ngIf="order.status_id < 3" class="project-actions text-right">

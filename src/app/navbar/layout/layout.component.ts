@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 import { AuthenticationService } from '../../_services';
 
@@ -9,13 +9,27 @@ import { AuthenticationService } from '../../_services';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor(private authenticationService : AuthenticationService,) { }
+	sideStatus = true;
+
+  constructor(private authenticationService : AuthenticationService,
+  	private render:Renderer2
+  	) { }
 
   ngOnInit(): void {
   }
 
   logout() {
     this.authenticationService.logout();
+  }
+
+  changeSide() {
+  	if(this.sideStatus) {
+  		this.render.addClass(document.body,"sidebar-collapse");
+  		this.sideStatus = false;
+  	} else {
+  		this.render.removeClass(document.body,"sidebar-collapse");
+  		this.sideStatus = true;
+  	}
   }
 
 }

@@ -21,6 +21,7 @@
     "@angular/router": "~11.0.5",
     "@ng-select/ng-select": "^5.0.14",
     "ngx-pagination": "^5.0.0",
+    "ngx-permissions": "^8.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

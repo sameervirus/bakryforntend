@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { CodingService, NotificationService } from '../../_services';
 
+import { scrollWindowToTop } from '../../_models'
+
 @Component({
   selector: 'app-districts',
   templateUrl: './districts.component.html',
@@ -11,6 +13,7 @@ export class DistrictsComponent implements OnInit {
 
   districts:any;
   cities:any;
+  p: number = 1;
   district = {id:0, name:'', name_ar:'', city:0, code:''};
   loading = false;
   isUpdate = false;
@@ -71,6 +74,7 @@ export class DistrictsComponent implements OnInit {
     this.district.name_ar = name_ar;
     this.district.city = city_id;
     this.district.code = code;
+    scrollWindowToTop();
   }
 
   resetFrom(districtForm:any) {

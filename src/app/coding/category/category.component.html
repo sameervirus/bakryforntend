@@ -4,28 +4,39 @@
       <div class="col-md-6">
         <!-- Form Element sizes -->
         <div class="card">
-            <div class="card-header ui-sortable-handle" style="cursor: move;">
+            <div class="card-header ui-sortable-handle">
               <h3 class="card-title">
                 <i class="ion ion-clipboard mr-1"></i>
                 Category List
               </h3>
+              <div class="card-tools">
+                <pagination-controls (pageChange)="p = $event" previousLabel=""
+                nextLabel=""></pagination-controls>
+              </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <ul *ngIf="categories && categories.length > 0" class="todo-list ui-sortable" data-widget="todo-list">
-                <li *ngFor="let category of categories">
-                  <span class="handle ui-sortable-handle">
-                    {{ category.code }} - 
-                  </span>
-                  <!-- todo text -->
-                  <span class="text">{{ category.name }} - {{ category.name_ar }}</span>
-                  <!-- Emphasis label -->
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    <i class="fas fa-edit" (click)="editCategory(category.id,category.name,category.name_ar, category.code)"></i>
-                  </div>
-                </li>
-              </ul>
+              <table *ngIf="categories && categories.length > 0" class="table table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 15%">Code</th>
+                    <th>Name</th>
+                    <th>Arabic</th>
+                    <th>Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let category of categories | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{ category.code }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.name_ar }}</td>
+                    <td><i class="fas fa-edit text-danger pointer" (click)="editCategory(category.id,category.name,category.name_ar, category.code)"></i></td>
+                  </tr>
+                  <tr *ngIf="categories && categories.length < 1">
+                    <td colspan="4"><h2>There is no Categories</h2></td>
+                  </tr>
+                </tbody>
+              </table>
               <p *ngIf="categories && categories.length < 1">There is no Categories</p>
               <p *ngIf="!categories"><i class="fas fa-spinner fa-spin"></i></p>
             </div>

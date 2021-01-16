@@ -11,7 +11,7 @@ import { AuthenticationService, LoaderService, NotificationService } from '../_s
 })
 export class LoginComponent implements OnInit {
 	
-	login = {username:'sameer', password:'sameer'}
+	login = {username:'admin', password:'admin'}
   constructor(
   	private route: ActivatedRoute,
     private router: Router,

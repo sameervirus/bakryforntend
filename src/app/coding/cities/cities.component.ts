@@ -10,6 +10,7 @@ import { CodingService, NotificationService } from '../../_services';
 export class CitiesComponent implements OnInit {
 
   cities:any;
+  p:number = 1;
   city = {id:0, name:'', name_ar:''};
   loading = false;
   isUpdate = false;

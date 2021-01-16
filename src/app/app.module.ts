@@ -6,9 +6,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { OrdersModule } from './orders/orders.module';
+import { UsersModule } from './users/users.module';
 // Plugin
 import {NgxPaginationModule} from 'ngx-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 // Services
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
@@ -34,6 +36,7 @@ import { DistributionsComponent } from './coding/distributions/distributions.com
 import { CarsComponent } from './coding/cars/cars.component';
 import { CitiesComponent } from './coding/cities/cities.component';
 import { DistrictsComponent } from './coding/districts/districts.component';
+import { PackingsComponent } from './coding/packings/packings.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,8 @@ import { DistrictsComponent } from './coding/districts/districts.component';
     CarsComponent,
     CitiesComponent,
     DistrictsComponent,
-    OnlynumberDirective
+    OnlynumberDirective,
+    PackingsComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +69,9 @@ import { DistrictsComponent } from './coding/districts/districts.component';
     BrowserAnimationsModule,
     NgxPaginationModule,
     NgSelectModule,
-    OrdersModule
+    OrdersModule,
+    UsersModule,
+    NgxPermissionsModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

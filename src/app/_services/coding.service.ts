@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +26,28 @@ export class CodingService {
     return this.http.get<any>('products', {observe : 'response'});
   }
 
+  addPacking(id:number, name:string, name_ar:string, code:string,
+    h:string, w:string, d:string, volume:string, weight:string, max_stock:string): Observable<any> {
+    if(id === 0 ) {
+      return this.http.post<any>('packings', {name: name, name_ar: name_ar, code:code,
+      h:h, w:w, d:d, volume:volume, weight:weight, max_stock:max_stock}, {observe : 'response'});
+    } else {
+      return this.http.put<any>('packings/' + id, {name: name, name_ar: name_ar, code:code,
+      h:h, w:w, d:d, volume:volume, weight:weight, max_stock:max_stock}, {observe : 'response'});
+    }
+    
+  }
+
+  getPacking(): Observable<any> {
+    return this.http.get<any>('packings', {observe : 'response'});
+  }
+
   addProduct(id:number, pool_code:string,code:string, category:number,name:string,
-    name_ar:string,price:string, vat:number, client_code:null) {
+    name_ar:string,price:string, vat:number, client_code:null,packing_qty:string,
+        net_weight:string,
+        packing_dim:string,
+        pieces:string,
+        packing_id:number) {
     if(id === 0 ) {
       return this.http.post<any>('products', {
         pool_code:pool_code,
@@ -36,7 +56,12 @@ export class CodingService {
         name:name,
         name_ar:name_ar,
         price:price,
-        vat:vat, client_code:client_code}, {observe : 'response'});
+        vat:vat, client_code:client_code,
+      packing_qty:packing_qty,
+        net_weight:net_weight,
+        packing_dim:packing_dim,
+        pieces:pieces,
+        packing_id:packing_id}, {observe : 'response'});
     } else {
       return this.http.put<any>('products/' + id,  {
         pool_code:pool_code,
@@ -45,7 +70,12 @@ export class CodingService {
         name:name,
         name_ar:name_ar,
         price:price,
-        vat:vat, client_code:client_code}, {observe : 'response'});
+        vat:vat, client_code:client_code,
+      packing_qty:packing_qty,
+        net_weight:net_weight,
+        packing_dim:packing_dim,
+        pieces:pieces,
+        packing_id:packing_id}, {observe : 'response'});
     }
   }
 
@@ -125,15 +155,15 @@ export class CodingService {
 
   addBranch(id:number,name:string, name_ar:string, due_period:string, close_time:string,
     client_id:number, city_id:number, district_id:number, distribution_id:number,
-    code:string, vat:boolean, opening:string,closing:string,address:string, phone:string): Observable<any> {
+    code:string, vat:boolean, opening:string,closing:string,address:string, phone:string, password:string): Observable<any> {
     if(id === 0 ) {
       return this.http.post<any>('branches', {name:name, name_ar:name_ar, due_period:due_period, close_time:close_time,
     client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id,
-    code:code, vat:vat, opening:opening,closing:closing, address:address, phone:phone}, {observe : 'response'});
+    code:code, vat:vat, opening:opening,closing:closing, address:address, phone:phone, password:password}, {observe : 'response'});
     } else {
       return this.http.put<any>('branches/' + id, {name:name, name_ar:name_ar, due_period:due_period, close_time:close_time,
     client_id:client_id, city_id:city_id, district_id:district_id, distribution_id:distribution_id,
-    code:code, vat:vat, opening:opening,closing:closing, address:address, phone:phone}, {observe : 'response'});
+    code:code, vat:vat, opening:opening,closing:closing, address:address, phone:phone, password:password}, {observe : 'response'});
     }
     
   }

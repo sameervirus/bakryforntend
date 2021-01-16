@@ -26,7 +26,7 @@ export class BranchesComponent implements OnInit {
 		city:0,
 		district:0,
     distribution:0,
-  code:'', vat:true, opening:'',closing:'', address:'', phone:''};
+  code:'', vat:true, opening:'',closing:'', address:'', phone:'', password:''};
 
   constructor(    
     private codingService : CodingService,
@@ -59,7 +59,7 @@ export class BranchesComponent implements OnInit {
       this.branch.district,
       this.branch.distribution,
       this.branch.code, this.branch.vat, this.branch.opening,this.branch.closing,
-      this.branch.address, this.branch.phone).subscribe(
+      this.branch.address, this.branch.phone, this.branch.password).subscribe(
       res => {
         if(this.isUpdate) {
           this.branches = res.body;

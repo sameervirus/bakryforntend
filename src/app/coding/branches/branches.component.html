@@ -104,6 +104,18 @@
                   placeholder="Arabic Name"
                   [(ngModel)]="branch.name_ar" #name_ar="ngModel">
               </div>
+              <div class="form-group">
+                <label for="password">Branch Password</label>
+                <input 
+                  type="password" 
+                  class="form-control" 
+                  id="password" 
+                  name="password"
+                  required minlength="6"
+                  placeholder="Minimum 6 characters"
+                  [(ngModel)]="branch.password" #password="ngModel"
+                  [class.is-invalid] = "password.invalid && (password.dirty || password.touched)">
+              </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <!-- text input -->

@@ -65,6 +65,47 @@
                 </a>
               </li> -->
             </ul>
+          </li>   
+          <li class="nav-item" [class.menu-open]="usersMenu">
+            <a (click)="changeView('users')" [class.active]="usersMenu" class="nav-link pointer">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Users Management
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview" [class.d-block]="usersSub">
+              <li class="nav-item">
+                <a [routerLink]="['/users']" [class.active]="usersComp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Users</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a [routerLink]="['/users/roles']" [class.active]="rolesComp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Roles</p>
+                </a>
+              </li>
+              <!-- <li class="nav-item">
+                <a [routerLink]="['/orders/history']" [class.active]="historyComp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Orders History</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a [routerLink]="['/orders/reviews']" [class.active]="reviewsComp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Orders Review</p>
+                </a>
+              </li> -->
+              <!-- <li class="nav-item">
+                <a href="assets/index3.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard v3</p>
+                </a>
+              </li> -->
+            </ul>
           </li>          
         </ul>
       </nav>

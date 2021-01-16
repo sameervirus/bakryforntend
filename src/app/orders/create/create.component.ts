@@ -35,7 +35,7 @@ export class CreateComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     localStorage.removeItem('cart');
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if(id) this.getCreateOrder(id);
@@ -47,7 +47,8 @@ export class CreateComponent implements OnInit {
   		this.branch = res.body.branch;
   		this.products = res.body.products;
   		this.orginProducts = res.body.products;
-  		this.productCategories = res.body.categories;
+      this.productCategories = res.body.categories;
+      this.productCategories.unshift({id:'0', name:'All Products'});
   		this.user = res.body.user;
       this.dueDate = res.body.due_date;
       this.addExistProduct(res.body.order_products);
@@ -55,11 +56,11 @@ export class CreateComponent implements OnInit {
   }
 
   addExistProduct(items:any) {
-    if(items.length > 0)
+    if(items !== undefined && items.length > 0)
       this.carts = _addExistProduct(items, this.carts);
   }
 
-  onSearchChange(e:any) {
+  onSearchChange(e:any) {    
     let str = e.target.value;
     this.products = this.orginProducts.filter((a:any) => (
                     a.name.includes(str) || 
@@ -69,8 +70,11 @@ export class CreateComponent implements OnInit {
   }
 
   onStatusChange(event:any) {
-  	this.products = event.products;
-  	this.orginProducts = event.products;
+    if(event && event.id != 0) {
+      this.products = this.orginProducts.filter((item:any) => item.category_id == event.id);
+    } else {
+      this.products = this.orginProducts;
+    }
   }
 
 

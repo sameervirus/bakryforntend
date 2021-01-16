@@ -10,6 +10,7 @@ import { CodingService, NotificationService } from '../../_services';
 export class CategoryComponent implements OnInit {
 
   categories:any;
+  p:number = 1;
   category = {id:0, name:'', name_ar:'', code:''};
   loading = false;
   isUpdate = false;

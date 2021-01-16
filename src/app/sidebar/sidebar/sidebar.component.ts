@@ -15,6 +15,10 @@ export class SidebarComponent implements OnInit {
 	reviewsComp:boolean = false;
 	historyComp:boolean = false;
 	user:any;
+  usersMenu:boolean = false;
+  usersSub:boolean = false;
+  usersComp:boolean = false;
+  rolesComp:boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router) { 
   	router.events.pipe(filter((event:any) => event instanceof NavigationEnd))
@@ -35,12 +39,21 @@ export class SidebarComponent implements OnInit {
   		case "orders":
   			if(this.ordersMenu) {
   				this.ordersMenu = false;
-  				this.ordersSub = false;
+  				this.ordersSub = false;          
   			} else {
   				this.ordersMenu = true;
   				this.ordersSub = true;
   			}  			
   			break;
+      case "users":
+        if (this.usersMenu) { 
+          this.usersMenu = false;
+          this.usersSub = false;
+        } else {
+          this.usersMenu = true;
+          this.usersSub = true;
+        }
+        break;
   		
   		default:
   			// code...
@@ -52,16 +65,25 @@ export class SidebarComponent implements OnInit {
   changeSide(url:string) {
   	if(url.includes("orders")) {
   		this.ordersMenu = true;
-		this.ordersSub = true;
+		  this.ordersSub = true;
   		this.activesComp = url.includes("actives") ? true : false;
   		this.reviewsComp = url.includes("reviews") ? true : false;
   		this.historyComp = url.includes("history") ? true : false;
+    } else if(url.includes("users")) {
+      this.usersMenu = true;
+      this.usersSub = true;
+      this.usersComp = url.endsWith("users") ? true : false;
+      this.rolesComp = url.includes("roles") ? true : false;
   	} else {
-		this.ordersMenu = false;
-		this.ordersSub = false; 
-		this.activesComp=false;
-		this.reviewsComp=false;
-		this.historyComp=false;
+  		this.ordersMenu = false;
+  		this.ordersSub = false; 
+  		this.activesComp=false;
+  		this.reviewsComp=false;
+  		this.historyComp=false;
+      this.usersMenu = false;
+      this.usersSub = false;
+      this.usersComp = false;
+      this.rolesComp = false;
   	}
   }
 

@@ -53,6 +53,10 @@ export class OrdersService {
     return this.http.post('update-approved-all', {orders}, {observe: 'response'});
   }
 
+  toProduction(orders:any): Observable<any> {
+    return this.http.post('orders-production', {orders}, {observe: 'response'});
+  }
+
   // Order History
   getOldOrders(): Observable<any> {
     return this.http.get('orders-history', {observe: 'response'});

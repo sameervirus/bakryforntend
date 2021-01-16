@@ -5,6 +5,7 @@ import { OrdersRoutingModule } from './orders-routing.module';
 // Plugin
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 import { ActivesComponent } from './actives/actives.component';
 import { CreateComponent } from './create/create.component';
@@ -21,10 +22,11 @@ import { HistoryComponent } from './history/history.component';
     CommonModule,
     OrdersRoutingModule,
     NgxPaginationModule,
-    NgSelectModule
+    NgSelectModule,
+    NgxPermissionsModule.forChild()
   ],
   exports: [
-  	ActivesComponent
+  	ActivesComponent, CreateComponent, ViewComponent, EditComponent, ReviewsComponent, HistoryComponent
   ]
 })
 export class OrdersModule { }

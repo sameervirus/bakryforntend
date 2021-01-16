@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
       <!-- left column -->
-      <div class="col-md-6">
+      <div class="col-md-8">
         <!-- Form Element sizes -->
         <div class="card">
             <div class="card-header ui-sortable-handle" style="cursor: move;">
@@ -9,24 +9,34 @@
                 <i class="ion ion-clipboard mr-1"></i>
                 City List
               </h3>
+              <div class="card-tools">
+                <pagination-controls (pageChange)="p = $event" previousLabel=""
+                nextLabel=""></pagination-controls>
+              </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <ul *ngIf="cities && cities.length > 0" class="todo-list ui-sortable" data-widget="todo-list">
-                <li *ngFor="let city of cities">
-                  <span class="handle ui-sortable-handle">
-                    {{ city.id }} - 
-                  </span>
-                  <!-- todo text -->
-                  <span class="text">{{ city.name }} - {{ city.name_ar }}</span>
-                  <!-- Emphasis label -->
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    <i class="fas fa-edit" (click)="editCity(city.id,city.name,city.name_ar)"></i>
-                  </div>
-                </li>
-              </ul>
-              <p *ngIf="cities && cities.length < 1">There is no Cities</p>
+              <table *ngIf="cities && cities.length > 0" class="table table-sm">
+                <thead>
+                  <tr>
+                    <th style="width: 15%">#</th>
+                    <th>Name</th>
+                    <th>Arabic</th>
+                    <th>Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let city of cities | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{ city.id }}</td>
+                    <td>{{ city.name }}</td>
+                    <td>{{ city.name_ar }}</td>
+                    <td><i class="fas fa-edit text-danger pointer" (click)="editCity(city.id,city.name,city.name_ar)"></i></td>
+                  </tr>
+                  <tr *ngIf="cities && cities.length < 1">
+                    <td colspan="4"><h2>There is no Cities</h2></td>
+                  </tr>
+                </tbody>
+              </table>
               <p *ngIf="!cities"><i class="fas fa-spinner fa-spin"></i></p>
             </div>
           </div>
@@ -34,7 +44,7 @@
       
       <!--/.col (left) -->
       <!-- right column -->
-      <div class="col-md-6">
+      <div class="col-md-4">
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">

@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+      <!-- Form Element sizes -->
+      <div class="card">
+          <div class="card-header ui-sortable-handle">
+            <h3 class="card-title">
+              <i class="ion ion-clipboard mr-1"></i>
+              Roles List
+            </h3>
+            <div class="card-tools">
+              <pagination-controls (pageChange)="p = $event" previousLabel=""
+              nextLabel=""></pagination-controls>              
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body p-0">
+            <p class="text-center" *ngIf="roles && roles.length < 1">There is no Roles</p>
+            <p *ngIf="!roles" class="text-center"><i class="fas fa-spinner fa-spin"></i></p>
+            <table *ngIf="roles && roles.length > 0" class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Arabic</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let role of roles | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <td>{{ role.name }}</td>
+                  <td>{{ role.arabic_name }}</td>
+                  <td><i class="fas fa-edit text-danger pointer" (click)="editRole(role.id,role.name,role.arabic_name,role.permissions)"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+    
+    <!--/.col (left) -->
+    <!-- right column -->
+    <div class="col-md-6">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Create New role</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="name">role*</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="name"
+                name="name" 
+                placeholder="English Name" 
+                required minlength="4"
+                [(ngModel)]="role.name" #name="ngModel"
+        	      [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
+            </div>
+            <div class="form-group">
+              <label for="name_ar">Arabic Name</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="name_ar" 
+                name="name_ar"
+                placeholder="Arabic Name"
+                [(ngModel)]="role.name_ar" #name_ar="ngModel">
+            </div>
+            <div class="row">
+                <label class="col-sm-12">Select Permissions</label>
+                <div *ngFor="let permission of permissions; let i = index" class="col-sm-4">
+                  <!-- checkbox -->
+                  <div class="form-group clearfix">
+                    <div class="icheck-primary d-inline">
+                      <input 
+                        type="checkbox" 
+                        name="permission"
+                        id="id_{{permission.id}}"
+                        [value]="permission.id"
+                        [checked]="permission.checked"
+                        (change)="onChangePermission($event, permission)"
+                      >
+                      <label for="id_{{permission.id}}">{{permission.name}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <!-- /.card-body -->
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="!roleForm.valid" [disabled]="loading">
+              <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i></span> Submit
+            </button>
+            <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(roleForm)"> Reset </button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->         
+    </div>
+    <!--/.col (right) -->
+  </div>
+  <!-- /.row -->
+</div>

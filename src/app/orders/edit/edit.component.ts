@@ -44,9 +44,10 @@ export class EditComponent implements OnInit {
   getOrderDetails(id:string) {
     this.ordersService.editOrderDetails(id).subscribe(res => {
       this.order = res.body.order;
-      this.products = res.body.products[0].products;
-  		this.orginProducts = res.body.products[0].products;
-      this.productCategories = res.body.products;
+      this.products = res.body.products;
+  		this.orginProducts = res.body.products;
+      this.productCategories = res.body.categories;
+      this.productCategories.unshift({id:'0', name:'All Products'});
       this.branch = res.body.branch;
       this.dueDate = res.body.order.due_date;
       this.addExistProduct(res.body.order_products);
@@ -69,8 +70,11 @@ export class EditComponent implements OnInit {
   }
 
   onStatusChange(event:any) {
-  	this.products = event.products;
-  	this.orginProducts = event.products;
+  	if(event && event.id != 0) {
+      this.products = this.orginProducts.filter((item:any) => item.category_id == event.id);
+    } else {
+      this.products = this.orginProducts;
+    }
   }
 
   addToCart(product:any, qtys:any) {

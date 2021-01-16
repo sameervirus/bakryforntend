@@ -17,14 +17,22 @@ export class ErrorInterceptor implements HttpInterceptor {
                 location.reload();
             }
 
-            // console.log(err.statusText);
-
-            this.notificationService.sendMessages(
-                err.statusText,
-                'error', 
-                true, 
-                {'text':'Ok'}, 
-            );
+            if(err.status === 403) {
+                this.notificationService.sendMessages(
+                    'You don\'t have permission to do this actions',
+                    'error', 
+                    true, 
+                    {'text':'Ok'}, 
+                );
+            } else {
+                // console.log(err.statusText);
+                this.notificationService.sendMessages(
+                    err.statusText,
+                    'error', 
+                    true, 
+                    {'text':'Ok'}, 
+                );
+            }
 
             //const error = err.error || err.statusText;
             return throwError(err);

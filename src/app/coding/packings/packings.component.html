@@ -1,0 +1,173 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+      <!-- Form Element sizes -->
+      <div class="card">
+          <div class="card-header ui-sortable-handle" style="cursor: move;">
+            <h3 class="card-title">
+              <i class="ion ion-clipboard mr-1"></i>
+              Packing List
+            </h3>
+            <div class="card-tools">
+              <pagination-controls (pageChange)="p = $event" previousLabel=""
+              nextLabel=""></pagination-controls>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table *ngIf="packings && packings.length > 0" class="table table-sm">
+              <thead>
+                <tr>
+                  <th style="width: 15%">Code</th>
+                  <th>Name</th>
+                  <th>Arabic</th>
+                  <th>HxWxD</th>
+                  <th>Volume</th>
+                  <th>Weight</th>
+                  <th>Max Stack</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let packing of packings | paginate: { itemsPerPage: 10, currentPage: p }">
+                  <td>{{ packing.code }}</td>
+                  <td>{{ packing.name }}</td>
+                  <td>{{ packing.name_ar }}</td>
+                  <td>{{ packing.h }}x{{ packing.w }}x{{ packing.d }}</td>
+                  <td>{{ packing.volume }}</td>
+                  <td>{{ packing.weight }}</td>
+                  <td>{{ packing.max_stock }}</td>
+                  <td><i class="fas fa-edit text-danger pointer" (click)="editPacking(packing.id,packing.name,packing.name_ar, packing.code, packing.h, packing.w, packing.d, packing.volume, packing.weight, packing.max_stock)"></i></td>
+                </tr>
+                <tr *ngIf="packings && packings.length < 1">
+                  <td colspan="4"><h2>There is no Packings</h2></td>
+                </tr>
+              </tbody>
+            </table>
+            <p *ngIf="packings && packings.length < 1">There is no Packings</p>
+            <p *ngIf="!packings"><i class="fas fa-spinner fa-spin"></i></p>
+          </div>
+        </div>
+    </div>
+    
+    <!--/.col (left) -->
+    <!-- right column -->
+    <div class="col-md-6">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Create New Packing</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form #packingForm="ngForm" (ngSubmit)="onSubmit(packingForm)">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="code">Code*</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="code"
+                name="code" 
+                required minlength="4"
+                [(ngModel)]="packing.code" #code="ngModel"
+        	      [class.is-invalid] = "code.invalid && (code.dirty || code.touched)">
+            </div>
+            <div class="form-group">
+              <label for="name">Packing*</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="name"
+                name="name" 
+                placeholder="English Name" 
+                required minlength="4"
+                [(ngModel)]="packing.name" #name="ngModel"
+        	      [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
+            </div>
+            <div class="form-group">
+              <label for="name_ar">Arabic Name</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="name_ar" 
+                name="name_ar"
+                placeholder="Arabic Name"
+                [(ngModel)]="packing.name_ar" #name="ngModel">
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Height</label>
+                        <input type="text" class="form-control" name="h"
+                        [(ngModel)]="packing.h" #h="ngModel"
+                        >
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Weight</label>
+                        <input type="text" class="form-control" name="w"
+                        [(ngModel)]="packing.w" #w="ngModel"
+                        >
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Dipth</label>
+                        <input type="text" class="form-control" name="d"
+                        [(ngModel)]="packing.d" #d="ngModel"
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Volume</label>
+                        <input type="text" class="form-control" name="volume"
+                        [(ngModel)]="packing.volume" #volume="ngModel"
+                        >
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Weight</label>
+                        <input type="text" class="form-control" name="weight"
+                        [(ngModel)]="packing.weight" #weight="ngModel"
+                        >
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>Max Stack</label>
+                        <input type="text" class="form-control" name="max_stock"
+                        [(ngModel)]="packing.max_stock" #max_stock="ngModel"
+                        >
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="!packingForm.valid" [disabled]="loading">
+              <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i></span> Submit
+            </button>
+            <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(packingForm)"> Reset </button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->         
+    </div>
+    <!--/.col (right) -->
+  </div>
+  <!-- /.row -->
+</div>

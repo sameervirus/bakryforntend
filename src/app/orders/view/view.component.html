@@ -65,7 +65,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let product of products">
-              <td>{{ product.code }}</td>
+              <td>{{ product.client_code ? product.client_code : product.code }}</td>
               <td>{{ product.name }}</td>
               <td>{{ product.arabic_name }}</td>
               <td>{{ product.qty }}</td>

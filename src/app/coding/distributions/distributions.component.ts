@@ -11,6 +11,7 @@ export class DistributionsComponent implements OnInit {
 
   distributions:any;
   districts:any;
+  p:number = 1;
   distribution = {id:0, name:'', name_ar:'', code:'', district:0};
   loading = false;
   isUpdate = false;

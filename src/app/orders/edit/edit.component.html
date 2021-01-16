@@ -50,21 +50,21 @@
                 <div class="col-sm-4">
                     <input type="text" class="form-control" (input)="onSearchChange($event)" placeholder="Search">
                 </div>
-                <div class="col-sm-8">
-                    <form class="form-horizontal">
-                      <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Choose Category</label>
-                    <div class="col-sm-8">
-                        <ng-select [items]="productCategories"
-                                   bindLabel="name"
-                                   bindValue="id"
-                                   placeholder="Choose Category"
-                                   (change)="onStatusChange($event)">
-                        </ng-select>
-                    </div>
-                  </div>
-                </form>
-                </div>            		
+                <div class="col-sm-5 offset-3">
+            			<form class="form-horizontal">
+	              		<div class="form-group row">
+	                    <label class="col-sm-4 col-form-label">Choose Category</label>
+	                    <div class="col-sm-8">
+												<ng-select [items]="productCategories"
+												           bindLabel="name"
+												           bindValue="id"
+												           placeholder="Choose Category"
+												           (change)="onStatusChange($event)">
+												</ng-select>
+	                    </div>
+	                  </div>
+	                </form>
+            		</div>            		
             </div>
           <table class="table table-striped">
             <thead>
@@ -83,7 +83,7 @@
               <td>{{ product.name }}</td>
               <td>{{ product.name_ar }}</td>
               <td>{{ product.price }}</td>
-              <td><input 
+              <td style="width: 10%;"><input 
                       type="number"
                       class="form-control"
                       min="1"
