@@ -1,0 +1,276 @@
+<div *ngIf="user" class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- Profile Image -->
+      <div class="card card-primary card-outline">
+        <div class="card-body box-profile">
+
+          <h3 class="profile-username text-center">{{ user.name }}</h3>
+          <h3 class="profile-username text-center">{{ user.name_ar }}</h3>
+
+          <p class="text-muted text-center">{{ user.title }} - {{ user.title_ar }}</p>
+
+          <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item">
+              Client
+              <a class="float-right"
+                ><b>{{ user.client }}</b></a
+              >
+            </li>
+            <li class="list-group-item">
+              Branch
+              <a class="float-right"
+                ><b>{{ user.branch }}</b></a
+              >
+            </li>
+          </ul>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+      <!-- About Me Box -->
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">About Me</h3>
+        </div>
+        <!-- /.card-header -->
+
+        <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name">Name*</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="English Name"
+                    required
+                    minlength="4"
+                    [(ngModel)]="user.name"
+                    #name="ngModel"
+                    [class.is-invalid]="
+                      name.invalid && (name.dirty || name.touched)
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name_ar">Arabic Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name_ar"
+                    name="name_ar"
+                    placeholder="Arabic Name"
+                    [(ngModel)]="user.name_ar"
+                    #name="ngModel"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Email *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    required
+                    [(ngModel)]="user.email"
+                    #email="ngModel"
+                    [class.is-invalid]="
+                      email.invalid && (email.dirty || email.touched)
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Username *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    required
+                    [(ngModel)]="user.username"
+                    #username="ngModel"
+                    minlength="5"
+                    [class.is-invalid]="
+                      username.invalid && (username.dirty || username.touched)
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+            <div *ngxPermissionsOnly="['change branch']" class="row">
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Branch *</label>
+                  <select
+                    *ngIf="branches"
+                    name="branch"
+                    class="form-control"
+                    required
+                    [(ngModel)]="user.branch_id"
+                    #branch="ngModel"
+                    [class.is-invalid]="
+                      branch.invalid && (branch.dirty || branch.touched)
+                    "
+                  >
+                    <option *ngFor="let b of branches" [value]="b.id">
+                      {{ b.name }}
+                    </option>
+                  </select>
+                  <p *ngIf="!branches">No branch</p>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Branch Password *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="branch_pass"
+                    required
+                    [(ngModel)]="user.branch_pass"
+                    #branch_pass="ngModel"
+                    minlength="5"
+                    [class.is-invalid]="
+                      branch_pass.invalid &&
+                      (branch_pass.dirty || branch_pass.touched)
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="title"
+                    [(ngModel)]="user.title"
+                    #title="ngModel"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Title Arabic</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="title_ar"
+                    [(ngModel)]="user.title_ar"
+                    #title_ar="ngModel"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Mobile1</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="mobile1"
+                    [(ngModel)]="user.mobile1"
+                    #mobile1="ngModel"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label>Mobile2</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="mobile2"
+                    [(ngModel)]="user.mobile2"
+                    #mobile2="ngModel"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label>Landline</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="landline"
+                    [(ngModel)]="user.landline"
+                    #landline="ngModel"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    [(ngModel)]="user.password"
+                    #password="ngModel"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Confirm Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password_confirmation"
+                    [(ngModel)]="user.password_confirmation"
+                    #password_confirmation="ngModel"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+
+          <div class="card-footer">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!userForm.valid"
+              [disabled]="loading"
+            >
+              <span *ngIf="loading"
+                ><i class="fas fa-spinner fa-spin"></i
+              ></span>
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</div>

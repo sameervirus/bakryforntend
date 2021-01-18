@@ -11,18 +11,67 @@ import { ReviewsComponent } from './reviews/reviews.component';
 import { HistoryComponent } from './history/history.component';
 
 const routes: Routes = [
-  { path: '', component: ActivesComponent, canActivate: [AuthGuard] },
-  { path: 'create', component: CreateComponent, canActivate: [AuthGuard] },
-  { path: 'create/:id', component: CreateComponent, canActivate: [AuthGuard] },
-  { path: 'actives', component: ActivesComponent, canActivate: [AuthGuard] },
-  { path: 'view/:id', component: ViewComponent, canActivate: [AuthGuard] },
-  { path: 'edit/:id', component: EditComponent, canActivate: [AuthGuard] },
-  { path: 'reviews', component: ReviewsComponent, canActivate: [AuthGuard] },
-  { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] },
+	{ path: '', component: ActivesComponent, canActivate: [AuthGuard] },
+	{
+		path: 'create',
+		component: CreateComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Create Orders',
+		},
+	},
+	{
+		path: 'create/:id',
+		component: CreateComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Edit Orders',
+		},
+	},
+	{
+		path: 'actives',
+		component: ActivesComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Actives Orders',
+		},
+	},
+	{
+		path: 'view/:id',
+		component: ViewComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'View Orders',
+		},
+	},
+	{
+		path: 'edit/:id',
+		component: EditComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Edit Orders',
+		},
+	},
+	{
+		path: 'reviews',
+		component: ReviewsComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Review Orders',
+		},
+	},
+	{
+		path: 'history',
+		component: HistoryComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Orders History',
+		},
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class OrdersRoutingModule { }
+export class OrdersRoutingModule {}

@@ -12,14 +12,17 @@ export class UsersComponent implements OnInit {
   users:any;
   usersOrigin:any;
   clients:any;
+  roles:any;
+  rolesOrigin:any;
   branches:any = [];
   p:number = 1;
   user = {id:0, name: '', name_ar: '', email: '', username: '', password: '', branch_id: 0, 
           division_id: 0, mobile1: '', mobile2: '', landline: '', title: '', 
-          title_ar: '', password_confirmation:'', client_id: 0
+          title_ar: '', password_confirmation:'', client_id:999, role: 0
       };
   loading = false;
   isUpdate = false;
+  isClient = false;
   
   constructor(
     private usersService : UsersService,
@@ -35,15 +38,23 @@ export class UsersComponent implements OnInit {
       this.users = res.body.result.users;
       this.usersOrigin = res.body.result.users;
       this.clients = res.body.result.clients;
+      if(res.body.result.permission != 'all') {
+        this.branches = res.body.result.clients[0].branches;
+        this.isClient = true;
+      }
+      this.roles = res.body.result.roles;
+      this.rolesOrigin = res.body.result.roles;
     });
   }
 
   onClientChange(e:any) {
-    console.log(e)
     if(e) {
       this.user.client_id = e.id;
       this.branches = e.branches;
+      this.user.branch_id = e.branches[0].id;
+      this.roles = this.rolesOrigin.filter((item:any) => item.client_id == e.id);
     } else {
+      this.roles = this.rolesOrigin;
       this.branches = [];
     }
   }
@@ -62,7 +73,7 @@ export class UsersComponent implements OnInit {
     		this.user.id, this.user.name, this.user.name_ar, this.user.email, this.user.username,
     		this.user.password, this.user.branch_id, this.user.branch_id, this.user.mobile1,
     		this.user.mobile2, this.user.landline, this.user.title, this.user.title_ar, 
-    		this.user.password_confirmation, this.user.client_id
+    		this.user.password_confirmation, this.user.client_id, this.user.role
     	).subscribe(
       res => {
         if(this.isUpdate) {
@@ -94,7 +105,9 @@ export class UsersComponent implements OnInit {
 
   editUser(id:number, name: string, name_ar: string, email: string, username: string, 
           branch_id: number, division_id: number, mobile1: string,
-          mobile2: string, landline: string, title: string, title_ar: string, client_id:number) {
+          mobile2: string, landline: string, title: string, title_ar: string, client_id:number, role:number) {
+    let client = this.clients.filter((item:any) => item.id == client_id);
+    this.branches = client[0].branches;
     this.isUpdate = true;
     this.user.id = id;
     this.user.name = name;
@@ -109,6 +122,7 @@ export class UsersComponent implements OnInit {
     this.user.landline = landline;
     this.user.title = title;
     this.user.title_ar = title_ar;
+    this.user.role = role;
   }
 
   resetFrom(userForm:any) {

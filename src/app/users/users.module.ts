@@ -10,9 +10,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { RolesComponent } from './roles/roles.component';
 import { UsersComponent } from './users/users.component';
+import { ProfileComponent } from './profile/profile.component';
+import { BranchesComponent } from './branches/branches.component';
 
 @NgModule({
-  declarations: [RolesComponent, UsersComponent],
+  declarations: [RolesComponent, UsersComponent, ProfileComponent, BranchesComponent],
   imports: [
   	FormsModule,
     CommonModule,

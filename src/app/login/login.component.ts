@@ -12,6 +12,7 @@ import { AuthenticationService, LoaderService, NotificationService } from '../_s
 export class LoginComponent implements OnInit {
 	
 	login = {username:'admin', password:'admin'}
+  user:any;
   constructor(
   	private route: ActivatedRoute,
     private router: Router,
@@ -30,9 +31,26 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
           next: () => {
+              let direction = '/';
+              this.user = (JSON.parse(localStorage.getItem('currentUser')!)).user;
+              if (this.user) {
+                if(this.user.client == 0) {
+                  if(this.user.permissions.includes('review orders')) {
+                    direction = '/orders/reviews';
+                  } else {
+                    direction = '/coding';
+                  }
+                } else {
+                  if(this.user.permissions.includes('orders')) {
+                    direction = '/orders/actives';
+                  } else {
+                    direction = '/users';
+                  }
+                }
+              }
           		this.loaderService.display(false);
               // get return url from route parameters or default to '/'
-              const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+              const returnUrl = this.route.snapshot.queryParams['returnUrl'] || direction;
               this.router.navigate([returnUrl]);
               this.notificationService.sendMessages(
                 `You're logged in!`,

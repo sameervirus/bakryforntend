@@ -1,115 +1,185 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4"  style="min-height: 1000px;">
-    <!-- Brand Logo -->
-    <a href="/" class="brand-link">
-      <img src="assets/phpI4rSko.png" alt="EBS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">EBS Ordering System</span>
-    </a>
+<aside
+  class="main-sidebar sidebar-dark-primary elevation-4"
+  style="min-height: 1000px"
+>
+  <!-- Brand Logo -->
+  <a href="/" class="brand-link">
+    <img
+      src="assets/phpI4rSko.png"
+      alt="EBS Logo"
+      class="brand-image img-circle elevation-3"
+      style="opacity: 0.8"
+    />
+    <span class="brand-text font-weight-light">EBS Ordering System</span>
+  </a>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <!-- <div class="image">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <!-- <div class="image">
           <img src="assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div> -->
-        <div class="info">
-          <a href="#" class="d-block">{{ user?.name }}</a>
-        </div>
+      <div class="info">
+        <a [routerLink]="['/users/profile']" class="d-block">{{ user?.name }}</a>
       </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a routerLink="/coding" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Coding
-              </p>
-            </a>
-          </li>
-          <li class="nav-item" [class.menu-open]="ordersMenu">
-            <a (click)="changeView('orders')" [class.active]="ordersMenu" class="nav-link pointer">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Orders
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview" [class.d-block]="ordersSub">
-              <li class="nav-item">
-                <a [routerLink]="['/orders/actives']" [class.active]="activesComp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Orders</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a [routerLink]="['/orders/history']" [class.active]="historyComp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Orders History</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a [routerLink]="['/orders/reviews']" [class.active]="reviewsComp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Orders Review</p>
-                </a>
-              </li>
-              <!-- <li class="nav-item">
-                <a href="assets/index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li> -->
-            </ul>
-          </li>   
-          <li class="nav-item" [class.menu-open]="usersMenu">
-            <a (click)="changeView('users')" [class.active]="usersMenu" class="nav-link pointer">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Users Management
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview" [class.d-block]="usersSub">
-              <li class="nav-item">
-                <a [routerLink]="['/users']" [class.active]="usersComp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Users</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a [routerLink]="['/users/roles']" [class.active]="rolesComp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Roles</p>
-                </a>
-              </li>
-              <!-- <li class="nav-item">
-                <a [routerLink]="['/orders/history']" [class.active]="historyComp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Orders History</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a [routerLink]="['/orders/reviews']" [class.active]="reviewsComp" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Orders Review</p>
-                </a>
-              </li> -->
-              <!-- <li class="nav-item">
-                <a href="assets/index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li> -->
-            </ul>
-          </li>          
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
-  </aside>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+        <li *ngxPermissionsOnly="['coding']" class="nav-item">
+          <a 
+            (click)="changeView('coding')"
+            [class.active]="codingMenu"
+            routerLink="/coding" class="nav-link">
+            <i class="nav-icon far fa-image"></i>
+            <p>Coding</p>
+          </a>
+        </li>
+        <li          
+          class="nav-item"
+          [class.menu-open]="ordersMenu"
+        >
+          <a
+            (click)="changeView('orders')"
+            [class.active]="ordersMenu"
+            class="nav-link pointer"
+          >
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Orders
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" [class.d-block]="ordersSub">
+            <li class="nav-item">
+              <a
+                *ngxPermissionsOnly="['orders']"
+                [routerLink]="['/orders/actives']"
+                [class.active]="activesComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Active Orders</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                *ngxPermissionsOnly="['orders']"
+                [routerLink]="['/orders/history']"
+                [class.active]="historyComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Orders History</p>
+              </a>
+            </li>
+            <li *ngxPermissionsOnly="['review orders']" class="nav-item">
+              <a
+                [routerLink]="['/orders/reviews']"
+                [class.active]="reviewsComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Orders Review</p>
+              </a>
+            </li>
+            <!-- <li class="nav-item">
+                <a href="assets/index3.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard v3</p>
+                </a>
+              </li> -->
+          </ul>
+        </li>
+        <li class="nav-item" [class.menu-open]="usersMenu">
+          <a
+            (click)="changeView('users')"
+            [class.active]="usersMenu"
+            class="nav-link pointer"
+          >
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              Users Management
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" [class.d-block]="usersSub">
+            <li class="nav-item">
+              <a
+                [routerLink]="['/users/profile']"
+                [class.active]="profileComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Profile</p>
+              </a>
+            </li>
+            <li
+              *ngxPermissionsOnly="['manage all users', 'manage users']"
+              class="nav-item"
+            >
+              <a
+                [routerLink]="['/users']"
+                [class.active]="usersComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Users</p>
+              </a>
+            </li>
+            <li *ngxPermissionsOnly="['manage roles']" class="nav-item">
+              <a
+                [routerLink]="['/users/roles']"
+                [class.active]="rolesComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Roles</p>
+              </a>
+            </li>
+            <li *ngxPermissionsOnly="['branches password']" class="nav-item">
+              <a
+                [routerLink]="['/users/branches']"
+                [class.active]="branchesComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Branches</p>
+              </a>
+            </li>
+            <!-- <li class="nav-item">
+                <a [routerLink]="['/orders/history']" [class.active]="historyComp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Orders History</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a [routerLink]="['/orders/reviews']" [class.active]="reviewsComp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Orders Review</p>
+                </a>
+              </li> -->
+            <!-- <li class="nav-item">
+                <a href="assets/index3.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard v3</p>
+                </a>
+              </li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

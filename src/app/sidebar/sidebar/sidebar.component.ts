@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +10,8 @@ import { filter } from 'rxjs/operators';
 })
 export class SidebarComponent implements OnInit {
 
-	ordersMenu:boolean = false;
+	codingMenu:boolean = false;
+  ordersMenu:boolean = false;
 	ordersSub:boolean = false;
 	activesComp:boolean = false;
 	reviewsComp:boolean = false;
@@ -19,8 +21,14 @@ export class SidebarComponent implements OnInit {
   usersSub:boolean = false;
   usersComp:boolean = false;
   rolesComp:boolean = false;
+  profileComp:boolean = false;
+  branchesComp:boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) { 
+  constructor(
+    private route: ActivatedRoute,
+    private permissionsService: NgxPermissionsService,
+    private router: Router
+    ) { 
   	router.events.pipe(filter((event:any) => event instanceof NavigationEnd))
           .subscribe((event:any) => 
            {               
@@ -30,13 +38,25 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	  if(localStorage.getItem('currentUser'))
+	  if(localStorage.getItem('currentUser')) {
 	  	this.user = (JSON.parse(localStorage.getItem('currentUser')!)).user;
+      const perm = this.user.permissions;
+      this.permissionsService.loadPermissions(perm);
+    }
   }
 
   changeView(item:string) {
   	switch (item) {
-  		case "orders":
+  		case "coding":
+        this.tabsClose();
+        if(this.codingMenu) {
+          this.codingMenu = false;       
+        } else {
+          this.codingMenu = true;
+        }        
+        break;
+      case "orders":
+        this.tabsClose();
   			if(this.ordersMenu) {
   				this.ordersMenu = false;
   				this.ordersSub = false;          
@@ -46,6 +66,7 @@ export class SidebarComponent implements OnInit {
   			}  			
   			break;
       case "users":
+        this.tabsClose();
         if (this.usersMenu) { 
           this.usersMenu = false;
           this.usersSub = false;
@@ -63,28 +84,41 @@ export class SidebarComponent implements OnInit {
   }
 
   changeSide(url:string) {
-  	if(url.includes("orders")) {
+  	if(url.includes("coding")) {
+      this.codingMenu = true;
+    } else if(url.includes("orders")) {
+      this.tabsClose();
   		this.ordersMenu = true;
 		  this.ordersSub = true;
   		this.activesComp = url.includes("actives") ? true : false;
   		this.reviewsComp = url.includes("reviews") ? true : false;
   		this.historyComp = url.includes("history") ? true : false;
     } else if(url.includes("users")) {
+      this.tabsClose();
       this.usersMenu = true;
       this.usersSub = true;
       this.usersComp = url.endsWith("users") ? true : false;
       this.rolesComp = url.includes("roles") ? true : false;
+      this.profileComp = url.includes("profile") ? true : false;
+      this.branchesComp = url.includes("branches") ? true : false;
   	} else {
-  		this.ordersMenu = false;
-  		this.ordersSub = false; 
-  		this.activesComp=false;
-  		this.reviewsComp=false;
-  		this.historyComp=false;
-      this.usersMenu = false;
-      this.usersSub = false;
-      this.usersComp = false;
-      this.rolesComp = false;
+      this.tabsClose();
   	}
+  }
+
+  tabsClose() {
+    this.codingMenu = false;
+    this.ordersMenu = false;
+    this.ordersSub = false;
+    this.activesComp = false;
+    this.reviewsComp = false;
+    this.historyComp = false;
+    this.usersMenu = false;
+    this.usersSub = false;
+    this.usersComp = false;
+    this.rolesComp = false;
+    this.profileComp = false;
+    this.branchesComp = false;
   }
 
 }

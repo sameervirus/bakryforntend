@@ -1,108 +1,158 @@
 <div class="container-fluid">
-    <div class="row">
-      <!-- left column -->
-      <div class="col-md-6">
-        <!-- Form Element sizes -->
-        <div class="card">
-            <div class="card-header ui-sortable-handle">
-              <h3 class="card-title">
-                <i class="ion ion-clipboard mr-1"></i>
-                Category List
-              </h3>
-              <div class="card-tools">
-                <pagination-controls (pageChange)="p = $event" previousLabel=""
-                nextLabel=""></pagination-controls>
-              </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table *ngIf="categories && categories.length > 0" class="table table-sm">
-                <thead>
-                  <tr>
-                    <th style="width: 15%">Code</th>
-                    <th>Name</th>
-                    <th>Arabic</th>
-                    <th>Edit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let category of categories | paginate: { itemsPerPage: 10, currentPage: p }">
-                    <td>{{ category.code }}</td>
-                    <td>{{ category.name }}</td>
-                    <td>{{ category.name_ar }}</td>
-                    <td><i class="fas fa-edit text-danger pointer" (click)="editCategory(category.id,category.name,category.name_ar, category.code)"></i></td>
-                  </tr>
-                  <tr *ngIf="categories && categories.length < 1">
-                    <td colspan="4"><h2>There is no Categories</h2></td>
-                  </tr>
-                </tbody>
-              </table>
-              <p *ngIf="categories && categories.length < 1">There is no Categories</p>
-              <p *ngIf="!categories"><i class="fas fa-spinner fa-spin"></i></p>
-            </div>
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+      <!-- Form Element sizes -->
+      <div class="card">
+        <div class="card-header ui-sortable-handle">
+          <h3 class="card-title">
+            <i class="ion ion-clipboard mr-1"></i>
+            Category List
+          </h3>
+          <div class="card-tools">
+            <pagination-controls
+              (pageChange)="p = $event"
+              previousLabel=""
+              nextLabel=""
+            ></pagination-controls>
           </div>
-      </div>
-      
-      <!--/.col (left) -->
-      <!-- right column -->
-      <div class="col-md-6">
-        <!-- general form elements -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Create New Category</h3>
-          </div>
-          <!-- /.card-header -->
-          <!-- form start -->
-          <form #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
-            <div class="card-body">
-              <div class="form-group">
-                <label for="code">Code*</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="code"
-                  name="code" 
-                  placeholder="English Name" 
-                  required minlength="4"
-                  [(ngModel)]="category.code" #code="ngModel"
-          	      [class.is-invalid] = "code.invalid && (code.dirty || code.touched)">
-              </div>
-              <div class="form-group">
-                <label for="name">Category*</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="name"
-                  name="name" 
-                  placeholder="English Name" 
-                  required minlength="4"
-                  [(ngModel)]="category.name" #name="ngModel"
-          	      [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
-              </div>
-              <div class="form-group">
-                <label for="name_ar">Arabic Name</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="name_ar" 
-                  name="name_ar"
-                  placeholder="Arabic Name"
-                  [(ngModel)]="category.name_ar" #name="ngModel">
-              </div>
-            </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary" [disabled]="!categoryForm.valid" [disabled]="loading">
-                <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i></span> Submit
-              </button>
-              <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(categoryForm)"> Reset </button>
-            </div>
-          </form>
         </div>
-        <!-- /.card -->         
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table
+            *ngIf="categories && categories.length > 0"
+            class="table table-sm"
+          >
+            <thead>
+              <tr>
+                <th style="width: 15%">Code</th>
+                <th>Name</th>
+                <th>Arabic</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let category of categories
+                    | paginate: { itemsPerPage: 10, currentPage: p }
+                "
+              >
+                <td>{{ category.code }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.name_ar }}</td>
+                <td>
+                  <i
+                    class="fas fa-edit text-danger pointer"
+                    (click)="
+                      editCategory(
+                        category.id,
+                        category.name,
+                        category.name_ar,
+                        category.code
+                      )
+                    "
+                  ></i>
+                </td>
+              </tr>
+              <tr *ngIf="categories && categories.length < 1">
+                <td colspan="4"><h2>There is no Categories</h2></td>
+              </tr>
+            </tbody>
+          </table>
+          <p *ngIf="categories && categories.length < 1">
+            There is no Categories
+          </p>
+          <p *ngIf="!categories"><i class="fas fa-spinner fa-spin"></i></p>
+        </div>
       </div>
-      <!--/.col (right) -->
     </div>
-    <!-- /.row -->
+
+    <!--/.col (left) -->
+    <!-- right column -->
+    <div class="col-md-6">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Create New Category</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="code">Code*</label>
+              <input
+                type="text"
+                class="form-control"
+                id="code"
+                name="code"
+                placeholder="English Name"
+                required
+                [(ngModel)]="category.code"
+                #code="ngModel"
+                [class.is-invalid]="
+                  code.invalid && (code.dirty || code.touched)
+                "
+              />
+            </div>
+            <div class="form-group">
+              <label for="name">Category*</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                placeholder="English Name"
+                required
+                minlength="4"
+                [(ngModel)]="category.name"
+                #name="ngModel"
+                [class.is-invalid]="
+                  name.invalid && (name.dirty || name.touched)
+                "
+              />
+            </div>
+            <div class="form-group">
+              <label for="name_ar">Arabic Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name_ar"
+                name="name_ar"
+                placeholder="Arabic Name"
+                [(ngModel)]="category.name_ar"
+                #name="ngModel"
+              />
+            </div>
+          </div>
+          <!-- /.card-body -->
+
+          <div class="card-footer">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!categoryForm.valid"
+              [disabled]="loading"
+            >
+              <span *ngIf="loading"
+                ><i class="fas fa-spinner fa-spin"></i
+              ></span>
+              Submit
+            </button>
+            <button
+              *ngIf="isUpdate"
+              class="btn btn-info float-right"
+              (click)="resetFrom(categoryForm)"
+            >
+              Reset
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!--/.col (right) -->
   </div>
+  <!-- /.row -->
+</div>

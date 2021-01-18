@@ -16,7 +16,7 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <div class="row">
+            <div *ngIf="users && !isClient" class="row">
               <div class="col-sm-6 offset-6">
                 <form class="form-horizontal">
                   <div class="form-group row">
@@ -35,7 +35,6 @@
             <table *ngIf="users && users.length > 0" class="table table-sm">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Name</th>
                   <th>Username</th>
                   <th>Client</th>
@@ -43,14 +42,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of users | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
-                  <td>{{ i }}</td>
+                <tr *ngFor="let user of users | paginate: { itemsPerPage: 10, currentPage: p }">
                   <td>{{ user.name }}</td>
                   <td>{{ user.username }}</td>
                   <td>{{ user.client }}</td>
                   <td>{{ user.branch }}</td>
                   <td><i class="fas fa-edit text-danger pointer" 
-                  	(click)="editUser(user.id, user.name, user.name_ar, user.email, user.username, user.branch_id, user.division_id, user.mobile1, user.mobile2, user.landline, user.title, user.title_ar, user.client_id)"></i></td>
+                  	(click)="editUser(user.id, user.name, user.name_ar, user.email, user.username, user.branch_id, user.division_id, user.mobile1, user.mobile2, user.landline, user.title, user.title_ar, user.client_id, user.role)"></i></td>
                 </tr>
                 <tr *ngIf="users && users.length < 1">
                   <td colspan="4"><h2>There is no Users</h2></td>
@@ -118,7 +116,7 @@
                 <div class="form-group">
                     <label>Username *</label>
                     <input type="text" class="form-control" name="username" required
-                    [(ngModel)]="user.username" #username="ngModel" minlength="8" 
+                    [(ngModel)]="user.username" #username="ngModel" minlength="5" 
                     [class.is-invalid] = "username.invalid && (username.dirty || username.touched)">
                 </div>
               </div>
@@ -144,10 +142,11 @@
                   <div class="form-group">
                       <label>Branch *</label>
                       <select *ngIf="branches" name="branch" class="form-control"
-                              required [(ngModel)]="user.branch_id" #branch="ngModel" >
+                              required [(ngModel)]="user.branch_id" #branch="ngModel" 
+                              [class.is-invalid] = "branch.invalid && (branch.dirty || branch.touched)">
                           <option *ngFor="let b of branches" [value]="b.id">{{b.name}}</option>
                       </select>
-                      <p *ngIf="!branches"><i class="fas fa-spinner fa-spin"></i></p>
+                      <p *ngIf="!branches">No branch</p>
                   </div>
               </div>
             </div>
@@ -209,6 +208,20 @@
                     <label>Confirm Password</label>
                     <input type="password" class="form-control" name="password_confirmation"
                     [(ngModel)]="user.password_confirmation" #password_confirmation="ngModel">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <!-- text input -->
+                <div class="form-group">
+                    <label>Select Role</label>
+                    <select *ngIf="roles" name="role" class="form-control"
+                            [(ngModel)]="user.role" #role="ngModel" >
+                        <option>Select Role</option>
+                        <option *ngFor="let r of roles" [value]="r.id">{{r.name}}</option>
+                    </select>
+                    <p *ngIf="!roles"><i class="fas fa-spinner fa-spin"></i></p>
                 </div>
               </div>
             </div>
