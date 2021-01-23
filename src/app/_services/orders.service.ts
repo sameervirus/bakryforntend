@@ -41,25 +41,38 @@ export class OrdersService {
   }
 
   // Reviews Orders
-  getOrdersProducts(): Observable<any> {
-    return this.http.get('orders-products', {observe: 'response'});
+  getOrdersProducts(selectedDate:any): Observable<any> {
+    return this.http.get('orders-products/' + selectedDate, {observe: 'response'});
   }
 
-  updateOrderApproved(product:number,order:number, qty:number): Observable<any> {
-    return this.http.post('update-approved', {product,order,qty},{observe: 'response'});
-  }
-
-  approveAll(orders:any): Observable<any> {
-    return this.http.post('update-approved-all', {orders}, {observe: 'response'});
+  updateOrderApproved(product:number,order:number, qty:number, type:string): Observable<any> {
+    return this.http.post('update-approved', {product,order,qty,type},{observe: 'response'});
   }
 
   toProduction(orders:any): Observable<any> {
     return this.http.post('orders-production', {orders}, {observe: 'response'});
   }
 
+  toDispatch(orders:any): Observable<any> {
+    return this.http.post('orders-dispatch', {orders}, {observe: 'response'});
+  }
+
   // Order History
   getOldOrders(): Observable<any> {
     return this.http.get('orders-history', {observe: 'response'});
+  }
+
+  // Active Production
+  getProductionProducts(selectedDate:any): Observable<any> {
+    return this.http.get('productions-orders/' + selectedDate, {observe: 'response'});
+  }
+
+  getLineProducts(production:string): Observable<any> {
+    return this.http.get('productions-lines/' + production, {observe: 'response'});
+  }
+
+  updateProductProduction(id:number, qty:number,orders:any, production:string): Observable<any> {
+    return this.http.post('line-update-production', {id, qty, orders, production}, {observe: 'response'});
   }
 
 }

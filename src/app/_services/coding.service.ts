@@ -13,11 +13,11 @@ export class CodingService {
 		return this.http.get<any>('categories', {observe : 'response'});
   }
 
-  addCategory(id:number, name:string,name_ar:string, code:string): Observable<any> {
+  addCategory(id:number, name:string,name_ar:string, code:string, production:number): Observable<any> {
     if(id === 0 ) {
-      return this.http.post<any>('categories', {name: name, name_ar: name_ar, code:code}, {observe : 'response'});
+      return this.http.post<any>('categories', {name, name_ar, code, production}, {observe : 'response'});
     } else {
-      return this.http.put<any>('categories/' + id, {name: name, name_ar: name_ar, code:code}, {observe : 'response'});
+      return this.http.put<any>('categories/' + id, {name, name_ar, code, production}, {observe : 'response'});
     }
     
   }
@@ -170,6 +170,21 @@ export class CodingService {
 
   getForeignData(): Observable<any> {
     return this.http.get<any>('helpers/foreign', {observe : 'response'});
+  }
+
+
+
+  getProductions(): Observable<any> {    
+    return this.http.get<any>('production-lines', {observe : 'response'});
+  }
+
+  addProduction(id:number, name:string,name_ar:string): Observable<any> {
+    if(id === 0 ) {
+      return this.http.post<any>('production-lines', {name, name_ar}, {observe : 'response'});
+    } else {
+      return this.http.put<any>('production-lines/' + id, {name, name_ar}, {observe : 'response'});
+    }
+    
   }
   
 }

@@ -7,7 +7,7 @@
             <div class="card-header ui-sortable-handle" style="cursor: move;">
               <h3 class="card-title">
                 <i class="ion ion-clipboard mr-1"></i>
-                City List
+                Production List
               </h3>
               <div class="card-tools">
                 <pagination-controls (pageChange)="p = $event" previousLabel=""
@@ -25,21 +25,21 @@
                     <th>Edit</th>
                   </tr>
                 </thead>
-                <tbody *ngIf="cities && cities.length > 0">
-                  <tr *ngFor="let city of cities | paginate: { itemsPerPage: 10, currentPage: p }">
-                    <td>{{ city.id }}</td>
-                    <td>{{ city.name }}</td>
-                    <td>{{ city.name_ar }}</td>
-                    <td><i class="fas fa-edit text-danger pointer" (click)="editCity(city.id,city.name,city.name_ar)"></i></td>
+                <tbody *ngIf="productions && productions.length > 0">
+                  <tr *ngFor="let production of productions | paginate: { itemsPerPage: 10, currentPage: p }">
+                    <td>{{ production.id }}</td>
+                    <td>{{ production.name }}</td>
+                    <td>{{ production.name_ar }}</td>
+                    <td><i class="fas fa-edit text-danger pointer" (click)="editProduction(production.id,production.name,production.name_ar)"></i></td>
                   </tr>
-                </tbody>
-                <tbody>
-                  <tr *ngIf="cities && cities.length < 1">
-                    <td colspan="4"><h2>There is no Cities</h2></td>
+                  </tbody>
+                  <tbody>
+                    <tr *ngIf="productions && productions.length < 1">
+                    <td colspan="4"><h2>There is no Production Lines</h2></td>
                   </tr>
                 </tbody>
               </table>
-              <p *ngIf="!cities"><i class="fas fa-spinner fa-spin"></i></p>
+              <p *ngIf="!productions"><i class="fas fa-spinner fa-spin"></i></p>
             </div>
           </div>
       </div>
@@ -50,14 +50,14 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">Create New City</h3>
+            <h3 class="card-title">Create New Production</h3>
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form #cityForm="ngForm" (ngSubmit)="onSubmit(cityForm)">
+          <form #productionForm="ngForm" (ngSubmit)="onSubmit(productionForm)">
             <div class="card-body">
               <div class="form-group">
-                <label for="name">City*</label>
+                <label for="name">Production*</label>
                 <input 
                   type="text" 
                   class="form-control" 
@@ -65,7 +65,7 @@
                   name="name" 
                   placeholder="English Name" 
                   required minlength="4"
-                  [(ngModel)]="city.name" #name="ngModel"
+                  [(ngModel)]="production.name" #name="ngModel"
           	      [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
               </div>
               <div class="form-group">
@@ -76,16 +76,16 @@
                   id="name_ar" 
                   name="name_ar"
                   placeholder="Arabic Name"
-                  [(ngModel)]="city.name_ar" #name="ngModel">
+                  [(ngModel)]="production.name_ar" #name="ngModel">
               </div>
             </div>
             <!-- /.card-body -->
 
             <div class="card-footer">
-              <button type="submit" class="btn btn-primary" [disabled]="!cityForm.valid" [disabled]="loading">
+              <button type="submit" class="btn btn-primary" [disabled]="!productionForm.valid" [disabled]="loading">
                 <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i></span> Submit
               </button>
-              <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(cityForm)"> Reset </button>
+              <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(productionForm)"> Reset </button>
             </div>
           </form>
         </div>

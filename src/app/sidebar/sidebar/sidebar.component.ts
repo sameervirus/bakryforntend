@@ -3,6 +3,8 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NgxPermissionsService } from 'ngx-permissions';
 
+import { CodingService } from '../../_services';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -10,13 +12,17 @@ import { NgxPermissionsService } from 'ngx-permissions';
 })
 export class SidebarComponent implements OnInit {
 
+  permissionItems:boolean = false;
+
 	codingMenu:boolean = false;
+  
   ordersMenu:boolean = false;
 	ordersSub:boolean = false;
 	activesComp:boolean = false;
 	reviewsComp:boolean = false;
 	historyComp:boolean = false;
-	user:any;
+	
+  user:any;
   usersMenu:boolean = false;
   usersSub:boolean = false;
   usersComp:boolean = false;
@@ -24,10 +30,17 @@ export class SidebarComponent implements OnInit {
   profileComp:boolean = false;
   branchesComp:boolean = false;
 
+  productions:any;
+  productionsMenu:boolean = false;
+  productionsSub:boolean = false;
+  productionsComp:boolean = false;
+  productionComp:string = '';
+
   constructor(
     private route: ActivatedRoute,
     private permissionsService: NgxPermissionsService,
-    private router: Router
+    private router: Router,
+    private codingService : CodingService
     ) { 
   	router.events.pipe(filter((event:any) => event instanceof NavigationEnd))
           .subscribe((event:any) => 
@@ -41,8 +54,26 @@ export class SidebarComponent implements OnInit {
 	  if(localStorage.getItem('currentUser')) {
 	  	this.user = (JSON.parse(localStorage.getItem('currentUser')!)).user;
       const perm = this.user.permissions;
+      this.permissionItems = this.checkProductions(this.user.permissions);
       this.permissionsService.loadPermissions(perm);
     }
+    this.getProductions();
+  }
+
+  checkProductions(perm:any) {
+    for (var i = 0; i < perm.length; ++i) {
+      if(perm[i] == 'productions review') return true;
+      if(perm[i].includes['line']) return true;
+    }
+    return false;
+  }
+
+  getProductions() {
+    this.codingService.getProductions().subscribe(res => { this.productions = res.body; });
+  }
+
+  showThis() {
+    return false;
   }
 
   changeView(item:string) {
@@ -65,6 +96,16 @@ export class SidebarComponent implements OnInit {
   				this.ordersSub = true;
   			}  			
   			break;
+      case "productions":
+        this.tabsClose();
+        if(this.productionsMenu) {
+          this.productionsMenu = false;
+          this.productionsSub = false;          
+        } else {
+          this.productionsMenu = true;
+          this.productionsSub = true;
+        }        
+        break;
       case "users":
         this.tabsClose();
         if (this.usersMenu) { 
@@ -86,6 +127,12 @@ export class SidebarComponent implements OnInit {
   changeSide(url:string) {
   	if(url.includes("coding")) {
       this.codingMenu = true;
+    } else if(url.includes("productions")) {
+      this.tabsClose();
+      this.productionsMenu = true;
+      this.productionsSub = true;
+      this.productionsComp = url.endsWith("productions") ? true : false;
+      this.productionComp = url.split('/')[url.split('/').length - 1];
     } else if(url.includes("orders")) {
       this.tabsClose();
   		this.ordersMenu = true;
@@ -119,6 +166,10 @@ export class SidebarComponent implements OnInit {
     this.rolesComp = false;
     this.profileComp = false;
     this.branchesComp = false;
+    this.productionsMenu = false;
+    this.productionsSub = false;
+    this.productionsComp = false;
+    this.productionComp = '';
   }
 
 }

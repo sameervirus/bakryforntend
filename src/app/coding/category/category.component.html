@@ -19,8 +19,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table
-            *ngIf="categories && categories.length > 0"
+          <table            
             class="table table-sm"
           >
             <thead>
@@ -31,7 +30,7 @@
                 <th>Edit</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="categories && categories.length > 0">
               <tr
                 *ngFor="
                   let category of categories
@@ -49,12 +48,15 @@
                         category.id,
                         category.name,
                         category.name_ar,
-                        category.code
+                        category.code,
+                        category.production_line_id
                       )
                     "
                   ></i>
                 </td>
               </tr>
+            </tbody>
+            <tbody>
               <tr *ngIf="categories && categories.length < 1">
                 <td colspan="4"><h2>There is no Categories</h2></td>
               </tr>
@@ -124,6 +126,14 @@
                 [(ngModel)]="category.name_ar"
                 #name="ngModel"
               />
+            </div>
+            <div class="form-group">
+                <label>Production Line *</label>
+                <select *ngIf="productions" name="line" class="form-control"
+                        required [(ngModel)]="category.line" #line="ngModel" >
+                    <option *ngFor="let c of productions" [value]="c.id">{{c.name}}</option>
+                </select>
+                <p *ngIf="!productions"><i class="fas fa-spinner fa-spin"></i></p>
             </div>
           </div>
           <!-- /.card-body -->

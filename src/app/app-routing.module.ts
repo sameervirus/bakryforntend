@@ -15,11 +15,20 @@ import { DistributionsComponent } from './coding/distributions/distributions.com
 import { CarsComponent } from './coding/cars/cars.component';
 import { ClientsComponent } from './coding/clients/clients.component';
 import { BranchesComponent } from './coding/branches/branches.component';
+import { ProductionsComponent } from './coding/productions/productions.component';
 
 const routes: Routes = [
 	{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
 	{ path: 'login', component: LoginComponent },
 	{ path: 'coding', component: CodingComponent, canActivate: [AuthGuard] },
+	{
+		path: 'coding/production-lines',
+		component: ProductionsComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Coding Production Lines',
+		},
+	},
 	{
 		path: 'coding/category',
 		component: CategoryComponent,

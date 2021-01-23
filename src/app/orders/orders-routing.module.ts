@@ -9,6 +9,8 @@ import { ViewComponent } from './view/view.component';
 import { EditComponent } from './edit/edit.component';
 import { ReviewsComponent } from './reviews/reviews.component';
 import { HistoryComponent } from './history/history.component';
+import { ProductionsComponent } from './productions/productions.component';
+import { ProductionComponent } from './production/production.component';
 
 const routes: Routes = [
 	{ path: '', component: ActivesComponent, canActivate: [AuthGuard] },
@@ -66,6 +68,22 @@ const routes: Routes = [
 		canActivate: [AuthGuard],
 		data: {
 			breadcrumb: 'Orders History',
+		},
+	},
+	{
+		path: 'productions',
+		component: ProductionsComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Active Productions',
+		},
+	},
+	{
+		path: 'productions/:production',
+		component: ProductionComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Production Line',
 		},
 	},
 ];

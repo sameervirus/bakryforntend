@@ -101,6 +101,46 @@
               </li> -->
           </ul>
         </li>
+        <li
+          *ngIf="permissionItems"
+          class="nav-item"
+          [class.menu-open]="productionsMenu"
+        >
+          <a
+            (click)="changeView('productions')"
+            [class.active]="productionsMenu"
+            class="nav-link pointer"
+          >
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>
+              Productions
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" [class.d-block]="productionsSub">
+            <li *ngxPermissionsOnly="['productions review']" class="nav-item">
+              <a
+                [routerLink]="['/orders/productions']"
+                [class.active]="productionsComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Active Productions</p>
+              </a>
+            </li>
+            <li *ngFor="let production of productions" class="nav-item">
+              <a
+                *ngxPermissionsOnly="[production.slug + ' line']"
+                [class.active]="productionComp == production.slug"
+                routerLink="/orders/productions/{{production.slug}}"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>{{production.name}} Line</p>
+              </a>
+            </li>            
+          </ul>
+        </li>
         <li class="nav-item" [class.menu-open]="usersMenu">
           <a
             (click)="changeView('users')"
