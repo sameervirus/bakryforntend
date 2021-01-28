@@ -1,0 +1,167 @@
+<div class="container-fluid">
+  <div class="row">
+    <div *ngIf="orders" class="col-12">
+      <div class="text-center">
+        <pagination-controls
+          (pageChange)="p = $event"
+          previousLabel=""
+          nextLabel=""
+        ></pagination-controls>
+      </div>
+      <!-- Main content -->
+      <div
+        *ngFor="
+          let order of orders | paginate: { itemsPerPage: 1, currentPage: p };
+          let o = index
+        "
+        class="invoice p-3 mb-3"
+      >
+        <!-- title row -->
+        <div class="row">
+          <div class="col-12">
+            <h4>
+              <i class="fas fa-globe"></i> {{ order.client }} -
+              {{ order.arabic_client }}
+              <small class="float-right"
+                >Date: {{ today | date: "longDate" }}</small
+              >
+            </h4>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info mb-3">
+          <div class="col-sm-4 invoice-col">
+            Branch
+            <address>
+              <strong>{{ order.branch }} - {{ order.arabic_branch }}</strong
+              ><br />
+              {{ order.district }}, {{ order.city }}<br />
+            </address>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col">
+            <address>
+              Created By: <strong>{{ order.creater }}</strong
+              ><br />
+              Submit By: <strong>{{ order.submit }}</strong
+              ><br />
+              Approved By: <strong>{{ order.approval }}</strong>
+            </address>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col">
+            <b>Order Code:</b> {{ order.code }}<br />
+            <b>Placed:</b> {{ order.date | date: "longDate" }}<br />
+            <b>Due Date: </b> {{ order.due_date | date: "longDate" }}<br />
+            <b>Order Status: </b> {{ order.status }}<br />
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Code#</th>
+                  <th>Product</th>
+                  <th>Arabic Name</th>
+                  <th>Qty</th>
+                  <th>Qty Approved</th>
+                  <th>Qty Production</th>
+                  <th>Qty Deliverd</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of order.products; let p = index">
+                  <td>
+                    {{
+                      product.client_code ? product.client_code : product.code
+                    }}
+                  </td>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.arabic_name }}</td>
+                  <td>{{ product.qty }}</td>
+                  <td>{{ product.qty_approved }}</td>
+                  <td>{{ product.qty_production }}</td>
+                  <td style="width: 10%">
+                    <input
+                      type="number"
+                      class="form-control"
+                      min="0"
+                      max="{{ product.qty_production }}"
+                      #qtys
+                      value="{{
+                        product.qty_delivered == 0
+                          ? product.qty_delivered
+                          : product.qty_production
+                      }}"
+                      pattern="^[0-9]+\.[0-9][0-9]$"
+                    />
+                  </td>
+                  <td>
+                    <button
+                      [disabled]="loads"
+                      class="btn btn-app btn-sm bg-success"
+                      (click)="
+                        saveDelivery(
+                          product.id,
+                          order.id,
+                          qtys.value,
+                          order.qty_production,
+                          p,
+                          o
+                        )
+                      "
+                    >
+                      <i *ngIf="!loads" class="fas fa-save"></i
+                      ><i *ngIf="loads" class="fas fa-spinner fa-spin"></i>
+                      Save
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-6">
+            <p class="lead">Boxes</p>
+
+            <div class="table-responsive">
+              <table class="table">
+                <tr>
+                  <th>Code#</th>
+                  <th>Type</th>
+                  <th>Product Qty</th>
+                </tr>
+                <tr *ngFor="let box of order.boxes">
+                  <td>{{ box.code }}</td>
+                  <td>{{ box.type }}</td>
+                  <td>{{ box.qty }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-6">
+            <button
+              (click)="saveOrder(order.id)"
+              class="btn btn-success float-right"
+            >
+              <i class="far fa-credit-card"></i> Accept Order
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- /.invoice -->
+    </div>
+    <p *ngIf="!orders" class="text-center">
+      <i class="fas fa-spinner fa-spin"></i>
+    </p>
+    <!-- /.col -->
+  </div>
+</div>

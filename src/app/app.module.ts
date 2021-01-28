@@ -1,14 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
+import { DispatchModule } from './dispatch/dispatch.module';
+import { DeliveryModule } from './delivery/delivery.module';
+
 // Plugin
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPermissionsModule } from 'ngx-permissions';
 
@@ -38,47 +41,51 @@ import { CitiesComponent } from './coding/cities/cities.component';
 import { DistrictsComponent } from './coding/districts/districts.component';
 import { PackingsComponent } from './coding/packings/packings.component';
 import { ProductionsComponent } from './coding/productions/productions.component';
+import { PrintComponent } from './components/print/print.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LayoutComponent,
-    SidebarComponent,
-    FooterComponent,
-    CodingComponent,
-    HomeComponent,
-    CategoryComponent,
-    LoginComponent,
-    NotificationComponent,
-    ProductsComponent,
-    ClientsComponent,
-    BranchesComponent,
-    DistributionsComponent,
-    CarsComponent,
-    CitiesComponent,
-    DistrictsComponent,
-    OnlynumberDirective,
-    PackingsComponent,
-    ProductionsComponent
-  ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    NgxPaginationModule,
-    NgSelectModule,
-    OrdersModule,
-    UsersModule,
-    NgxPermissionsModule.forRoot()
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },    
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		LayoutComponent,
+		SidebarComponent,
+		FooterComponent,
+		CodingComponent,
+		HomeComponent,
+		CategoryComponent,
+		LoginComponent,
+		NotificationComponent,
+		ProductsComponent,
+		ClientsComponent,
+		BranchesComponent,
+		DistributionsComponent,
+		CarsComponent,
+		CitiesComponent,
+		DistrictsComponent,
+		OnlynumberDirective,
+		PackingsComponent,
+		ProductionsComponent,
+		PrintComponent,
+	],
+	imports: [
+		CommonModule,
+		BrowserModule,
+		AppRoutingModule,
+		HttpClientModule,
+		FormsModule,
+		ReactiveFormsModule,
+		BrowserAnimationsModule,
+		NgxPaginationModule,
+		NgSelectModule,
+		OrdersModule,
+		UsersModule,
+		DispatchModule,
+		DeliveryModule,
+		NgxPermissionsModule.forRoot(),
+	],
+	providers: [
+		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+	],
+	bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

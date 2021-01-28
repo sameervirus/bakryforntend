@@ -1,0 +1,121 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <!-- Main content -->
+      <div *ngIf="orders" class="mt-3 mb-3">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Orders List for {{ selectedDate }}</h3>
+                <div class="card-tools">
+                  Choose Date:
+                  <input
+                    type="date"
+                    value="{{ selectedDate }}"
+                    (input)="changeSelected($event)"
+                  />
+                </div>
+              </div>
+              <!-- ./card-header -->
+              <div class="card-body">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>Code#</th>
+                      <th>Order Date</th>
+                      <th>Due Date</th>
+                      <th>Status</th>
+                      <th>Approved qty</th>
+                      <th>Productions qty</th>
+                      <th>Packed qty</th>
+                      <th style="width: 10%"></th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="orders.length > 0 && hasApprove">
+                    <tr *ngFor="let order of orders">
+                      <td>{{ order.code }}</td>
+                      <td>{{ order.date | date: "longDate" }}</td>
+                      <td>{{ order.due_date | date: "longDate" }}</td>
+                      <td>
+                        <span
+                          class="badge"
+                          [class.badge-info]="order.status == 'In Production'"
+                          [class.badge-info]="order.status == 'In Stock'"
+                          [class.badge-info]="order.status == 'Dispatched'"
+                          [class.badge-success]="order.status == 'Delivered'"
+                          [class.badge-primary]="order.status == 'Invoiced'"
+                          [class.badge-warning]="order.status == 'In Review'"
+                          [class.badge-success]="order.status == 'Accepted'"
+                          [class.badge-danger]="order.status == 'Rejected'"
+                        >
+                          {{ order.status }}
+                        </span>
+                      </td>
+                      <td>{{ order.approved }}</td>
+                      <td>{{ order.productions }}</td>
+                      <td
+                        [class.bg-success]="
+                          getBoxQty(order.id) == order.productions
+                        "
+                      >
+                        {{ getBoxQty(order.id) }}
+                      </td>
+                      <td class="project-actions text-right">
+                        <a
+                          class="btn btn-primary btn-sm ml-1 mb-1"
+                          routerLink="/dispatch/dispatching/{{ order.id }}"
+                        >
+                          Packing
+                        </a>
+                        <a
+                          class="btn btn-default btn-sm ml-1 mb-1"
+                          (click)="printThis(order.id)"
+                        >
+                          <i class="fas fa-print"></i> Print
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="orders.length < 1">
+                    <tr>
+                      <td colspan="8" class="text-center">
+                        <h3>There is no orders</h3>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="!hasApprove">
+                    <tr>
+                      <td colspan="8" class="text-center">
+                        <h3>
+                          Production Products need to approve from Production
+                          List first
+                        </h3>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <button
+                  *ngIf="canApprove"
+                  class="btn btn-success float-right mb-1"
+                  (click)="approveDispatch()"
+                >
+                  Approve to delivery
+                </button>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+      <!-- /.invoice -->
+      <p *ngIf="!orders" class="text-center">
+        <i class="fas fa-spinner fa-spin"></i>
+      </p>
+    </div>
+    <!-- /.col -->
+  </div>
+</div>

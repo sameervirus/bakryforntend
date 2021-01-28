@@ -22,7 +22,9 @@
           <img src="assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div> -->
       <div class="info">
-        <a [routerLink]="['/users/profile']" class="d-block">{{ user?.name }}</a>
+        <a [routerLink]="['/users/profile']" class="d-block">{{
+          user?.name
+        }}</a>
       </div>
     </div>
 
@@ -37,18 +39,17 @@
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
         <li *ngxPermissionsOnly="['coding']" class="nav-item">
-          <a 
+          <a
             (click)="changeView('coding')"
             [class.active]="codingMenu"
-            routerLink="/coding" class="nav-link">
+            routerLink="/coding"
+            class="nav-link"
+          >
             <i class="nav-icon far fa-image"></i>
             <p>Coding</p>
           </a>
         </li>
-        <li          
-          class="nav-item"
-          [class.menu-open]="ordersMenu"
-        >
+        <li class="nav-item" [class.menu-open]="ordersMenu">
           <a
             (click)="changeView('orders')"
             [class.active]="ordersMenu"
@@ -132,13 +133,91 @@
               <a
                 *ngxPermissionsOnly="[production.slug + ' line']"
                 [class.active]="productionComp == production.slug"
-                routerLink="/orders/productions/{{production.slug}}"
+                routerLink="/orders/productions/{{ production.slug }}"
                 class="nav-link"
               >
                 <i class="far fa-circle nav-icon"></i>
-                <p>{{production.name}} Line</p>
+                <p>{{ production.name }} Line</p>
               </a>
-            </li>            
+            </li>
+          </ul>
+        </li>
+        <li
+          class="nav-item"
+          *ngxPermissionsOnly="['receive productions', 'packing orders']"
+          [class.menu-open]="dispatchMenu"
+        >
+          <a
+            (click)="changeView('dispatch')"
+            [class.active]="dispatchMenu"
+            class="nav-link pointer"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Dispatch
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" [class.d-block]="dispatchSub">
+            <li class="nav-item" *ngxPermissionsOnly="['receive productions']">
+              <a
+                [routerLink]="['/dispatch/production']"
+                [class.active]="productionListComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Production List</p>
+              </a>
+            </li>
+            <li class="nav-item" *ngxPermissionsOnly="['packing orders']">
+              <a
+                [routerLink]="['/dispatch/list']"
+                [class.active]="ordersListComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Orders List</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li
+          class="nav-item"
+          *ngxPermissionsOnly="['receive dispatch', 'receive orders']"
+          [class.menu-open]="deliveryMenu"
+        >
+          <a
+            (click)="changeView('delivery')"
+            [class.active]="deliveryMenu"
+            class="nav-link pointer"
+          >
+            <i class="nav-icon fas fa-shipping-fast"></i>
+            <p>
+              Delivery
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" [class.d-block]="deliverySub">
+            <li class="nav-item" *ngxPermissionsOnly="['receive dispatch']">
+              <a
+                [routerLink]="['/delivery/receive']"
+                [class.active]="recevieCom"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Receive Dispatches</p>
+              </a>
+            </li>
+            <li class="nav-item" *ngxPermissionsOnly="['receive orders']">
+              <a
+                [routerLink]="['/delivery/receiving']"
+                [class.active]="receivingCom"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Receiving Orders</p>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="nav-item" [class.menu-open]="usersMenu">

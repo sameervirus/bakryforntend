@@ -1,102 +1,143 @@
 <div class="container-fluid">
-    <div class="row">
-  <div class="col-12">
-    <!-- Main content -->
-    <div class="mt-3 mb-3">
-
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="!canEdit" class="callout callout-info">
+        <h5><i class="fas fa-info"></i> Note:</h5>
+        Kindly noted that products are submitted to dispatch
+      </div>
+      <!-- Main content -->
+      <div class="mt-3 mb-3">
         <div class="row">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Productions Review</h3>
                 <div class="card-tools">
-                	Choose Date: 
-                	<input type="date" value="{{selectedDate}}" (input)="changeSelected($event)">
+                  Choose Date:
+                  <input
+                    type="date"
+                    value="{{ selectedDate }}"
+                    (input)="changeSelected($event)"
+                  />
                 </div>
               </div>
               <!-- ./card-header -->
-              <div class="card-body">                  
-                  <table *ngIf="products" class="table table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th>Line</th>
-                        <th>Code/Client Code</th>
-                        <th>Name</th>
-                        <th>Arabic Name</th>
-                        <th>Approved Qty</th>
-                        <th>Production Qty</th>
-                        <th style="width: 5%;">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody *ngFor="let product of products; let p = index">
-                      <tr>
-                      	<td>{{ product.production_line }}</td>
-                        <td>{{ product.code }}<br>{{ product.client_code }}</td>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.arabic_name }}</td>
-                        <td>{{ claculateApproveQty(product.orders) }}</td>
-                        <td>{{ claculateQty(product.orders) }}</td>
-                          <td>
-                              <a class="btn btn-app btn-sm bg-primary" (click)="expandable(product.id)">
-                                  <i class="fas fa-edit"></i> Edit
+              <div class="card-body">
+                <table
+                  *ngIf="products"
+                  class="table table-bordered table-hover"
+                >
+                  <thead>
+                    <tr>
+                      <th>Line</th>
+                      <th>Code/Client Code</th>
+                      <th>Name</th>
+                      <th>Arabic Name</th>
+                      <th>Approved Qty</th>
+                      <th>Production Qty</th>
+                      <th style="width: 5%">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let product of products; let p = index">
+                    <tr>
+                      <td>{{ product.production_line }}</td>
+                      <td>{{ product.code }}<br />{{ product.client_code }}</td>
+                      <td>{{ product.name }}</td>
+                      <td>{{ product.arabic_name }}</td>
+                      <td>{{ claculateApproveQty(product.orders) }}</td>
+                      <td>{{ claculateQty(product.orders) }}</td>
+                      <td>
+                        <a
+                          class="btn btn-app btn-sm bg-primary"
+                          (click)="expandable(product.id)"
+                        >
+                          <i class="fas fa-edit"></i> Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr *ngIf="tr == product.id">
+                      <td colspan="6">
+                        <table class="table table-bordered table-orders">
+                          <tr>
+                            <th>Code</th>
+                            <th>Client</th>
+                            <th>Branch</th>
+                            <th>Approved Qty</th>
+                            <th>Production Qty</th>
+                            <th>action</th>
+                          </tr>
+                          <tr
+                            *ngFor="let order of product.orders; let o = index"
+                          >
+                            <td>{{ order.code }}</td>
+                            <td>{{ order.client }}</td>
+                            <td>{{ order.branch }}</td>
+                            <td>{{ order.pivot_approve }}</td>
+                            <td style="width: 10%">
+                              <input
+                                type="number"
+                                class="form-control"
+                                min="0"
+                                #qtys
+                                value="{{ order.pivot_pre_production }}"
+                                pattern="^[0-9]+\.[0-9][0-9]$"
+                              />
+                            </td>
+                            <td>
+                              <a
+                                *ngIf="order.status_id == 6"
+                                class="btn btn-app btn-sm bg-success"
+                                (click)="
+                                  saveOrder(
+                                    product.id,
+                                    order.id,
+                                    qtys.value,
+                                    order.pivot_approve,
+                                    p,
+                                    o
+                                  )
+                                "
+                              >
+                                <i class="fas fa-save"></i> Save
                               </a>
-                          </td>
-                      </tr>
-                      <tr *ngIf="tr == product.id">
-                          <td colspan="6">
-                          <table class="table table-bordered table-orders">
-                              <tr>
-                                  <th>Code</th>
-                                  <th>Client</th>
-                                  <th>Branch</th>
-                                  <th>Approved Qty</th>
-                                  <th>Production Qty</th>
-                                  <th>action</th>
-                              </tr>
-                              <tr *ngFor="let order of product.orders; let o = index">
-                                  <td>{{ order.code }}</td>
-                                  <td>{{ order.client }}</td>
-                                  <td>{{ order.branch }}</td>
-                                  <td>{{ order.pivot_approve }}</td>
-                                  <td style="width:10%"><input 
-                                      type="number"
-                                      class="form-control"
-                                      min="0"
-                                      #qtys
-                                      value="{{ order.pivot_pre_production }}" 
-                                      pattern="^[0-9]+\.[0-9][0-9]$"
-                                      ></td>
-                                  <td>
-                                      <a *ngIf="order.status_id == 6" class="btn btn-app btn-sm bg-success" (click)="saveOrder(product.id, order.id, qtys.value, order.pivot_approve, p , o)">
-                                          <i class="fas fa-save"></i> Save </a>
-                                      <span *ngIf="order.status_id != 6">{{ order.status }}</span>
-                                  </td>
-                              </tr>
-                          </table>
-                          </td>
-                      </tr>
-                    </tbody>
-                    <tbody *ngIf="products.length < 1">
-                    	<tr>
-                    		<td class="text-center" colspan="7"><h2>No Products for Today</h2></td>
-                    	</tr>
-                    </tbody>
-                  </table>
-                  <p *ngIf="!products" class="text-center"><i class="fas fa-spinner fa-spin"></i></p>
+                              <span *ngIf="order.status_id != 6">{{
+                                order.status
+                              }}</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="products.length < 1">
+                    <tr>
+                      <td class="text-center" colspan="7">
+                        <h2>No Products for Today</h2>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p *ngIf="!products" class="text-center">
+                  <i class="fas fa-spinner fa-spin"></i>
+                </p>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                  <button *ngIf="canEdit" class="btn btn-success float-right mb-1" (click)="toDispatch()">Approve and Submit to Dispatch</button>
+                <button
+                  *ngIf="canEdit"
+                  class="btn btn-success float-right mb-1"
+                  (click)="toDispatch()"
+                >
+                  Approve and Submit to Dispatch
+                </button>
               </div>
             </div>
             <!-- /.card -->
           </div>
         </div>
+      </div>
+      <!-- /.invoice -->
     </div>
-    <!-- /.invoice -->
-    
-  </div><!-- /.col -->
-  
-</div>
-
+    <!-- /.col -->
+  </div>
 </div>

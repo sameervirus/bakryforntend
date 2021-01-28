@@ -1,0 +1,215 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <!-- Main content -->
+      <div *ngIf="order" class="invoice p-3 mb-3">
+        <!-- title row -->
+        <div class="row">
+          <div class="col-12">
+            <h4>
+              <i class="fas fa-globe"></i> {{ order.client }} -
+              {{ order.arabic_client }}
+              <small class="float-right"
+                >Date: {{ today | date: "longDate" }}</small
+              >
+            </h4>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info mb-3">
+          <div class="col-sm-4 invoice-col">
+            Branch
+            <address>
+              <strong>{{ order.branch }} - {{ order.arabic_branch }}</strong
+              ><br />
+              {{ order.district }}, {{ order.city }}<br />
+            </address>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col"></div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col">
+            <b>Order Code:</b> {{ order.code }}<br />
+            <b>Placed:</b> {{ order.date | date: "longDate" }}<br />
+            <b>Due Date: </b> {{ order.due_date | date: "longDate" }}<br />
+            <b>Order Status: </b> {{ order.status }}<br />
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-md-6 table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Code#</th>
+                  <th>Product</th>
+                  <th>Qty Production</th>
+                  <th style="width: 25%">Add</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of products">
+                  <td>
+                    {{
+                      product.client_code ? product.client_code : product.code
+                    }}
+                  </td>
+                  <td>{{ product.name }} <br />{{ product.arabic_name }}</td>
+                  <td>{{ product.qty_production }}</td>
+                  <td>
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="0"
+                        max="{{ product.qty_production }}"
+                        #qtys
+                        value="{{ product.qty_production }}"
+                        pattern="^[0-9]+\.[0-9][0-9]$"
+                      />
+                      <span class="input-group-append">
+                        <button
+                          type="button"
+                          class="btn btn-info btn-flat"
+                          (click)="addProduct(product, qtys)"
+                        >
+                          <i class="fas fa-angle-double-right"></i>
+                        </button>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.col -->
+          <div class="col-md-6">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Create Box</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form class="form-horizontal">
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Box Type</label>
+                    <div class="col-sm-10">
+                      <select
+                        #selectedPacking
+                        [value]="tempBoxType"
+                        class="form-control"
+                        (change)="onInputChange(selectedPacking.value)"
+                      >
+                        <option value="0">Select Type</option>
+                        <option
+                          *ngFor="let packing of packings"
+                          value="{{ packing.id }}"
+                        >
+                          {{ packing.name }} - {{ packing.name_ar }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <table *ngIf="tempBox.length > 0" class="table">
+                        <thead>
+                          <tr>
+                            <th>Code</th>
+                            <th>Client Code</th>
+                            <th style="width: 40px">Qty</th>
+                            <th>Remove</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of tempBox">
+                            <td>{{ item.code }}</td>
+                            <td>{{ item.client_code }}</td>
+                            <td>{{ item.boxQty }}</td>
+                            <td>
+                              <a
+                                (click)="deleteFromBox(item)"
+                                class="btn btn-danger btn-sm pointer"
+                              >
+                                <i class="fas fa-trash"> </i>
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button
+                    type="submit"
+                    class="btn btn-info"
+                    (click)="createBox()"
+                  >
+                    Save
+                  </button>
+                </div>
+                <!-- /.card-footer -->
+              </form>
+            </div>
+
+            <div class="card bg-light">
+              <div class="card-header">
+                <h3 class="card-title">Order Boxes</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <table *ngIf="boxes.length > 0" class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Code</th>
+                      <th>Type</th>
+                      <th>Products</th>
+                      <th style="width: 40px">Qty</th>
+                      <th>action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let box of boxes">
+                      <td>1.</td>
+                      <td>{{ box.code }}</td>
+                      <td>{{ box.type }}</td>
+                      <td>{{ box.products.length }}</td>
+                      <td>{{ box.qty }}</td>
+                      <td>
+                        <a
+                          (click)="editBox(box)"
+                          class="btn btn-info btn-sm pointer"
+                        >
+                          <i class="fas fa-pen"> </i>
+                        </a>
+                        <a
+                          (click)="removeItem(box.id)"
+                          class="btn btn-danger btn-sm pointer"
+                        >
+                          <i class="fas fa-trash"> </i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+      <!-- /.invoice -->
+      <p *ngIf="!order" class="text-center">
+        <i class="fas fa-spinner fa-spin"></i>
+      </p>
+    </div>
+    <!-- /.col -->
+  </div>
+</div>

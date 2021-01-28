@@ -29,6 +29,7 @@ export class UsersService {
 		password_confirmation: string,
 		client_id: number,
 		role: number,
+		car_id: number,
 		type?: string,
 		branch_pass?: string
 	): Observable<any> {
@@ -51,6 +52,7 @@ export class UsersService {
 					password_confirmation,
 					client_id,
 					role,
+					car_id,
 				},
 				{ observe: 'response' }
 			);
@@ -73,6 +75,7 @@ export class UsersService {
 					password_confirmation,
 					client_id,
 					role,
+					car_id,
 					type,
 					branch_pass,
 				},
@@ -114,7 +117,11 @@ export class UsersService {
 		return this.http.get<any>('users/branches/items', { observe: 'response' });
 	}
 
-	changePassword(id:number, password:string): Observable<any> {
-		return this.http.post<any>('users/branches/changepassword',{id, password},{ observe: 'response' });
+	changePassword(id: number, password: string): Observable<any> {
+		return this.http.post<any>(
+			'users/branches/changepassword',
+			{ id, password },
+			{ observe: 'response' }
+		);
 	}
 }

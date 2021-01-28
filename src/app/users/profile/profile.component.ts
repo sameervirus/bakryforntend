@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
 		branch: '',
 		client_id: 0,
 		role: 0,
+		car_id: 0,
 		branch_pass: '',
 	};
 
@@ -78,6 +79,7 @@ export class ProfileComponent implements OnInit {
 				this.user.password_confirmation,
 				this.user.client_id,
 				this.user.role,
+				this.user.car_id,
 				this.type,
 				this.user.branch_pass
 			)

@@ -106,6 +106,16 @@ const routes: Routes = [
 		loadChildren: () =>
 			import('./users/users.module').then((m) => m.UsersModule),
 	},
+	{
+		path: 'dispatch',
+		loadChildren: () =>
+			import('./dispatch/dispatch.module').then((m) => m.DispatchModule),
+	},
+	{
+		path: 'delivery',
+		loadChildren: () =>
+			import('./delivery/delivery.module').then((m) => m.DeliveryModule),
+	},
 
 	// otherwise redirect to home
 	{ path: '**', redirectTo: '' },

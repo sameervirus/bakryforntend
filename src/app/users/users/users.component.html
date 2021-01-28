@@ -4,63 +4,95 @@
     <div class="col-md-6">
       <!-- Form Element sizes -->
       <div class="card">
-          <div class="card-header ui-sortable-handle">
-            <h3 class="card-title">
-              <i class="ion ion-clipboard mr-1"></i>
-              Users List
-            </h3>
-            <div class="card-tools">
-              <pagination-controls (pageChange)="p = $event" previousLabel=""
-              nextLabel=""></pagination-controls>
-            </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <div *ngIf="users && !isClient" class="row">
-              <div class="col-sm-6 offset-6">
-                <form class="form-horizontal">
-                  <div class="form-group row">
-                    <div class="col-sm-12">
-                      <ng-select [items]="clients"
-                                 bindLabel="name"
-                                 bindValue="id"
-                                 placeholder="Choose Client"
-                                 (change)="onStatusChange($event)">
-                      </ng-select>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <table *ngIf="users && users.length > 0" class="table table-sm">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Username</th>
-                  <th>Client</th>
-                  <th>Branch</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let user of users | paginate: { itemsPerPage: 10, currentPage: p }">
-                  <td>{{ user.name }}</td>
-                  <td>{{ user.username }}</td>
-                  <td>{{ user.client }}</td>
-                  <td>{{ user.branch }}</td>
-                  <td><i class="fas fa-edit text-danger pointer" 
-                  	(click)="editUser(user.id, user.name, user.name_ar, user.email, user.username, user.branch_id, user.division_id, user.mobile1, user.mobile2, user.landline, user.title, user.title_ar, user.client_id, user.role)"></i></td>
-                </tr>
-                <tr *ngIf="users && users.length < 1">
-                  <td colspan="4"><h2>There is no Users</h2></td>
-                </tr>
-              </tbody>
-            </table>
-            <p *ngIf="users && users.length < 1">There is no Users</p>
-            <p *ngIf="!users"><i class="fas fa-spinner fa-spin"></i></p>
+        <div class="card-header ui-sortable-handle">
+          <h3 class="card-title">
+            <i class="ion ion-clipboard mr-1"></i>
+            Users List
+          </h3>
+          <div class="card-tools">
+            <pagination-controls
+              (pageChange)="p = $event"
+              previousLabel=""
+              nextLabel=""
+            ></pagination-controls>
           </div>
         </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div *ngIf="users && !isClient" class="row">
+            <div class="col-sm-6 offset-6">
+              <form class="form-horizontal">
+                <div class="form-group row">
+                  <div class="col-sm-12">
+                    <ng-select
+                      [items]="clients"
+                      bindLabel="name"
+                      bindValue="id"
+                      placeholder="Choose Client"
+                      (change)="onStatusChange($event)"
+                    >
+                    </ng-select>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <table *ngIf="users && users.length > 0" class="table table-sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Client</th>
+                <th>Branch</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let user of users
+                    | paginate: { itemsPerPage: 10, currentPage: p }
+                "
+              >
+                <td>{{ user.name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.client }}</td>
+                <td>{{ user.branch }}</td>
+                <td>
+                  <i
+                    class="fas fa-edit text-danger pointer"
+                    (click)="
+                      editUser(
+                        user.id,
+                        user.name,
+                        user.name_ar,
+                        user.email,
+                        user.username,
+                        user.branch_id,
+                        user.division_id,
+                        user.mobile1,
+                        user.mobile2,
+                        user.landline,
+                        user.title,
+                        user.title_ar,
+                        user.client_id,
+                        user.role,
+                        user.car_id
+                      )
+                    "
+                  ></i>
+                </td>
+              </tr>
+              <tr *ngIf="users && users.length < 1">
+                <td colspan="4"><h2>There is no Users</h2></td>
+              </tr>
+            </tbody>
+          </table>
+          <p *ngIf="users && users.length < 1">There is no Users</p>
+          <p *ngIf="!users"><i class="fas fa-spinner fa-spin"></i></p>
+        </div>
+      </div>
     </div>
-    
+
     <!--/.col (left) -->
     <!-- right column -->
     <div class="col-md-6">
@@ -73,98 +105,142 @@
         <!-- form start -->
         <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
           <div class="card-body">
-          	<div class="row">
-              <div class="col-sm-6">
-		            <div class="form-group">
-		              <label for="name">Name*</label>
-		              <input 
-		                type="text" 
-		                class="form-control" 
-		                id="name"
-		                name="name" 
-		                placeholder="English Name" 
-		                required minlength="4"
-		                [(ngModel)]="user.name" #name="ngModel"
-		        	      [class.is-invalid] = "name.invalid && (name.dirty || name.touched)">
-		            </div>
-		          </div>
-		          <div class="col-sm-6">
-		            <div class="form-group">
-		              <label for="name_ar">Arabic Name</label>
-		              <input 
-		                type="text" 
-		                class="form-control" 
-		                id="name_ar" 
-		                name="name_ar"
-		                placeholder="Arabic Name"
-		                [(ngModel)]="user.name_ar" #name="ngModel">
-		            </div>
-		          </div>
-		        </div>
             <div class="row">
               <div class="col-sm-6">
-                <!-- text input -->
                 <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" class="form-control" name="email" required
-                    [(ngModel)]="user.email" #email="ngModel"
-                    [class.is-invalid] = "email.invalid && (email.dirty || email.touched)"
-                    >
+                  <label for="name">Name*</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="English Name"
+                    required
+                    minlength="4"
+                    [(ngModel)]="user.name"
+                    #name="ngModel"
+                    [class.is-invalid]="
+                      name.invalid && (name.dirty || name.touched)
+                    "
+                  />
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                    <label>Username *</label>
-                    <input type="text" class="form-control" name="username" required
-                    [(ngModel)]="user.username" #username="ngModel" minlength="5" 
-                    [class.is-invalid] = "username.invalid && (username.dirty || username.touched)">
+                  <label for="name_ar">Arabic Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name_ar"
+                    name="name_ar"
+                    placeholder="Arabic Name"
+                    [(ngModel)]="user.name_ar"
+                    #name="ngModel"
+                  />
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-6">
-                  <!-- text input -->
-                  <div class="form-group">
-                      <label>Client *</label>
-                      <ng-select [items]="clients"
-                                   bindLabel="name"
-                                   bindValue="id"
-                                   name="client_id"
-                                   placeholder="Choose Client"
-                                   [(ngModel)]="user.client_id"
-                                   (change)="onClientChange($event)">
-                      </ng-select>
-                      <p *ngIf="!clients"><i class="fas fa-spinner fa-spin"></i></p>
-                  </div>
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Email *</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    required
+                    [(ngModel)]="user.email"
+                    #email="ngModel"
+                    [class.is-invalid]="
+                      email.invalid && (email.dirty || email.touched)
+                    "
+                  />
+                </div>
               </div>
               <div class="col-sm-6">
-                <!-- text input -->
-                  <div class="form-group">
-                      <label>Branch *</label>
-                      <select *ngIf="branches" name="branch" class="form-control"
-                              required [(ngModel)]="user.branch_id" #branch="ngModel" 
-                              [class.is-invalid] = "branch.invalid && (branch.dirty || branch.touched)">
-                          <option *ngFor="let b of branches" [value]="b.id">{{b.name}}</option>
-                      </select>
-                      <p *ngIf="!branches">No branch</p>
-                  </div>
+                <div class="form-group">
+                  <label>Username *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    required
+                    [(ngModel)]="user.username"
+                    #username="ngModel"
+                    minlength="5"
+                    [class.is-invalid]="
+                      username.invalid && (username.dirty || username.touched)
+                    "
+                  />
+                </div>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-6">
                 <!-- text input -->
                 <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" class="form-control" name="title"
-                    [(ngModel)]="user.title" #title="ngModel"
-                    >
+                  <label>Client *</label>
+                  <ng-select
+                    [items]="clients"
+                    bindLabel="name"
+                    bindValue="id"
+                    name="client_id"
+                    placeholder="Choose Client"
+                    [(ngModel)]="user.client_id"
+                    (change)="onClientChange($event)"
+                  >
+                  </ng-select>
+                  <p *ngIf="!clients"><i class="fas fa-spinner fa-spin"></i></p>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Branch *</label>
+                  <select
+                    *ngIf="branches"
+                    name="branch"
+                    class="form-control"
+                    required
+                    [(ngModel)]="user.branch_id"
+                    #branch="ngModel"
+                    [class.is-invalid]="
+                      branch.invalid && (branch.dirty || branch.touched)
+                    "
+                  >
+                    <option *ngFor="let b of branches" [value]="b.id">
+                      {{ b.name }}
+                    </option>
+                  </select>
+                  <p *ngIf="!branches">No branch</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="title"
+                    [(ngModel)]="user.title"
+                    #title="ngModel"
+                  />
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                    <label>Title Arabic</label>
-                    <input type="text" class="form-control" name="title_ar"
-                    [(ngModel)]="user.title_ar" #title_ar="ngModel">
+                  <label>Title Arabic</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="title_ar"
+                    [(ngModel)]="user.title_ar"
+                    #title_ar="ngModel"
+                  />
                 </div>
               </div>
             </div>
@@ -172,24 +248,38 @@
               <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
-                    <label>Mobile1</label>
-                    <input type="text" class="form-control" name="mobile1"
-                    [(ngModel)]="user.mobile1" #mobile1="ngModel"
-                    >
+                  <label>Mobile1</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="mobile1"
+                    [(ngModel)]="user.mobile1"
+                    #mobile1="ngModel"
+                  />
                 </div>
               </div>
               <div class="col-sm-4">
                 <div class="form-group">
-                    <label>Mobile2</label>
-                    <input type="text" class="form-control" name="mobile2"
-                    [(ngModel)]="user.mobile2" #mobile2="ngModel">
+                  <label>Mobile2</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="mobile2"
+                    [(ngModel)]="user.mobile2"
+                    #mobile2="ngModel"
+                  />
                 </div>
               </div>
               <div class="col-sm-4">
                 <div class="form-group">
-                    <label>Landline</label>
-                    <input type="text" class="form-control" name="landline"
-                    [(ngModel)]="user.landline" #landline="ngModel">
+                  <label>Landline</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="landline"
+                    [(ngModel)]="user.landline"
+                    #landline="ngModel"
+                  />
                 </div>
               </div>
             </div>
@@ -197,31 +287,66 @@
               <div class="col-sm-6">
                 <!-- text input -->
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" name="password"
-                    [(ngModel)]="user.password" #password="ngModel"
-                    >
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    [(ngModel)]="user.password"
+                    #password="ngModel"
+                  />
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" class="form-control" name="password_confirmation"
-                    [(ngModel)]="user.password_confirmation" #password_confirmation="ngModel">
+                  <label>Confirm Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="password_confirmation"
+                    [(ngModel)]="user.password_confirmation"
+                    #password_confirmation="ngModel"
+                  />
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-{{ user.client_id == 0 ? '6' : 12 }}">
                 <!-- text input -->
                 <div class="form-group">
-                    <label>Select Role</label>
-                    <select *ngIf="roles" name="role" class="form-control"
-                            [(ngModel)]="user.role" #role="ngModel" >
-                        <option>Select Role</option>
-                        <option *ngFor="let r of roles" [value]="r.id">{{r.name}}</option>
-                    </select>
-                    <p *ngIf="!roles"><i class="fas fa-spinner fa-spin"></i></p>
+                  <label>Select Role</label>
+                  <select
+                    *ngIf="roles"
+                    name="role"
+                    class="form-control"
+                    [(ngModel)]="user.role"
+                    #role="ngModel"
+                  >
+                    <option>Select Role</option>
+                    <option *ngFor="let r of roles" [value]="r.id">
+                      {{ r.name }}
+                    </option>
+                  </select>
+                  <p *ngIf="!roles"><i class="fas fa-spinner fa-spin"></i></p>
+                </div>
+              </div>
+              <div *ngIf="user.client_id == 0" class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Select Car</label>
+                  <select
+                    *ngIf="cars"
+                    name="car_id"
+                    class="form-control"
+                    [(ngModel)]="user.car_id"
+                    #car_id="ngModel"
+                  >
+                    <option>Select Car</option>
+                    <option *ngFor="let c of cars" [value]="c.id">
+                      {{ c.code }}
+                    </option>
+                  </select>
+                  <p *ngIf="!cars"><i class="fas fa-spinner fa-spin"></i></p>
                 </div>
               </div>
             </div>
@@ -229,14 +354,28 @@
           <!-- /.card-body -->
 
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" [disabled]="loading">
-              <span *ngIf="loading"><i class="fas fa-spinner fa-spin"></i></span> Submit
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!userForm.valid"
+              [disabled]="loading"
+            >
+              <span *ngIf="loading"
+                ><i class="fas fa-spinner fa-spin"></i
+              ></span>
+              Submit
             </button>
-            <button *ngIf="isUpdate" class="btn btn-info float-right" (click)="resetFrom(userForm)"> Reset </button>
+            <button
+              *ngIf="isUpdate"
+              class="btn btn-info float-right"
+              (click)="resetFrom(userForm)"
+            >
+              Reset
+            </button>
           </div>
         </form>
       </div>
-      <!-- /.card -->         
+      <!-- /.card -->
     </div>
     <!--/.col (right) -->
   </div>
