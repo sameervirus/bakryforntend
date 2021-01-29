@@ -1,1 +1,230 @@
-<p>home works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div *ngIf="users" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Manage Users</h5>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>This module allows you to manage users</li>
+            <li>Add or Edit users data</li>
+            <li>Move user between branches</li>
+            <li>Reset user password</li>
+            <li>
+              Assign user to a role "Roles is responsible for distribution app
+              permissions"
+            </li>
+          </ul>
+          <a [routerLink]="['/users']" class="btn btn-primary">Go to Users</a>
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="roles" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Manage Roles</h5>
+        </div>
+        <div class="card-body">
+          <p>Roles is responsible for distribution app permissions.</p>
+          <ul>
+            <li>This module allows you to manage Roles.</li>
+            <li>Make new role or edit roles.</li>
+            <li>Change role permissions.</li>
+          </ul>
+          <a [routerLink]="['/users/roles']" class="btn btn-primary"
+            >Go to Roles</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="branch" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Change Branch</h5>
+        </div>
+        <div class="card-body">
+          <p>
+            This permission allow Branch Manager to change his branch to acting
+            like this branch manager.
+          </p>
+          <p>You can do this from profile page.</p>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="coding" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Coding</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible for coding all application data.</p>
+          <p>
+            You can Add or Edit such as Clients, Branches, Products, Cities,
+            Cars ... etc.
+          </p>
+          <a [routerLink]="['/coding']" class="btn btn-primary">Go to Coding</a>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="orders" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Orders</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible for Client orders.</p>
+          <p>
+            You can Add or Edit or Delete orders and review your orders status.
+          </p>
+          <p>
+            also you can clone old order so you haven't make order from scratch.
+          </p>
+          <p class="text-danger">
+            Kindly be note only Submitted orders will consider, Draft order not
+            take please in review or productions.
+          </p>
+          <a [routerLink]="['/orders/reviews']" class="btn btn-primary"
+            >Go to Orders Reviews</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="orders" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Review/Approve Clients orders</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible for Review/Approve Clients orders.</p>
+          <p>You daily review and approve client orders quantities.</p>
+          <p>And submit the orders to productions to start produce.</p>
+          <p>
+            You will able to approve order after client orders closing time.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="password" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Branches Passwords</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible change braches password.</p>
+          <p>You just add the new password and save to take actions.</p>
+          <a [routerLink]="['/users/branches']" class="btn btn-primary"
+            >Go to Branches Passwords</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="productions" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Productions</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible productions</p>
+          <p>You enter the products productions quantities.</p>
+          <p>
+            Also Productions line screen can add the productions quantities.
+          </p>
+          <p>
+            After productions all products, submit the productions to
+            dispatching.
+          </p>
+          <a [routerLink]="['/orders/productions']" class="btn btn-primary"
+            >Go to Active productions</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="line" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Productions Line</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible productions</p>
+          <p>
+            You enter the products productions quantities if the approved
+            quantities.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="approveProductions" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Approve Productions</h5>
+        </div>
+        <div class="card-body">
+          <p>
+            This module is responsible for confirm the recevied quantities from
+            to productions to start packing orders
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="packing" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Packing orders</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible for packing orders to boxes</p>
+          <p>You can create / edit / delete boxes</p>
+          <p>After packing all orders you must submit for delivery</p>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="driver" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Receving Orders after packing</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible for Receving Orders after packing</p>
+          <p>
+            You must approve receing orders from dispatch to can deliver them to
+            client branch
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div *ngIf="delivery" class="col-lg-6">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="m-0">Receving Deliverd Orders</h5>
+        </div>
+        <div class="card-body">
+          <p>This module is responsible for Receving Deliverd Orders</p>
+          <p>
+            You review the deliverd products quantities with the approved
+            quantities
+          </p>
+          <p>
+            You can change the delivered quantities with the actually deliverd
+            quantities
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>

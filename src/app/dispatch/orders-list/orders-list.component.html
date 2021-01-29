@@ -70,7 +70,8 @@
                         </a>
                         <a
                           class="btn btn-default btn-sm ml-1 mb-1"
-                          (click)="printThis(order.id)"
+                          [routerLink]="['/print/order/' + order.id]"
+                          target="_blank"
                         >
                           <i class="fas fa-print"></i> Print
                         </a>

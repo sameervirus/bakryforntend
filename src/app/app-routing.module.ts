@@ -16,6 +16,7 @@ import { CarsComponent } from './coding/cars/cars.component';
 import { ClientsComponent } from './coding/clients/clients.component';
 import { BranchesComponent } from './coding/branches/branches.component';
 import { ProductionsComponent } from './coding/productions/productions.component';
+import { PrintComponent } from './components/print/print.component';
 
 const routes: Routes = [
 	{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -92,6 +93,14 @@ const routes: Routes = [
 		canActivate: [AuthGuard],
 		data: {
 			breadcrumb: 'Coding Branches',
+		},
+	},
+	{
+		path: 'print/:type/:id',
+		component: PrintComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Print',
 		},
 	},
 

@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div *ngIf="type != 'box'" class="wrapper">
   <!-- Main content -->
   <section class="invoice">
     <!-- title row -->
@@ -16,24 +16,28 @@
     <!-- title row -->
     <div class="row">
       <div class="col-12">
-        <h4 class="text-center">Work Sheet: {{ title }}</h4>
+        <h4 class="text-center">
+          Work Sheet: {{ title }}
+          <span *ngIf="selectedDay">{{ selectedDay | date: "longDate" }}</span>
+        </h4>
       </div>
       <!-- /.col -->
     </div>
     <!-- info row -->
-    <div class="row invoice-info mt-3 mb-3">
+    <div *ngIf="order" class="row invoice-info mt-3 mb-3">
       <div class="col-sm-4 invoice-col">
         <address>
-          <strong>Order# </strong>22332231<br />
-          <strong>Placed# </strong>{{ today | date: "longDate" }}<br />
-          <strong>Due Date# </strong>{{ today | date: "longDate" }}<br />
+          <strong>Order# </strong>{{ order.code }}<br />
+          <strong>Placed# </strong>{{ order.date | date: "longDate" }}<br />
+          <strong>Due Date# </strong>{{ order.due_date | date: "longDate"
+          }}<br />
         </address>
       </div>
       <!-- /.col -->
       <div class="col-sm-4 invoice-col">
         <address>
-          <strong>Client# </strong>Americanana<br />
-          <strong>Branch# </strong>Costa Plaza<br />
+          <strong>Client# </strong>{{ order.client }}<br />
+          <strong>Branch# </strong>{{ order.branch }}<br />
         </address>
       </div>
       <!-- /.col -->
@@ -50,18 +54,19 @@
     <!-- /.row -->
 
     <!-- info row -->
-    <div class="row invoice-info mt-3 mb-3">
+    <div *ngIf="order" class="row invoice-info mt-3 mb-3">
       <div class="col-sm-6 invoice-col">
         <address>
-          Total Product Approved # 11<br />
-          Total Items Approved # 232<br />
+          Total Boxes # {{ order.boxes.length }}<br />
+          Total Product Approved # {{ order.products.length }}<br />
+          Total Items Approved # {{ order.approved }}<br />
         </address>
       </div>
       <!-- /.col -->
       <div class="col-sm-6 invoice-col">
         <address>
-          Total Product Dispatched # 11<br />
-          Total Items Dispatched # 232<br />
+          Total Product Dispatched # {{ order.products.length }}<br />
+          Total Items Dispatched # {{ order.productions }}<br />
         </address>
       </div>
       <!-- /.col -->
@@ -71,44 +76,77 @@
     <!-- Table row -->
     <div class="row">
       <div class="col-12 table-responsive">
-        <table class="table table-sm table-bordered">
+        <table *ngIf="type == 'order'" class="table table-sm table-bordered">
           <thead>
             <tr>
-              <th>Qty</th>
+              <th>Code</th>
               <th>Product</th>
-              <th>Serial #</th>
-              <th>Description</th>
-              <th>Subtotal</th>
+              <th>Arabic Name</th>
+              <th>Qty Approved</th>
+              <th>Qty Dispatched</th>
+              <th>Qty Pending</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Call of Duty</td>
-              <td>455-981-221</td>
-              <td>El snort testosterone trophy driving gloves handsome</td>
-              <td>$64.50</td>
+            <tr *ngFor="let product of order.products">
+              <td>{{ product.code }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.arabic_name }}</td>
+              <td>{{ product.qty_approved }}</td>
+              <td>{{ product.qty_production }}</td>
+              <td>{{ product.qty_approved - product.qty_production }}</td>
             </tr>
+          </tbody>
+        </table>
+        <table *ngIf="type == 'boxes'" class="table table-sm table-bordered">
+          <thead>
             <tr>
-              <td>1</td>
-              <td>Need for Speed IV</td>
-              <td>247-925-726</td>
-              <td>Wes Anderson umami biodiesel</td>
-              <td>$50.00</td>
+              <th>Code</th>
+              <th>Box Type</th>
+              <th>Created by</th>
+              <th>Products</th>
+              <th>Items</th>
             </tr>
-            <tr>
-              <td>1</td>
-              <td>Monsters DVD</td>
-              <td>735-845-642</td>
-              <td>Terry Richardson helvetica tousled street art master</td>
-              <td>$10.70</td>
+          </thead>
+          <tbody>
+            <tr *ngFor="let box of order.boxes">
+              <td>{{ box.code }}</td>
+              <td>{{ box.type }}</td>
+              <td>{{ order.dispatch }}</td>
+              <td>{{ box.products.length }}</td>
+              <td>{{ box.qty }}</td>
             </tr>
+          </tbody>
+        </table>
+        <table
+          *ngIf="type == 'dispatch' || type == 'productions'"
+          class="table table-sm table-bordered"
+        >
+          <thead>
             <tr>
-              <td>1</td>
-              <td>Grown Ups Blue Ray</td>
-              <td>422-568-642</td>
-              <td>Tousled lomo letterpress</td>
-              <td>$25.99</td>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Arabic Name</th>
+              <th>Approved Qty</th>
+              <th>Production Qty</th>
+              <th>Pending Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products">
+              <td>{{ product.code }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.arabic_name }}</td>
+              <td>{{ claculateApproveQty(product.orders) }}</td>
+              <td>
+                {{ claculateProductionQty(product.orders) }}
+              </td>
+              <td>
+                {{
+                  claculateApproveQty(product.orders) -
+                    claculateProductionQty(product.orders)
+                }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -118,4 +156,101 @@
     <!-- /.row -->
   </section>
   <!-- /.content -->
+</div>
+<div *ngIf="type == 'box'" class="wrapper">
+  <section *ngIf="box" class="invoice">
+    <hr class="box" />
+    <div class="row">
+      <div class="col-md-2">
+        <img src="assets/phpI4rSko.png" alt="EBS Logo" class="brand-image" />
+      </div>
+      <div class="col-md-10">
+        <address>
+          Plot no.7c, 3rd Industrial investment zone,<br />Kattameya, Cairo,
+          Egypt.<br />
+          Mobile: <strong>(+2) 0100 675 3716</strong><br />
+          Tel: <strong>+2 010 2666 6232/33/34/35</strong><br />
+          <strong>+20225163158/175/157</strong><br />
+          <strong>www.egyptbakerystores.com</strong><br />
+        </address>
+      </div>
+    </div>
+    <hr class="box" />
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <img
+          width="100px"
+          src="//upload.wikimedia.org/wikipedia/en/thumb/4/42/CostaLogo.svg/1200px-CostaLogo.svg.png"
+          alt="Client Logo"
+        />
+      </div>
+      <div class="col-md-4">
+        <h5>
+          <strong>{{ boxOrder.client }}</strong>
+        </h5>
+        <h5>
+          <strong>{{ boxOrder.branch }}</strong>
+        </h5>
+      </div>
+      <div class="col-md-4">
+        <h5>
+          Path: <strong>{{ boxOrder.distribution }}</strong>
+        </h5>
+        <h5>
+          Car: <strong>{{ boxOrder.car }}</strong>
+        </h5>
+        <h5>
+          Order # <strong>{{ boxOrder.code }}</strong>
+        </h5>
+      </div>
+    </div>
+    <hr class="box" />
+    <div class="row" style="min-height: 400px">
+      <div class="col-md-12">
+        <h4>Contains: {{ box.qty }} products</h4>
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr>
+              <th>Code #</th>
+              <th>Client Code #</th>
+              <th>Product</th>
+              <th>Arabic Name</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of box.products">
+              <td>{{ product.code }}</td>
+              <td>{{ product.client_code }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.name_ar }}</td>
+              <td>{{ product.pivot.qty }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr class="box" />
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <qrcode
+          [qrdata]="box.code"
+          [width]="128"
+          [errorCorrectionLevel]="'M'"
+        ></qrcode>
+      </div>
+      <div class="col-md-4">
+        <ngx-barcode
+          [bc-value]="box.code"
+          [bc-display-value]="true"
+        ></ngx-barcode>
+      </div>
+      <div class="col-md-4">
+        <h1 class="text-center text-xxl">
+          Pack: {{ boxPosition(box.id) + 1 }}/{{ boxOrder.boxes.length }}
+        </h1>
+      </div>
+    </div>
+    <hr class="box" />
+  </section>
 </div>

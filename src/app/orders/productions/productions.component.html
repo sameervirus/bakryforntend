@@ -130,6 +130,14 @@
                 >
                   Approve and Submit to Dispatch
                 </button>
+                <a
+                  *ngIf="products.length > 0"
+                  [routerLink]="['/print/productions/' + selectedDate]"
+                  target="_blank"
+                  class="btn btn-default pointer"
+                >
+                  <i class="fas fa-print"></i> Print
+                </a>
               </div>
             </div>
             <!-- /.card -->

@@ -20,6 +20,5 @@
   <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
     <div *ngIf="!print" id="app" (loads)="onLoads($event)"></div>
-    <app-print *ngIf="print" (print)="onPrint($event)"></app-print>
   </body>
 </html>

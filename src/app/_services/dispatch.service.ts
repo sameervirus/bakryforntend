@@ -56,4 +56,8 @@ export class DispatchService {
 			{ observe: 'response' }
 		);
 	}
+
+	getBoxDetails(id: any): Observable<any> {
+		return this.http.get<any>('box-details/' + id, { observe: 'response' });
+	}
 }

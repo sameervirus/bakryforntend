@@ -12,6 +12,7 @@ export class AppComponent {
 	title = 'EBS Ordering System';
 
 	hideElement = false;
+	print = false;
 	loading = false;
 	constructor(
 		private render: Renderer2,
@@ -25,6 +26,11 @@ export class AppComponent {
 					this.hideElement = true;
 					this.render.removeClass(document.body, 'sidebar-mini');
 					this.render.addClass(document.body, 'login-page');
+				} else if (event.url.indexOf('print') !== -1) {
+					this.hideElement = true;
+					this.print = true;
+					this.render.removeClass(document.body, 'sidebar-mini');
+					this.render.removeClass(document.body, 'hold-transition');
 				} else {
 					this.hideElement = false;
 					this.render.removeClass(document.body, 'login-page');
@@ -53,4 +59,8 @@ export class AppComponent {
 	}
 
 	ngOnInit(): void {}
+
+	onLoads(agreed: boolean) {
+		this.loading = agreed;
+	}
 }

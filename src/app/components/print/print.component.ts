@@ -1,4 +1,7 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { DispatchService } from '../../_services';
 
 @Component({
 	selector: 'app-print',
@@ -6,16 +9,112 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 	styleUrls: ['./print.component.css'],
 })
 export class PrintComponent implements OnInit {
-	@Output() print = new EventEmitter<boolean>();
-
 	today = new Date();
 	data: any;
 	title = 'Work Sheet';
-	constructor() {}
+	order: any;
+	products: any;
+	selectedDay: any;
+	type: string = '';
+	box: any;
+	boxOrder: any;
 
-	ngOnInit(): void {}
+	@Output() loads = new EventEmitter<boolean>();
 
-	hasPrint() {
-		this.print.emit(true);
+	constructor(
+		private activatedRoute: ActivatedRoute,
+		private dispatchService: DispatchService
+	) {}
+
+	ngOnInit(): void {
+		const type = this.activatedRoute.snapshot.paramMap.get('type');
+		const id = this.activatedRoute.snapshot.paramMap.get('id');
+		if (type == 'order') {
+			this.type = type;
+			this.title = 'Dispatch Order';
+			if (id) this.getDispatchOrder(id);
+		}
+		if (type == 'boxes') {
+			this.type = type;
+			this.title = 'Order Boxes';
+			if (id) this.getDispatchOrder(id);
+		}
+		if (type == 'productions') {
+			this.type = type;
+			this.title = 'Productions List';
+			if (id) {
+				this.selectedDay = id;
+				this.getProductionProducts(id);
+			}
+		}
+		if (type == 'dispatch') {
+			this.type = type;
+			this.title = 'Dispatch List';
+			if (id) {
+				this.selectedDay = id;
+				this.getProductionProducts(id);
+			}
+		}
+		if (type == 'box') {
+			this.type = type;
+			this.title = 'Box Details';
+			if (id) {
+				this.getBoxDetails(id);
+			}
+		}
+		this.print();
+	}
+
+	getDispatchOrder(id: string) {
+		this.loading(true);
+		this.dispatchService.getDispatchOrder(id).subscribe((res) => {
+			this.order = res.body.order;
+		});
+	}
+
+	getProductionProducts(selectedDate: any) {
+		this.dispatchService
+			.getProductionProducts(selectedDate)
+			.subscribe((res) => {
+				this.products = res.body.products;
+			});
+	}
+
+	claculateProductionQty(items: any) {
+		let sum: number = items
+			.map((a: any) => a.pivot_production)
+			.reduce(function (a: number, b: number) {
+				return Number(a) + Number(b);
+			});
+		return sum;
+	}
+
+	claculateApproveQty(items: any) {
+		let sum: number = 0;
+		for (let i = 0; i < items.length; i++) {
+			sum += items[i].pivot_approve;
+		}
+		return sum;
+	}
+
+	getBoxDetails(id: string) {
+		this.dispatchService.getBoxDetails(id).subscribe((res) => {
+			this.box = res.body.box;
+			this.boxOrder = res.body.order;
+		});
+	}
+
+	boxPosition(id: number) {
+		return this.boxOrder.boxes.findIndex((x: any) => x.id === id);
+	}
+
+	loading(agreed: boolean) {
+		this.loads.emit(agreed);
+	}
+
+	print() {
+		setTimeout(() => {
+			window.print();
+		}, 5000);
 	}
 }

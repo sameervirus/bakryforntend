@@ -14,6 +14,8 @@ import { DeliveryModule } from './delivery/delivery.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { QRCodeModule } from 'angularx-qrcode';
+import { NgxBarcodeModule } from 'ngx-barcode';
 
 // Services
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
@@ -80,6 +82,8 @@ import { PrintComponent } from './components/print/print.component';
 		UsersModule,
 		DispatchModule,
 		DeliveryModule,
+		QRCodeModule,
+		NgxBarcodeModule,
 		NgxPermissionsModule.forRoot(),
 	],
 	providers: [
