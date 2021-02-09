@@ -8,7 +8,7 @@
     <img
       src="assets/phpI4rSko.png"
       alt="EBS Logo"
-      class="brand-image img-circle elevation-3"
+      class="brand-image elevation-3"
       style="opacity: 0.8"
     />
     <span class="brand-text font-weight-light">EBS Ordering System</span>
@@ -92,6 +92,16 @@
               >
                 <i class="far fa-circle nav-icon"></i>
                 <p>Orders Review</p>
+              </a>
+            </li>
+            <li *ngxPermissionsOnly="['review orders']" class="nav-item">
+              <a
+                [routerLink]="['/orders/review-branches']"
+                [class.active]="reviewsBComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Branches Orders Review</p>
               </a>
             </li>
             <!-- <li class="nav-item">

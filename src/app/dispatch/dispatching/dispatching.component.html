@@ -39,8 +39,10 @@
         </div>
         <!-- /.row -->
         <div class="row">
-          <div class="col-md-6 table-responsive">
-            <table class="table table-striped table-sm">
+          <div class="col-md-6 table-responsive p-0" style="height: 500px">
+            <table
+              class="table table-striped table-sm table-head-fixed text-nowrap"
+            >
               <thead>
                 <tr>
                   <th>Code#</th>
@@ -183,12 +185,14 @@
                       <td>{{ box.qty }}</td>
                       <td>
                         <a
+                          *ngIf="order.status_id == 7"
                           (click)="editBox(box)"
                           class="btn btn-info btn-sm pointer"
                         >
                           <i class="fas fa-pen"> </i>
                         </a>
                         <a
+                          *ngIf="order.status_id == 7"
                           (click)="removeItem(box.id)"
                           class="btn btn-danger btn-sm pointer"
                         >

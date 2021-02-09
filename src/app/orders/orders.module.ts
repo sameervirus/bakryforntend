@@ -17,10 +17,11 @@ import { ReviewsComponent } from './reviews/reviews.component';
 import { HistoryComponent } from './history/history.component';
 import { ProductionsComponent } from './productions/productions.component';
 import { ProductionComponent } from './production/production.component';
+import { ReviewBranchesComponent } from './review-branches/review-branches.component';
 
 @NgModule({
   declarations: [  	
-    ActivesComponent, CreateComponent, ViewComponent, EditComponent, ReviewsComponent, HistoryComponent, ProductionsComponent, ProductionComponent
+    ActivesComponent, CreateComponent, ViewComponent, EditComponent, ReviewsComponent, HistoryComponent, ProductionsComponent, ProductionComponent, ReviewBranchesComponent
   ],
   imports: [
     CommonModule,

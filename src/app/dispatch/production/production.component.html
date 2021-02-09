@@ -69,7 +69,7 @@
                   Receive Products
                 </button>
                 <a
-                  *ngIf="products.length > 0"
+                  *ngIf="products && products.length > 0"
                   [routerLink]="['/print/dispatch/' + selectedDate]"
                   target="_blank"
                   class="btn btn-default pointer"

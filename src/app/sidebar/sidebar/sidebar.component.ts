@@ -19,6 +19,7 @@ export class SidebarComponent implements OnInit {
 	ordersSub: boolean = false;
 	activesComp: boolean = false;
 	reviewsComp: boolean = false;
+	reviewsBComp: boolean = false;
 	historyComp: boolean = false;
 
 	user: any;
@@ -175,6 +176,7 @@ export class SidebarComponent implements OnInit {
 			this.ordersSub = true;
 			this.activesComp = url.includes('actives') ? true : false;
 			this.reviewsComp = url.includes('reviews') ? true : false;
+			this.reviewsBComp = url.includes('review-b') ? true : false;
 			this.historyComp = url.includes('history') ? true : false;
 		} else if (url.includes('dispatch')) {
 			this.tabsClose();
@@ -208,6 +210,7 @@ export class SidebarComponent implements OnInit {
 		this.ordersSub = false;
 		this.activesComp = false;
 		this.reviewsComp = false;
+		this.reviewsBComp = false;
 		this.historyComp = false;
 
 		this.usersMenu = false;

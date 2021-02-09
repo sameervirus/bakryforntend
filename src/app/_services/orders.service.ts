@@ -62,6 +62,12 @@ export class OrdersService {
 		});
 	}
 
+	getOrdersBranches(selectedDate: any): Observable<any> {
+		return this.http.get('orders-branches/' + selectedDate, {
+			observe: 'response',
+		});
+	}
+
 	updateOrderApproved(
 		product: number,
 		order: number,

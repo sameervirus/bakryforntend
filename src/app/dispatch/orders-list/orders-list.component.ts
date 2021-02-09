@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class OrdersListComponent implements OnInit {
 	orders: any;
+	orginOrders: any;
 	boxes: any;
 	today: number = Date.now();
 	selectedDate: any;
@@ -31,6 +32,7 @@ export class OrdersListComponent implements OnInit {
 	getDispatchOrders(date: any) {
 		return this.dispatchService.getDispatchOrders(date).subscribe((res) => {
 			this.orders = res.body.orders;
+			this.orginOrders = res.body.orders;
 			this.boxes = res.body.boxes;
 			this.hasApprove = this.checkStatus(res.body.status);
 			this.canApprove = this.checkBoxedQty(this.orders, res.body.dispatch);
@@ -59,6 +61,17 @@ export class OrdersListComponent implements OnInit {
 		this.orders = undefined;
 		this.selectedDate = e.target.value;
 		this.getDispatchOrders(e.target.value);
+	}
+
+	onSearchChange(e: any) {
+		let str = e.target.value;
+		this.orders = this.orginOrders.filter(
+			(a: any) =>
+				a.code.includes(str) ||
+				a.branch.includes(str) ||
+				a.client.includes(str) ||
+				a.status.includes(str)
+		);
 	}
 
 	checkBoxedQty(orders: any, dispatch: any) {
@@ -101,6 +114,4 @@ export class OrdersListComponent implements OnInit {
 			}
 		);
 	}
-
-	printThis(id: number) {}
 }

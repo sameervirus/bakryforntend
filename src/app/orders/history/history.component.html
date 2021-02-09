@@ -36,10 +36,11 @@
                       <th>Code#</th>
                       <th>Order Date</th>
                       <th>Due Date</th>
+                      <th>Deliverd Date</th>
                       <th>Status</th>
                       <th>Total qty</th>
                       <th>Approved qty</th>
-                      <th>Deliverd qty</th>
+                      <th>Delivered qty</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -48,6 +49,7 @@
                       <td>{{ order.code }}</td>
                       <td>{{ order.date | date: "longDate" }}</td>
                       <td>{{ order.due_date | date: "longDate" }}</td>
+                      <td>{{ order.delivered_date | date: "longDate" }}</td>
                       <td>
                         <span
                           class="badge"

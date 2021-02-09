@@ -4,14 +4,14 @@ import { formatDate } from '@angular/common';
 import { OrdersService, NotificationService } from '../../_services';
 
 @Component({
-	selector: 'app-reviews',
-	templateUrl: './reviews.component.html',
-	styleUrls: ['./reviews.component.css'],
+	selector: 'app-review-branches',
+	templateUrl: './review-branches.component.html',
+	styleUrls: ['./review-branches.component.css'],
 })
-export class ReviewsComponent implements OnInit {
-	products: any;
-	orginProducts: any;
+export class ReviewBranchesComponent implements OnInit {
 	orders: any;
+	orginOrders: any;
+	ids: any;
 	today: number = Date.now();
 	selectedDate: any;
 	tr: number = 0;
@@ -24,14 +24,14 @@ export class ReviewsComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.selectedDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US');
-		this.getOrdersProducts(this.selectedDate);
+		this.getOrdersBranches(this.selectedDate);
 	}
 
-	getOrdersProducts(selectedDate: any) {
-		this.ordersService.getOrdersProducts(selectedDate).subscribe((res) => {
-			this.products = res.body.products;
-			this.orginProducts = res.body.products;
+	getOrdersBranches(selectedDate: any) {
+		this.ordersService.getOrdersBranches(selectedDate).subscribe((res) => {
 			this.orders = res.body.orders;
+			this.orginOrders = res.body.orders;
+			this.ids = res.body.orders;
 			this.canEdit = this.checkStatus(res.body.status);
 		});
 	}
@@ -41,35 +41,23 @@ export class ReviewsComponent implements OnInit {
 	}
 
 	changeSelected(e: any) {
-		this.products = undefined;
+		this.orders = undefined;
 		this.selectedDate = e.target.value;
-		this.getOrdersProducts(e.target.value);
-	}
-
-	claculateQty(items: any) {
-		let sum: number = items
-			.map((a: any) => a.pivot_qty)
-			.reduce(function (a: number, b: number) {
-				return Number(a) + Number(b);
-			});
-		return sum;
+		this.getOrdersBranches(e.target.value);
 	}
 
 	claculateApproveQty(items: any) {
 		let sum: number = 0;
 		for (let i = 0; i < items.length; i++) {
-			sum += items[i].pivot_pre;
+			sum += items[i].pre_approve;
 		}
 		return sum;
 	}
 
 	onSearchChange(e: any) {
 		let str = e.target.value;
-		this.products = this.orginProducts.filter(
-			(a: any) =>
-				a.code.includes(str) ||
-				a.name.includes(str) ||
-				a.arabic_name.includes(str)
+		this.orders = this.orginOrders.filter(
+			(a: any) => a.code.includes(str) || a.branch.includes(str)
 		);
 	}
 
@@ -111,7 +99,7 @@ export class ReviewsComponent implements OnInit {
 				.updateOrderApproved(product, order, qty, 'pre_approve')
 				.subscribe(
 					(res) => {
-						this.products[p].orders[o].pivot_pre = Number(qty);
+						this.orders[o].products[p].pivot_pre = Number(qty);
 						if ((res.message = 'sucsses')) {
 							this.notificationService.sendMessages(
 								`Order has been updated successfuly`,
@@ -137,8 +125,8 @@ export class ReviewsComponent implements OnInit {
 	}
 
 	toProduction() {
-		if (this.orders.length > 0) {
-			this.ordersService.toProduction(this.orders).subscribe(
+		if (this.ids.length > 0) {
+			this.ordersService.toProduction(this.ids).subscribe(
 				(res) => {
 					if ((res.message = 'sucsses')) {
 						this.notificationService.sendMessages(

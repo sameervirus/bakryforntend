@@ -2,6 +2,7 @@ import { Component, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd, RoutesRecognized } from '@angular/router';
 import { LoaderService } from './_services';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
 	selector: '[id=app]',
@@ -14,13 +15,21 @@ export class AppComponent {
 	hideElement = false;
 	print = false;
 	loading = false;
+	device = this.deviceService.deviceType;
+
 	constructor(
 		private render: Renderer2,
 		private router: Router,
 		private titleService: Title,
-		private loaderService: LoaderService
+		private loaderService: LoaderService,
+		private deviceService: DeviceDetectorService
 	) {
 		this.router.events.subscribe((event) => {
+			if (this.device != 'desktop') {
+				this.render.addClass(document.body, 'sidebar-collapse');
+				this.render.removeClass(document.body, 'sidebar-open');
+				this.render.addClass(document.body, 'sidebar-closed');
+			}
 			if (event instanceof NavigationEnd) {
 				if (event.url.indexOf('login') !== -1) {
 					this.hideElement = true;

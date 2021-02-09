@@ -11,6 +11,7 @@ import { ReviewsComponent } from './reviews/reviews.component';
 import { HistoryComponent } from './history/history.component';
 import { ProductionsComponent } from './productions/productions.component';
 import { ProductionComponent } from './production/production.component';
+import { ReviewBranchesComponent } from './review-branches/review-branches.component';
 
 const routes: Routes = [
 	{ path: '', component: ActivesComponent, canActivate: [AuthGuard] },
@@ -60,6 +61,14 @@ const routes: Routes = [
 		canActivate: [AuthGuard],
 		data: {
 			breadcrumb: 'Review Orders',
+		},
+	},
+	{
+		path: 'review-branches',
+		component: ReviewBranchesComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Branches Orders Review',
 		},
 	},
 	{

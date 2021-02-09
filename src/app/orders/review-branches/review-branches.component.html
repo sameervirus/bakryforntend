@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12">
       <!-- Main content -->
-      <div *ngIf="products" class="mt-3 mb-3">
+      <div *ngIf="orders" class="mt-3 mb-3">
         <div class="row">
           <div class="col-12">
             <div class="card">
@@ -34,56 +34,63 @@
                 <table class="table table-bordered table-hover">
                   <thead>
                     <tr>
-                      <th>Code/Client Code</th>
-                      <th>Name</th>
-                      <th>Arabic Name</th>
+                      <th>Code</th>
+                      <th>Branch</th>
+                      <th>Order Date</th>
+                      <th>Due Date</th>
                       <th>Qty</th>
                       <th>Approved Qty</th>
                       <th style="width: 5%">Action</th>
                     </tr>
                   </thead>
-                  <tbody *ngFor="let product of products; let p = index">
+                  <tbody *ngFor="let order of orders; let o = index">
                     <tr>
-                      <td>{{ product.code }}<br />{{ product.client_code }}</td>
-                      <td>{{ product.name }}</td>
-                      <td>{{ product.arabic_name }}</td>
-                      <td>{{ claculateQty(product.orders) }}</td>
-                      <td>{{ claculateApproveQty(product.orders) }}</td>
+                      <td>{{ order.code }}</td>
+                      <td>{{ order.branch }}</td>
+                      <td>{{ order.date | date: "longDate" }}</td>
+                      <td>{{ order.due_date | date: "longDate" }}</td>
+                      <td>{{ order.qty }}</td>
+                      <td>{{ claculateApproveQty(order.products) }}</td>
                       <td>
                         <a
                           class="btn btn-app btn-sm bg-primary"
-                          (click)="expandable(product.id)"
+                          (click)="expandable(order.id)"
                         >
                           <i class="fas fa-edit"></i> Edit
                         </a>
                       </td>
                     </tr>
-                    <tr *ngIf="tr == product.id">
+                    <tr *ngIf="tr == order.id">
                       <td colspan="6">
                         <table class="table table-bordered table-orders">
                           <tr>
-                            <th>Code</th>
-                            <th>Client</th>
-                            <th>Branch</th>
-                            <th>Quantity</th>
+                            <th>Code/Client Code</th>
+                            <th>Name</th>
+                            <th>Arabic Name</th>
+                            <th>Qty</th>
                             <th>Approved Qty</th>
-                            <th>action</th>
+                            <th style="width: 5%">Action</th>
                           </tr>
                           <tr
-                            *ngFor="let order of product.orders; let o = index"
+                            *ngFor="
+                              let product of order.products;
+                              let p = index
+                            "
                           >
-                            <td>{{ order.code }}</td>
-                            <td>{{ order.client }}</td>
-                            <td>{{ order.branch }}</td>
-                            <td>{{ order.pivot_qty }}</td>
+                            <td>
+                              {{ product.code }}<br />{{ product.client_code }}
+                            </td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.arabic_name }}</td>
+                            <td>{{ product.qty }}</td>
                             <td style="width: 10%">
                               <input
                                 type="number"
                                 class="form-control"
                                 min="0"
-                                max="{{ order.pivot_qty }}"
+                                max="{{ product.qty }}"
                                 #qtys
-                                value="{{ order.pivot_pre }}"
+                                value="{{ product.pre_approve }}"
                                 pattern="^[0-9]+\.[0-9][0-9]$"
                               />
                             </td>
@@ -96,7 +103,7 @@
                                     product.id,
                                     order.id,
                                     qtys.value,
-                                    order.pivot_qty,
+                                    product.qty,
                                     p,
                                     o
                                   )
@@ -131,7 +138,7 @@
         </div>
       </div>
       <!-- /.invoice -->
-      <p *ngIf="!products" class="text-center">
+      <p *ngIf="!orders" class="text-center">
         <i class="fas fa-spinner fa-spin"></i>
       </p>
     </div>

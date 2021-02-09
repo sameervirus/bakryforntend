@@ -19,10 +19,24 @@
               </div>
               <!-- ./card-header -->
               <div class="card-body">
+                <form class="form-horizontal">
+                  <div class="form-group row w-25">
+                    <div class="col-sm-8">
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        class="form-control"
+                        (input)="onSearchChange($event)"
+                      />
+                    </div>
+                  </div>
+                </form>
                 <table class="table table-bordered table-hover">
                   <thead>
                     <tr>
                       <th>Code#</th>
+                      <th>Client</th>
+                      <th>Branch</th>
                       <th>Order Date</th>
                       <th>Due Date</th>
                       <th>Status</th>
@@ -35,6 +49,8 @@
                   <tbody *ngIf="orders.length > 0 && hasApprove">
                     <tr *ngFor="let order of orders">
                       <td>{{ order.code }}</td>
+                      <td>{{ order.client }}</td>
+                      <td>{{ order.branch }}</td>
                       <td>{{ order.date | date: "longDate" }}</td>
                       <td>{{ order.due_date | date: "longDate" }}</td>
                       <td>
@@ -80,14 +96,14 @@
                   </tbody>
                   <tbody *ngIf="orders.length < 1">
                     <tr>
-                      <td colspan="8" class="text-center">
+                      <td colspan="10" class="text-center">
                         <h3>There is no orders</h3>
                       </td>
                     </tr>
                   </tbody>
                   <tbody *ngIf="!hasApprove">
                     <tr>
-                      <td colspan="8" class="text-center">
+                      <td colspan="10" class="text-center">
                         <h3>
                           Production Products need to approve from Production
                           List first
