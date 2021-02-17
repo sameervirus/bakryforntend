@@ -16,6 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { QRCodeModule } from 'angularx-qrcode';
 import { NgxBarcodeModule } from 'ngx-barcode';
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 
 // Services
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
@@ -84,6 +85,7 @@ import { PrintComponent } from './components/print/print.component';
 		DeliveryModule,
 		QRCodeModule,
 		NgxBarcodeModule,
+		AngularMyDatePickerModule,
 		NgxPermissionsModule.forRoot(),
 	],
 	providers: [

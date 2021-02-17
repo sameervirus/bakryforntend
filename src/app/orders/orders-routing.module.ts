@@ -12,6 +12,8 @@ import { HistoryComponent } from './history/history.component';
 import { ProductionsComponent } from './productions/productions.component';
 import { ProductionComponent } from './production/production.component';
 import { ReviewBranchesComponent } from './review-branches/review-branches.component';
+import { AllComponent } from './all/all.component';
+import { ModifyComponent } from './modify/modify.component';
 
 const routes: Routes = [
 	{ path: '', component: ActivesComponent, canActivate: [AuthGuard] },
@@ -56,6 +58,14 @@ const routes: Routes = [
 		},
 	},
 	{
+		path: 'modify/:id',
+		component: ModifyComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'Edit Order',
+		},
+	},
+	{
 		path: 'reviews',
 		component: ReviewsComponent,
 		canActivate: [AuthGuard],
@@ -93,6 +103,14 @@ const routes: Routes = [
 		canActivate: [AuthGuard],
 		data: {
 			breadcrumb: 'Production Line',
+		},
+	},
+	{
+		path: 'all',
+		component: AllComponent,
+		canActivate: [AuthGuard],
+		data: {
+			breadcrumb: 'All Orders',
 		},
 	},
 ];

@@ -31,10 +31,13 @@
                     </div>
                   </div>
                 </form>
-                <table class="table table-bordered table-hover">
+                <table
+                  class="table table-bordered table-hover table-head-fixed"
+                >
                   <thead>
                     <tr>
                       <th>Code</th>
+                      <th>Branch Code</th>
                       <th>Branch</th>
                       <th>Order Date</th>
                       <th>Due Date</th>
@@ -46,6 +49,7 @@
                   <tbody *ngFor="let order of orders; let o = index">
                     <tr>
                       <td>{{ order.code }}</td>
+                      <td>{{ order.branch_code }}</td>
                       <td>{{ order.branch }}</td>
                       <td>{{ order.date | date: "longDate" }}</td>
                       <td>{{ order.due_date | date: "longDate" }}</td>
@@ -88,7 +92,6 @@
                                 type="number"
                                 class="form-control"
                                 min="0"
-                                max="{{ product.qty }}"
                                 #qtys
                                 value="{{ product.pre_approve }}"
                                 pattern="^[0-9]+\.[0-9][0-9]$"

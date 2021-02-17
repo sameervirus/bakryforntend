@@ -67,10 +67,10 @@ export class OrdersListComponent implements OnInit {
 		let str = e.target.value;
 		this.orders = this.orginOrders.filter(
 			(a: any) =>
-				a.code.includes(str) ||
-				a.branch.includes(str) ||
-				a.client.includes(str) ||
-				a.status.includes(str)
+				a.code.toLowerCase().includes(str.toLowerCase()) ||
+				a.branch.toLowerCase().includes(str.toLowerCase()) ||
+				a.client.toLowerCase().includes(str.toLowerCase()) ||
+				a.status.toLowerCase().includes(str.toLowerCase())
 		);
 	}
 

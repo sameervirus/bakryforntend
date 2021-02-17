@@ -37,7 +37,8 @@
       <div class="col-sm-4 invoice-col">
         <address>
           <strong>Client# </strong>{{ order.client }}<br />
-          <strong>Branch# </strong>{{ order.branch }}<br />
+          <strong>Branch# </strong>{{ order.branch_code }} -
+          {{ order.branch }} - {{ order.arabic_branch }}<br />
         </address>
       </div>
       <!-- /.col -->
@@ -189,7 +190,10 @@
           <strong>{{ boxOrder.client }}</strong>
         </h5>
         <h5>
-          <strong>{{ boxOrder.branch }}</strong>
+          <strong>{{ boxOrder.branch_code }} - {{ boxOrder.branch }}</strong>
+        </h5>
+        <h5>
+          <strong>{{ boxOrder.arabic_branch }}</strong>
         </h5>
       </div>
       <div class="col-md-4">

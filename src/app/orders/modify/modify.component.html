@@ -1,0 +1,181 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <!-- Main content -->
+      <div *ngIf="order" class="invoice p-3 mb-3">
+        <!-- title row -->
+        <div class="row">
+          <div class="col-12">
+            <h4>
+              <i class="fas fa-globe"></i> {{ order.client }} -
+              {{ order.arabic_client }}
+              <small class="float-right"
+                >Date: {{ today | date: "longDate" }}</small
+              >
+            </h4>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info border-bottom mb-3">
+          <div class="col-sm-4 invoice-col">
+            Branch
+            <address>
+              <strong>{{ order.branch }} - {{ order.arabic_branch }}</strong
+              ><br />
+              {{ order.district }}, {{ order.city }}<br />
+            </address>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col">
+            User
+            <address>
+              Created By: <strong>{{ order.creater }}</strong
+              ><br />
+              Submit By: <strong>{{ order.submit }}</strong
+              ><br />
+              Approved By: <strong>{{ order.approval }}</strong>
+            </address>
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 invoice-col">
+            <b>Order Code:</b> {{ order.code }}<br />
+            <b>Placed:</b> {{ order.date | date: "longDate" }}<br />
+            <br />
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-md-4">
+            <b>Due Date: </b>
+            <input
+              angular-mydatepicker
+              [(ngModel)]="model"
+              [options]="myDatePickerOptions"
+              (click)="dp.toggleCalendar()"
+              #dp="angular-mydatepicker"
+              class="form-control"
+            />
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <b>Order Status: </b>
+            <ng-select
+              [items]="status"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="Choose Status"
+              (change)="onStatusChange($event)"
+            >
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <!-- /.invoice -->
+      <div *ngIf="order" class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Products</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Code#</th>
+                  <th>Name</th>
+                  <th>Arabic</th>
+                  <th>Qty</th>
+                  <th>Qty Approved</th>
+                  <th>Qty Production</th>
+                  <th>Qty Deliverd</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of order.products">
+                  <td data-id="{{ item.id }}">{{ item.client_code }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.arabic_name }}</td>
+                  <td>
+                    <input
+                      type="number"
+                      class="form-control"
+                      min="0"
+                      #qty
+                      (change)="changeQty(item.id, qty, 'qty')"
+                      value="{{ item.qty }}"
+                      pattern="^[0-9]+\.[0-9][0-9]$"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      class="form-control"
+                      min="0"
+                      #qty_approved
+                      (change)="
+                        changeQty(item.id, qty_approved, 'qty_approved')
+                      "
+                      value="{{ item.qty_approved }}"
+                      pattern="^[0-9]+\.[0-9][0-9]$"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      class="form-control"
+                      min="0"
+                      #qty_production
+                      (change)="
+                        changeQty(item.id, qty_production, 'qty_production')
+                      "
+                      value="{{ item.qty_production }}"
+                      pattern="^[0-9]+\.[0-9][0-9]$"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      class="form-control"
+                      min="0"
+                      #qty_delivered
+                      (change)="
+                        changeQty(item.id, qty_delivered, 'qty_delivered')
+                      "
+                      value="{{ item.qty_delivered }}"
+                      pattern="^[0-9]+\.[0-9][0-9]$"
+                    />
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.card-body -->
+
+        <div class="card-footer">
+          <button
+            (click)="updateOrder()"
+            type="button"
+            class="btn btn-success float-right"
+          >
+            <i class="fas fa-paper-plane"></i> Submit Order
+          </button>
+        </div>
+      </div>
+      <p *ngIf="!order" class="text-center">
+        <i class="fas fa-spinner fa-spin"></i>
+      </p>
+    </div>
+    <!-- /.col -->
+  </div>
+</div>

@@ -67,9 +67,9 @@ export class EditComponent implements OnInit {
 		let str = e.target.value;
 		this.products = this.orginProducts.filter(
 			(a: any) =>
-				a.name.includes(str) ||
-				a.client_code.includes(str) ||
-				a.name_ar.includes(str)
+				a.name.toLowerCase().includes(str.toLowerCase()) ||
+				a.client_code.toLowerCase().includes(str.toLowerCase()) ||
+				a.name_ar.toLowerCase().includes(str.toLowerCase())
 		);
 	}
 

@@ -31,7 +31,9 @@
                     </div>
                   </div>
                 </form>
-                <table class="table table-bordered table-hover">
+                <table
+                  class="table table-bordered table-hover table-head-fixed"
+                >
                   <thead>
                     <tr>
                       <th>Code/Client Code</th>
@@ -81,7 +83,6 @@
                                 type="number"
                                 class="form-control"
                                 min="0"
-                                max="{{ order.pivot_qty }}"
                                 #qtys
                                 value="{{ order.pivot_pre }}"
                                 pattern="^[0-9]+\.[0-9][0-9]$"

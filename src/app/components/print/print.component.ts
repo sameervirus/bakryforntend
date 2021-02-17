@@ -62,13 +62,13 @@ export class PrintComponent implements OnInit {
 				this.getBoxDetails(id);
 			}
 		}
-		this.print();
 	}
 
 	getDispatchOrder(id: string) {
 		this.loading(true);
 		this.dispatchService.getDispatchOrder(id).subscribe((res) => {
 			this.order = res.body.order;
+			this.print();
 		});
 	}
 
@@ -77,6 +77,7 @@ export class PrintComponent implements OnInit {
 			.getProductionProducts(selectedDate)
 			.subscribe((res) => {
 				this.products = res.body.products;
+				this.print();
 			});
 	}
 
@@ -101,6 +102,7 @@ export class PrintComponent implements OnInit {
 		this.dispatchService.getBoxDetails(id).subscribe((res) => {
 			this.box = res.body.box;
 			this.boxOrder = res.body.order;
+			this.print();
 		});
 	}
 

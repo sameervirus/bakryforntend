@@ -67,9 +67,9 @@ export class ReviewsComponent implements OnInit {
 		let str = e.target.value;
 		this.products = this.orginProducts.filter(
 			(a: any) =>
-				a.code.includes(str) ||
-				a.name.includes(str) ||
-				a.arabic_name.includes(str)
+				a.code.toLowerCase().includes(str.toLowerCase()) ||
+				a.name.toLowerCase().includes(str.toLowerCase()) ||
+				a.arabic_name.toLowerCase().includes(str.toLowerCase())
 		);
 	}
 
@@ -92,13 +92,13 @@ export class ReviewsComponent implements OnInit {
 				true,
 				{ text: 'OK' }
 			);
-		} else if (qty > pivot_qty) {
-			this.notificationService.sendMessages(
-				'Approve quantity cannot be more than order quantities',
-				'error',
-				true,
-				{ text: 'OK' }
-			);
+			// } else if (qty > pivot_qty) {
+			// 	this.notificationService.sendMessages(
+			// 		'Approve quantity cannot be more than order quantities',
+			// 		'error',
+			// 		true,
+			// 		{ text: 'OK' }
+			// 	);
 		} else if (product === undefined || order === undefined) {
 			this.notificationService.sendMessages(
 				'It must have one order at least',

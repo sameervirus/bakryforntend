@@ -31,9 +31,12 @@
                     </div>
                   </div>
                 </form>
-                <table class="table table-bordered table-hover">
+                <table
+                  class="table table-bordered table-hover table-head-fixed"
+                >
                   <thead>
                     <tr>
+                      <th>#</th>
                       <th>Code#</th>
                       <th>Client</th>
                       <th>Branch</th>
@@ -47,10 +50,15 @@
                     </tr>
                   </thead>
                   <tbody *ngIf="orders.length > 0 && hasApprove">
-                    <tr *ngFor="let order of orders">
+                    <tr *ngFor="let order of orders; let i = index">
+                      <td>{{ i + 1 }}</td>
                       <td>{{ order.code }}</td>
                       <td>{{ order.client }}</td>
-                      <td>{{ order.branch }}</td>
+                      <td>
+                        {{ order.branch_code }} - {{ order.branch }}<br />{{
+                          order.arabic_branch
+                        }}
+                      </td>
                       <td>{{ order.date | date: "longDate" }}</td>
                       <td>{{ order.due_date | date: "longDate" }}</td>
                       <td>

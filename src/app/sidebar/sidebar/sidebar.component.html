@@ -104,6 +104,16 @@
                 <p>Branches Orders Review</p>
               </a>
             </li>
+            <li *ngxPermissionsOnly="['review orders']" class="nav-item">
+              <a
+                [routerLink]="['/orders/all']"
+                [class.active]="allComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>All Orders</p>
+              </a>
+            </li>
             <!-- <li class="nav-item">
                 <a href="assets/index3.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

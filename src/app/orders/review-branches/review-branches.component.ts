@@ -57,7 +57,10 @@ export class ReviewBranchesComponent implements OnInit {
 	onSearchChange(e: any) {
 		let str = e.target.value;
 		this.orders = this.orginOrders.filter(
-			(a: any) => a.code.includes(str) || a.branch.includes(str)
+			(a: any) =>
+				a.code.toLowerCase().includes(str.toLowerCase()) ||
+				a.branch.toLowerCase().includes(str.toLowerCase()) ||
+				a.branch_code.toLowerCase().includes(str.toLowerCase())
 		);
 	}
 
@@ -80,13 +83,13 @@ export class ReviewBranchesComponent implements OnInit {
 				true,
 				{ text: 'OK' }
 			);
-		} else if (qty > pivot_qty) {
-			this.notificationService.sendMessages(
-				'Approve quantity cannot be more than order quantities',
-				'error',
-				true,
-				{ text: 'OK' }
-			);
+			// } else if (qty > pivot_qty) {
+			// 	this.notificationService.sendMessages(
+			// 		'Approve quantity cannot be more than order quantities',
+			// 		'error',
+			// 		true,
+			// 		{ text: 'OK' }
+			// 	);
 		} else if (product === undefined || order === undefined) {
 			this.notificationService.sendMessages(
 				'It must have one order at least',

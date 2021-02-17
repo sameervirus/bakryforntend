@@ -127,4 +127,25 @@ export class OrdersService {
 			{ observe: 'response' }
 		);
 	}
+
+	getAllOrders(): Observable<any> {
+		return this.http.get('all-orders', { observe: 'response' });
+	}
+
+	modifyOrder(id: string): Observable<any> {
+		return this.http.get('modify-orders/' + id, { observe: 'response' });
+	}
+
+	updateModifyOrder(
+		id: number,
+		due: string,
+		products: any,
+		status: number
+	): Observable<any> {
+		return this.http.post(
+			'update-modify/' + id,
+			{ due, products, status },
+			{ observe: 'response' }
+		);
+	}
 }
