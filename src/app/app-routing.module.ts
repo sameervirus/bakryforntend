@@ -125,6 +125,11 @@ const routes: Routes = [
 		loadChildren: () =>
 			import('./delivery/delivery.module').then((m) => m.DeliveryModule),
 	},
+	{
+		path: 'reports',
+		loadChildren: () =>
+			import('./reports/reports.module').then((m) => m.ReportsModule),
+	},
 
 	// otherwise redirect to home
 	{ path: '**', redirectTo: '' },

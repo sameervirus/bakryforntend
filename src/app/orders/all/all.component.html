@@ -109,10 +109,7 @@
                         </span>
                       </td>
                       <td>{{ order.qty }}</td>
-                      <td
-                        *ngIf="order.status_id < 9"
-                        class="project-actions text-right"
-                      >
+                      <td class="project-actions text-right">
                         <a
                           class="btn btn-primary btn-sm ml-1"
                           routerLink="/orders/view/{{ order.id }}"
@@ -131,14 +128,6 @@
                         >
                           <i class="fas fa-trash"></i>
                         </a> -->
-                      </td>
-                      <td *ngIf="order.status_id >= 9">
-                        <a
-                          class="btn btn-primary float-right btn-sm"
-                          routerLink="/orders/view/{{ order.id }}"
-                        >
-                          <i class="fas fa-folder"></i>
-                        </a>
                       </td>
                     </tr>
                   </tbody>

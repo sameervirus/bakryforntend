@@ -316,6 +316,31 @@
               </li> -->
           </ul>
         </li>
+        <li class="nav-item" [class.menu-open]="reportsMenu">
+          <a
+            (click)="changeView('reports')"
+            [class.active]="reportsMenu"
+            class="nav-link pointer"
+          >
+            <i class="nav-icon fas fa-copy"></i>
+            <p>
+              Reports
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" [class.d-block]="reportsSub">
+            <li class="nav-item">
+              <a
+                [routerLink]="['/reports/orders']"
+                [class.active]="ordersComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Orders Details</p>
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

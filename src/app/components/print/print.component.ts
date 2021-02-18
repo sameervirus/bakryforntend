@@ -68,6 +68,7 @@ export class PrintComponent implements OnInit {
 		this.loading(true);
 		this.dispatchService.getDispatchOrder(id).subscribe((res) => {
 			this.order = res.body.order;
+			this.products = this.groupByArray(res.body.order.products, 'category');
 			this.print();
 		});
 	}
@@ -118,5 +119,19 @@ export class PrintComponent implements OnInit {
 		setTimeout(() => {
 			window.print();
 		}, 5000);
+	}
+
+	groupByArray(xs: any, key: any) {
+		return xs.reduce(function (rv: any, x: any) {
+			let v = key instanceof Function ? key(x) : x[key];
+			let vSub = v.substring(0, 5);
+			let el = rv.find((r: any) => r && r.key === vSub);
+			if (el) {
+				el.values.push(x);
+			} else {
+				rv.push({ key: vSub, values: [x] });
+			}
+			return rv;
+		}, []);
 	}
 }

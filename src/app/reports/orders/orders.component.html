@@ -1,0 +1,145 @@
+<div class="container-fluid">
+  <div *ngIf="clients" class="row">
+    <div class="col-12">
+      <!-- Main content -->
+      <div class="mt-3 mb-3">
+        <div class="row mb-1">
+          <div class="col-md-3">
+            <ng-select
+              [items]="clients"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="All Clients"
+              (change)="onClientChange($event)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <ng-select
+              [items]="branches"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="All Branches"
+              (change)="onBranchChange($event)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-md-2">
+            <ng-select
+              [items]="statuses"
+              bindLabel="name"
+              bindValue="id"
+              placeholder="All Status"
+              (change)="onStatusChange($event)"
+            >
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            Choose Date:
+            <input
+              type="date"
+              (input)="changeSelected($event)"
+              value="{{ dueDate }}"
+            />
+          </div>
+          <div class="col-md-1">
+            <a class="btn btn-primary btn-sm ml-1" (click)="runReport()">
+              Run
+            </a>
+          </div>
+        </div>
+        <!-- info row -->
+        <div *ngIf="orders && orders != 'empty'" class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Orders</h3>
+
+                <div class="card-tools">
+                  <pagination-controls
+                    (pageChange)="p = $event"
+                    previousLabel=""
+                    nextLabel=""
+                  ></pagination-controls>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <table
+                  class="table table-striped table-sm projects table-head-fixed"
+                >
+                  <thead>
+                    <tr>
+                      <th>Order Code#</th>
+                      <th>Brach Code</th>
+                      <th>Brach Name</th>
+                      <th>Brach Arabic Name</th>
+                      <th>Branch Name Distr.</th>
+                      <th>Branch Arabic Name Distr.</th>
+                      <th>Order date</th>
+                      <th>Due Date</th>
+                      <th>T.Qty</th>
+                      <th>Item Name</th>
+                      <th>Arabic name</th>
+                      <th>item code</th>
+                      <th>customer item code</th>
+                      <th>Production Pool</th>
+                      <th>Category</th>
+                      <th>Qty</th>
+                      <th>Approve Qty</th>
+                      <th>Production Qty</th>
+                      <th>delivered Qty</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let order of orders">
+                    <tr
+                      *ngFor="
+                        let product of order.products
+                          | paginate: { itemsPerPage: 50, currentPage: p }
+                      "
+                    >
+                      <td>{{ order.code }}</td>
+                      <td>{{ order.branch_code }}</td>
+                      <td>{{ order.branch }}</td>
+                      <td>{{ order.arabic_branch }}</td>
+                      <td>{{ order.district }}</td>
+                      <td>{{ order.arabic_district }}</td>
+                      <td>{{ order.date | date: "longDate" }}</td>
+                      <td>{{ order.due_date | date: "longDate" }}</td>
+                      <td>{{ order.qty }}</td>
+                      <td>{{ product.name }}</td>
+                      <td>{{ product.arabic_name }}</td>
+                      <td>{{ product.code }}</td>
+                      <td>{{ product.client_code }}</td>
+                      <td>{{ product.pool_code }}</td>
+                      <td>{{ product.category }}</td>
+                      <td>{{ product.qty }}</td>
+                      <td>{{ product.qty_approved }}</td>
+                      <td>{{ product.qty_production }}</td>
+                      <td>{{ product.qty_delivered }}</td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="orders.length < 1">
+                    <tr>
+                      <td colspan="19" class="text-center">
+                        <h3>There is no orders</h3>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+        </div>
+        <p *ngIf="orders == 'empty'" class="text-center">
+          <i class="fas fa-spinner fa-spin"></i>
+        </p>
+      </div>
+      <!-- /.invoice -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <p *ngIf="!clients" class="text-center">
+    <i class="fas fa-spinner fa-spin"></i>
+  </p>
+</div>

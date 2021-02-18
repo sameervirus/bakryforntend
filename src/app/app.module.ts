@@ -9,6 +9,7 @@ import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
 import { DispatchModule } from './dispatch/dispatch.module';
 import { DeliveryModule } from './delivery/delivery.module';
+import { ReportsModule } from './reports/reports.module';
 
 // Plugin
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -83,6 +84,7 @@ import { PrintComponent } from './components/print/print.component';
 		UsersModule,
 		DispatchModule,
 		DeliveryModule,
+		ReportsModule,
 		QRCodeModule,
 		NgxBarcodeModule,
 		AngularMyDatePickerModule,

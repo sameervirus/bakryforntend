@@ -7,3 +7,4 @@ export * from './orders.service';
 export * from './users.service';
 export * from './dispatch.service';
 export * from './delivery.service';
+export * from './reports.service';

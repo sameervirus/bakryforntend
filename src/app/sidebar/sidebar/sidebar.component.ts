@@ -47,6 +47,10 @@ export class SidebarComponent implements OnInit {
 	recevieCom = false;
 	receivingCom = false;
 
+	reportsMenu = false;
+	reportsSub = false;
+	ordersComp = false;
+
 	constructor(
 		private route: ActivatedRoute,
 		private permissionsService: NgxPermissionsService,
@@ -155,6 +159,16 @@ export class SidebarComponent implements OnInit {
 					this.usersSub = true;
 				}
 				break;
+			case 'reports':
+				this.tabsClose();
+				if (this.reportsMenu) {
+					this.reportsMenu = false;
+					this.reportsSub = false;
+				} else {
+					this.reportsMenu = true;
+					this.reportsSub = true;
+				}
+				break;
 
 			default:
 				// code...
@@ -200,6 +214,11 @@ export class SidebarComponent implements OnInit {
 			this.rolesComp = url.includes('roles') ? true : false;
 			this.profileComp = url.includes('profile') ? true : false;
 			this.branchesComp = url.includes('branches') ? true : false;
+		} else if (url.includes('reports')) {
+			this.tabsClose();
+			this.reportsMenu = true;
+			this.reportsSub = true;
+			this.ordersComp = url.includes('reports/orders') ? true : false;
 		} else {
 			this.tabsClose();
 		}
@@ -237,5 +256,9 @@ export class SidebarComponent implements OnInit {
 		this.deliverySub = false;
 		this.recevieCom = false;
 		this.receivingCom = false;
+
+		this.reportsMenu = false;
+		this.reportsSub = false;
+		this.ordersComp = false;
 	}
 }

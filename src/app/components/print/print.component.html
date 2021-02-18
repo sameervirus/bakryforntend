@@ -88,8 +88,11 @@
               <th>Qty Pending</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let product of order.products">
+          <tbody *ngFor="let category of products">
+            <tr>
+              <td colspan="6">{{ category.key }}</td>
+            </tr>
+            <tr *ngFor="let product of category.values">
               <td>{{ product.code }}</td>
               <td>{{ product.name }}</td>
               <td>{{ product.arabic_name }}</td>

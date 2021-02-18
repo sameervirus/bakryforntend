@@ -381,4 +381,8 @@ export class CodingService {
 			);
 		}
 	}
+
+	getStatus(): Observable<any> {
+		return this.http.get('helpers/status', { observe: 'response' });
+	}
 }
