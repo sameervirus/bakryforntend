@@ -316,7 +316,11 @@
               </li> -->
           </ul>
         </li>
-        <li class="nav-item" [class.menu-open]="reportsMenu">
+        <li
+          *ngxPermissionsOnly="['client reports', 'ebs reports']"
+          class="nav-item"
+          [class.menu-open]="reportsMenu"
+        >
           <a
             (click)="changeView('reports')"
             [class.active]="reportsMenu"
@@ -329,7 +333,7 @@
             </p>
           </a>
           <ul class="nav nav-treeview" [class.d-block]="reportsSub">
-            <li class="nav-item">
+            <li *ngxPermissionsOnly="['ebs reports']" class="nav-item">
               <a
                 [routerLink]="['/reports/orders']"
                 [class.active]="ordersComp"
@@ -337,6 +341,19 @@
               >
                 <i class="far fa-circle nav-icon"></i>
                 <p>Orders Details</p>
+              </a>
+            </li>
+            <li
+              *ngxPermissionsOnly="['client reports', 'ebs reports']"
+              class="nav-item"
+            >
+              <a
+                [routerLink]="['/reports/products']"
+                [class.active]="productsComp"
+                class="nav-link"
+              >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Products Details</p>
               </a>
             </li>
           </ul>

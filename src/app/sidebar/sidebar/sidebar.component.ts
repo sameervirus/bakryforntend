@@ -50,6 +50,7 @@ export class SidebarComponent implements OnInit {
 	reportsMenu = false;
 	reportsSub = false;
 	ordersComp = false;
+	productsComp = false;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -84,7 +85,7 @@ export class SidebarComponent implements OnInit {
 	checkProductions(perm: any) {
 		for (var i = 0; i < perm.length; ++i) {
 			if (perm[i] == 'productions review') return true;
-			if (perm[i].includes['line']) return true;
+			if (perm[i].includes('line')) return true;
 		}
 		return false;
 	}
@@ -219,6 +220,7 @@ export class SidebarComponent implements OnInit {
 			this.reportsMenu = true;
 			this.reportsSub = true;
 			this.ordersComp = url.includes('reports/orders') ? true : false;
+			this.productsComp = url.includes('reports/products') ? true : false;
 		} else {
 			this.tabsClose();
 		}
@@ -260,5 +262,6 @@ export class SidebarComponent implements OnInit {
 		this.reportsMenu = false;
 		this.reportsSub = false;
 		this.ordersComp = false;
+		this.productsComp = false;
 	}
 }

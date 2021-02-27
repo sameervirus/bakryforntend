@@ -20,4 +20,18 @@ export class ReportsService {
 			{ observe: 'response' }
 		);
 	}
+
+	getProductsDetails(
+		fdue: any,
+		tdue: any,
+		client: number,
+		branch: number,
+		distribution: number
+	): Observable<any> {
+		return this.http.post<any>(
+			'reports-products',
+			{ fdue, tdue, client, branch, distribution },
+			{ observe: 'response' }
+		);
+	}
 }

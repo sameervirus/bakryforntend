@@ -343,3 +343,9 @@ hr.box {
 .text-xxl {
   font-size: 4rem;
 }
+
+@media print {
+  .pagebreak {
+    page-break-after: always;
+  }
+}

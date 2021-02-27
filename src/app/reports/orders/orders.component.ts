@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExcelService } from '../../_services/';
 
 import {
 	CodingService,
@@ -24,7 +25,8 @@ export class OrdersComponent implements OnInit {
 	constructor(
 		private codingService: CodingService,
 		private reportsService: ReportsService,
-		private notificationService: NotificationService
+		private notificationService: NotificationService,
+		private excelService: ExcelService
 	) {}
 
 	ngOnInit(): void {
@@ -97,5 +99,36 @@ export class OrdersComponent implements OnInit {
 				{ text: 'Ok' }
 			);
 		}
+	}
+
+	exportAsXLSX(): void {
+		let data: any = [];
+		this.orders.forEach((order: any) => {
+			order.products.forEach((product: any) => {
+				data.push({
+					'Order Code#': order.code,
+					'Branch Code#': order.branch_code,
+					'Brach Name': order.branch,
+					'Brach Arabic Name': order.arabic_branch,
+					District: order.arabic_district,
+					Distribution: order.arabic_distribution,
+					'Order date': order.date,
+					'Due Date': order.due_date,
+					'T.Qty': order.qty,
+					'Item Name': product.name,
+					'Arabic name': product.arabic_name,
+					'item code': product.code,
+					'customer item code': product.client_code,
+					'Production Pool': product.pool_code,
+					Category: product.category,
+					Qty: product.qty,
+					'Approve Qty': product.qty_approved,
+					'Production Qty': product.qty_production,
+					'delivered Qty': product.qty_delivered,
+				});
+			});
+		});
+
+		this.excelService.exportAsExcelFile(data, 'Orders Details ' + this.dueDate);
 	}
 }

@@ -109,8 +109,8 @@ export class OrdersService {
 		});
 	}
 
-	getLineProducts(production: string): Observable<any> {
-		return this.http.get('productions-lines/' + production, {
+	getLineProducts(production: string, selectedDate: any): Observable<any> {
+		return this.http.get(`productions-lines/${production}/${selectedDate}`, {
 			observe: 'response',
 		});
 	}
@@ -119,11 +119,12 @@ export class OrdersService {
 		id: number,
 		qty: number,
 		orders: any,
-		production: string
+		production: string,
+		selected_date: any
 	): Observable<any> {
 		return this.http.post(
 			'line-update-production',
-			{ id, qty, orders, production },
+			{ id, qty, orders, production, selected_date },
 			{ observe: 'response' }
 		);
 	}

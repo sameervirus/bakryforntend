@@ -9,13 +9,13 @@ export class DispatchService {
 	constructor(private http: HttpClient) {}
 
 	getDispatchOrders(date: any): Observable<any> {
-		return this.http.get<any>('dispatch-orders/' + date, {
+		return this.http.get<any>(`dispatch-orders/${date}`, {
 			observe: 'response',
 		});
 	}
 
 	getProductionProducts(date: any): Observable<any> {
-		return this.http.get<any>('productions-orders/' + date, {
+		return this.http.get<any>(`productions-orders/${date}`, {
 			observe: 'response',
 		});
 	}
@@ -29,7 +29,7 @@ export class DispatchService {
 	}
 
 	getDispatchOrder(id: string): Observable<any> {
-		return this.http.get<any>('dispatch-order/' + id, { observe: 'response' });
+		return this.http.get<any>(`dispatch-order/${id}`, { observe: 'response' });
 	}
 
 	addBox(
@@ -58,6 +58,12 @@ export class DispatchService {
 	}
 
 	getBoxDetails(id: any): Observable<any> {
-		return this.http.get<any>('box-details/' + id, { observe: 'response' });
+		return this.http.get<any>(`box-details/${id}`, { observe: 'response' });
+	}
+
+	dispatchOrders(ids: string): Observable<any> {
+		return this.http.get<any>(`dispatchs-orders/${ids}`, {
+			observe: 'response',
+		});
 	}
 }

@@ -13,6 +13,7 @@ export class PrintComponent implements OnInit {
 	data: any;
 	title = 'Work Sheet';
 	order: any;
+	orders: any;
 	products: any;
 	selectedDay: any;
 	type: string = '';
@@ -62,15 +63,33 @@ export class PrintComponent implements OnInit {
 				this.getBoxDetails(id);
 			}
 		}
+		if (type == 'orders') {
+			this.type = type;
+			this.title = 'Dispatch Orders';
+			if (id) {
+				this.dispatchOrders(id);
+			}
+		}
 	}
 
 	getDispatchOrder(id: string) {
 		this.loading(true);
 		this.dispatchService.getDispatchOrder(id).subscribe((res) => {
-			this.order = res.body.order;
-			this.products = this.groupByArray(res.body.order.products, 'category');
+			this.orders = [res.body.order];
 			this.print();
 		});
+	}
+
+	dispatchOrders(ids: string) {
+		this.loading(true);
+		this.dispatchService.dispatchOrders(ids).subscribe((res) => {
+			this.orders = res.body.orders;
+			this.print();
+		});
+	}
+
+	sortProducts(order: any[]) {
+		return order.sort((a, b) => (a.code < b.code ? -1 : 1));
 	}
 
 	getProductionProducts(selectedDate: any) {
@@ -133,5 +152,32 @@ export class PrintComponent implements OnInit {
 			}
 			return rv;
 		}, []);
+	}
+
+	totals(items: any, field: string) {
+		let sum: number;
+
+		switch (field) {
+			case 'qty_approved':
+				sum = items
+					.map((a: any) => a.qty_approved)
+					.reduce(function (a: any, b: any) {
+						return a + b;
+					});
+				break;
+
+			case 'qty_production':
+				sum = items
+					.map((a: any) => a.qty_production)
+					.reduce(function (a: any, b: any) {
+						return a + b;
+					});
+				break;
+			default:
+				sum = 0;
+				break;
+		}
+
+		return sum;
 	}
 }

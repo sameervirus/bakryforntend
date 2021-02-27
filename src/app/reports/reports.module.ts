@@ -12,9 +12,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { OrdersComponent } from './orders/orders.component';
+import { ProductsComponent } from './products/products.component';
 
 @NgModule({
-	declarations: [OrdersComponent],
+	declarations: [OrdersComponent, ProductsComponent],
 	imports: [
 		CommonModule,
 		NgxPaginationModule,

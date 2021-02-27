@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 
 import { AuthenticationService } from '../../_services';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @Component({
 	selector: 'app-nav',
@@ -14,11 +15,20 @@ export class LayoutComponent implements OnInit {
 	constructor(
 		private authenticationService: AuthenticationService,
 		private render: Renderer2,
-		private deviceService: DeviceDetectorService
+		private deviceService: DeviceDetectorService,
+		private bnIdle: BnNgIdleService
 	) {}
 
 	ngOnInit(): void {
 		this.bodyClasses();
+		if (localStorage.getItem('currentUser')) {
+			this.bnIdle.startWatching(1800).subscribe((isTimedOut: boolean) => {
+				if (isTimedOut) {
+					console.log('session expired');
+					this.logout();
+				}
+			});
+		}
 	}
 
 	logout() {

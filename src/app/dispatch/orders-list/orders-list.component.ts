@@ -15,6 +15,7 @@ export class OrdersListComponent implements OnInit {
 	boxes: any;
 	today: number = Date.now();
 	selectedDate: any;
+	distributions: any;
 	hasApprove = true;
 	canApprove = false;
 
@@ -33,6 +34,12 @@ export class OrdersListComponent implements OnInit {
 		return this.dispatchService.getDispatchOrders(date).subscribe((res) => {
 			this.orders = res.body.orders;
 			this.orginOrders = res.body.orders;
+			this.distributions = res.body.orders.filter(
+				(thing: any, i: any, arr: any) =>
+					arr.findIndex(
+						(t: any) => t.distribution_id === thing.distribution_id
+					) === i
+			);
 			this.boxes = res.body.boxes;
 			this.hasApprove = this.checkStatus(res.body.status);
 			this.canApprove = this.checkBoxedQty(this.orders, res.body.dispatch);
@@ -113,5 +120,23 @@ export class OrdersListComponent implements OnInit {
 				});
 			}
 		);
+	}
+
+	onDistributionsChange(e: any) {
+		if (e && e.id != 0) {
+			this.orders = this.orginOrders.filter(
+				(item: any) => item.distribution_id == e.distribution_id
+			);
+		} else {
+			this.orders = this.orginOrders;
+		}
+	}
+
+	printAll() {
+		const selectedIds = this.orders.map((item: any) => item.id).join('-');
+		const url = this.router.serializeUrl(
+			this.router.createUrlTree([`/print/orders/${selectedIds}`])
+		);
+		window.open(url, '_blank');
 	}
 }

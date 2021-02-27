@@ -108,7 +108,6 @@ export class ModifyComponent implements OnInit {
 		if (e) {
 			this.changes.status = e.id;
 		}
-		console.log(this.changes);
 	}
 
 	changeQty(id: number, qty: any, field: string) {

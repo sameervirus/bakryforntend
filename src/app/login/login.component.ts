@@ -14,7 +14,7 @@ import {
 	styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-	login = { username: 'admin', password: 'admin' };
+	login = { username: '', password: '' };
 	user: any;
 	constructor(
 		private route: ActivatedRoute,
