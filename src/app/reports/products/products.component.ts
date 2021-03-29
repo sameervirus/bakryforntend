@@ -23,6 +23,7 @@ export class ProductsComponent implements OnInit {
 	tDueDate: any;
 	products: any;
 	p: number = 0;
+	user: any;
 	constructor(
 		private codingService: CodingService,
 		private reportsService: ReportsService,
@@ -31,6 +32,9 @@ export class ProductsComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
+		if (localStorage.getItem('currentUser')) {
+			this.user = JSON.parse(localStorage.getItem('currentUser')!).user;
+		}
 		this.getBranches();
 		this.getClients();
 		this.getDistributions();
@@ -39,6 +43,11 @@ export class ProductsComponent implements OnInit {
 	getBranches() {
 		this.codingService.getBranches().subscribe((res) => {
 			this.branches = res.body;
+			if (this.user.client_id != 0) {
+				this.branches = this.branches.filter(
+					(item: any) => item.client_id == this.user.client_id
+				);
+			}
 		});
 	}
 

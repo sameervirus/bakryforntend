@@ -3,7 +3,7 @@
     <div class="col-12">
       <!-- Main content -->
       <div class="mt-3 mb-3">
-        <div class="row mb-1">
+        <div *ngIf="user.client_id == 0" class="row mb-1">
           <div class="col-md-3">
             <ng-select
               [items]="clients"
@@ -31,6 +31,21 @@
               bindValue="id"
               placeholder="All Distributions"
               (change)="onDistributionChange($event)"
+            >
+            </ng-select>
+          </div>
+        </div>
+        <div
+          *ngIf="user.permissions.includes('client admin reports')"
+          class="row mb-1"
+        >
+          <div class="col-md-3">
+            <ng-select
+              [items]="branches"
+              bindLabel="name_ar"
+              bindValue="id"
+              placeholder="All Branches"
+              (change)="onBranchChange($event)"
             >
             </ng-select>
           </div>
